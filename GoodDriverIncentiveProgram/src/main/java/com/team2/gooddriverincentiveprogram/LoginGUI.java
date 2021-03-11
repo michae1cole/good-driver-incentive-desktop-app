@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
  *
@@ -229,71 +230,81 @@ public class LoginGUI extends javax.swing.JFrame {
                 //Prepare user login check query
                 PreparedStatement loginPS;
                 ResultSet loginRS;
-                String loginQuery = "SELECT * FROM Users WHERE Username=? AND UserPassword=?";
-
+                String loginQuery = "SELECT * FROM Users WHERE Username=?";
+                
                 loginPS = MyConnection.getConnection().prepareStatement(loginQuery);
                 loginPS.setString(1, uname);
-                loginPS.setString(2, pass);
 
                 loginRS = loginPS.executeQuery();
 
-                //If a user with password was found
+                //If a user was found
                 if(loginRS.next()) {
-                    //Record login attempt
-                    loginRecordingPreparedStatement.setBoolean(1, true);
-                    loginRecordingPreparedStatement.setString(2, uname);
-                    loginRecordingPreparedStatement.executeUpdate();
-                    //Find type of user (driver, sponsor, or admin)
-                    String userType = loginRS.getString("UserType");
-                    //User is a driver
-                    if(userType.equals("D")) {
-                        DriverGUI driverGUI = new DriverGUI();
-                        driverGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        driverGUI.setTitle("Good Driver Incentive Program - Driver");
-                        driverGUI.switchPanels(driverGUI.getProfilePanel());
-                        driverGUI.setUserID(loginRS.getInt("UserID"));
-                        String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
-                        driverGUI.setDriverName(fullName);
-                        driverGUI.setDriverUsername(uname);
-                        String preferredName = loginRS.getString("PreferredName");
-                        driverGUI.setDriverPreferredName(preferredName);
-                        driverGUI.setDriverPassword(pass);
-                        driverGUI.setVisible(true);
-                    //User is a sponsor
-                    } else if(userType.equals("S")) {
-                        SponsorGUI sponsorGUI = new SponsorGUI();
-                        sponsorGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        sponsorGUI.setTitle("Good Driver Incentive Program - Sponsor");
-                        sponsorGUI.setUserID(loginRS.getInt("UserID"));
-                        String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
-                        sponsorGUI.setSponsorName(fullName);
-                        sponsorGUI.setSponsorUsername(uname);
-                        String preferredName = loginRS.getString("PreferredName");
-                        sponsorGUI.setSponsorPreferredName(preferredName);
-                        sponsorGUI.setSponsorPassword(pass);
-                        sponsorGUI.setVisible(true);
-                    //User is an admin
-                    } else if(userType.equals("A")) {
-                        AdminGUI adminGUI = new AdminGUI();
-                        adminGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        adminGUI.setTitle("Good Driver Incentive Program - Admin");
-                        adminGUI.setUserID(loginRS.getInt("UserID"));
-                        String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
-                        adminGUI.setAdminName(fullName);
-                        adminGUI.setAdminUsername(uname);
-                        String preferredName = loginRS.getString("PreferredName");
-                        adminGUI.setAdminPreferredName(preferredName);
-                        adminGUI.setAdminPassword(pass);
-                        adminGUI.setVisible(true);
+                    //Check that password matches
+                    String oldPassword = loginRS.getString("UserPassword");
+                    if(BCrypt.checkpw(pass, oldPassword)) {
+                        //Record login attempt
+                        loginRecordingPreparedStatement.setBoolean(1, true);
+                        loginRecordingPreparedStatement.setString(2, uname);
+                        loginRecordingPreparedStatement.executeUpdate();
+                        //Find type of user (driver, sponsor, or admin)
+                        String userType = loginRS.getString("UserType");
+                        //User is a driver
+                        if(userType.equals("D")) {
+                            DriverGUI driverGUI = new DriverGUI();
+                            driverGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            driverGUI.setTitle("Good Driver Incentive Program - Driver");
+                            driverGUI.switchPanels(driverGUI.getProfilePanel());
+                            driverGUI.setUserID(loginRS.getInt("UserID"));
+                            String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
+                            driverGUI.setDriverName(fullName);
+                            driverGUI.setDriverUsername(uname);
+                            String preferredName = loginRS.getString("PreferredName");
+                            driverGUI.setDriverPreferredName(preferredName);
+                            driverGUI.setDriverPassword(pass);
+                            driverGUI.setVisible(true);
+                        //User is a sponsor
+                        } else if(userType.equals("S")) {
+                            SponsorGUI sponsorGUI = new SponsorGUI();
+                            sponsorGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            sponsorGUI.setTitle("Good Driver Incentive Program - Sponsor");
+                            sponsorGUI.setUserID(loginRS.getInt("UserID"));
+                            String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
+                            sponsorGUI.setSponsorName(fullName);
+                            sponsorGUI.setSponsorUsername(uname);
+                            String preferredName = loginRS.getString("PreferredName");
+                            sponsorGUI.setSponsorPreferredName(preferredName);
+                            sponsorGUI.setSponsorPassword(pass);
+                            sponsorGUI.setVisible(true);
+                        //User is an admin
+                        } else if(userType.equals("A")) {
+                            AdminGUI adminGUI = new AdminGUI();
+                            adminGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            adminGUI.setTitle("Good Driver Incentive Program - Admin");
+                            adminGUI.setUserID(loginRS.getInt("UserID"));
+                            String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
+                            adminGUI.setAdminName(fullName);
+                            adminGUI.setAdminUsername(uname);
+                            String preferredName = loginRS.getString("PreferredName");
+                            adminGUI.setAdminPreferredName(preferredName);
+                            adminGUI.setAdminPassword(pass);
+                            adminGUI.setVisible(true);
+                        }
+                        this.dispose();
+                    } else {
+                        //Record login attempt
+                        loginRecordingPreparedStatement.setBoolean(1, false);
+                        loginRecordingPreparedStatement.setString(2, uname);
+                        loginRecordingPreparedStatement.executeUpdate();
+                        //Inform user that password was incorrect
+                        JOptionPane.showMessageDialog(null, "Incorrect Password.", "Login Failed", 2);
                     }
-                    this.dispose();
                 } else {
                     //Record login attempt
                     loginRecordingPreparedStatement.setBoolean(1, false);
                     loginRecordingPreparedStatement.setString(2, uname);
                     loginRecordingPreparedStatement.executeUpdate();
-                    //Inform user that username or password was not found
-                    JOptionPane.showMessageDialog(null, "Incorrect Username or Password.", "Login Failed", 2);
+                    //Inform user that username was not found
+                    JOptionPane.showMessageDialog(null, "Incorrect Username.", "Login Failed", 2);
                 }
             }
         } catch(SQLException e) {

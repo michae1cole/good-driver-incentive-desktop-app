@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
  *
@@ -683,12 +684,13 @@ public class AdminGUI extends javax.swing.JFrame {
                 if(passwordSelectRS.next()) {
                     String oldPassword = passwordSelectRS.getString("UserPassword");
                     //If new password is same as old, don't update database
-                    if(newPassword.equals(oldPassword)) {
+                    if(BCrypt.checkpw(newPassword, oldPassword)) {
                         JOptionPane.showMessageDialog(null, "New password is the same as your old password.");
                     } else {
                         //Update database to have new password
                         PreparedStatement updatePasswordPreparedStatement = MyConnection.getConnection().prepareStatement("UPDATE Users SET UserPassword=? WHERE UserID=?");
-                        updatePasswordPreparedStatement.setString(1, newPassword);
+                        String pw_hash = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+                        updatePasswordPreparedStatement.setString(1, pw_hash);
                         updatePasswordPreparedStatement.setInt(2, this.getUserID());
                         updatePasswordPreparedStatement.executeUpdate();
                         this.setAdminPassword(newPassword);
