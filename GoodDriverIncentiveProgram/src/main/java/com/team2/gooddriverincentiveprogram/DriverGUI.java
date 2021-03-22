@@ -1565,7 +1565,7 @@ public class DriverGUI extends javax.swing.JFrame {
             ResultSet driverRS = driverPS.executeQuery();
             if(driverRS.next()) {
                 int driverID = driverRS.getInt("DriverID");
-                PreparedStatement PointsPS = MyConnection.getConnection().prepareStatement("SELECT Points FROM DriverPoints WHERE UserID=?");
+                PreparedStatement PointsPS = MyConnection.getConnection().prepareStatement("SELECT Points FROM DriverPoints WHERE DriverID=?");
                 PointsPS.setInt(1,driverID);
                 ResultSet PointRS = PointsPS.executeQuery();
                 if(PointRS.next()) {
