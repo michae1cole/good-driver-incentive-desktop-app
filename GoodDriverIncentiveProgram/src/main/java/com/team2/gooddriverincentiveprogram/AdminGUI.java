@@ -170,6 +170,8 @@ public class AdminGUI extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("My Account");
 
+        jPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout myAccountLayout = new javax.swing.GroupLayout(myAccount);
         myAccount.setLayout(myAccountLayout);
         myAccountLayout.setHorizontalGroup(
@@ -226,7 +228,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jButton9)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
+                    .addComponent(jPasswordField1))
                 .addGap(18, 18, 18)
                 .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -574,7 +576,7 @@ public class AdminGUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(layeredPane, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
+                    .addComponent(layeredPane)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -785,6 +787,9 @@ public class AdminGUI extends javax.swing.JFrame {
     //Name Update Button
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         String newName = jTextField1.getText();
+        if(newName.replaceAll(" ", "").equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter a first, middle, and last name separated by spaces.");
+        }
         String[] splitName = newName.split(" ");
         //Check if all names were entered
         if(splitName.length != 3) {

@@ -5,6 +5,15 @@
  */
 package com.team2.gooddriverincentiveprogram;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,8 +21,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import org.json.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
@@ -30,6 +46,10 @@ public class SponsorGUI extends javax.swing.JFrame {
     }
     
     private int userID;
+    private static final int ITEM_REQUEST_LIMIT = 10;
+    private String lastImageURL;
+    private Boolean searchTableSelected = false;
+    private Boolean catalogTableSelected = false;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -87,6 +107,23 @@ public class SponsorGUI extends javax.swing.JFrame {
         jButton13 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         catalogEditor = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel20 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel21 = new javax.swing.JLabel();
         reporting = new javax.swing.JPanel();
         driverPoints = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -224,6 +261,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel18.setText("Account Type:");
 
+        jPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPasswordField1ActionPerformed(evt);
@@ -264,7 +302,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                                 .addComponent(jButton25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jButton27))))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(406, Short.MAX_VALUE))
         );
         myAccountLayout.setVerticalGroup(
             myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,7 +328,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jButton27)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
+                    .addComponent(jPasswordField1))
                 .addGap(18, 18, 18)
                 .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
@@ -312,7 +350,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(myApplicationLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE)
                 .addContainerGap())
         );
         myApplicationLayout.setVerticalGroup(
@@ -320,7 +358,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             .addGroup(myApplicationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
-                .addContainerGap(407, Short.MAX_VALUE))
+                .addContainerGap(481, Short.MAX_VALUE))
         );
 
         layeredPane.add(myApplication, "card3");
@@ -433,7 +471,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(catalogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(catalogLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
@@ -509,23 +547,239 @@ public class SponsorGUI extends javax.swing.JFrame {
                         .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(214, Short.MAX_VALUE))
+                .addContainerGap(288, Short.MAX_VALUE))
         );
 
         layeredPane.add(catalog, "card4");
 
         catalogEditor.setBackground(new java.awt.Color(191, 192, 192));
 
+        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel19.setText("Update Point-to-Dollar Ratio for Drivers");
+
+        jTextField4.setMinimumSize(new java.awt.Dimension(7, 30));
+        jTextField4.setPreferredSize(new java.awt.Dimension(7, 30));
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ListingID", "Title", "Price", "Quantity"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        }
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Item Search Table for Company Catalog");
+        jLabel20.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jTextField5.setMinimumSize(new java.awt.Dimension(7, 30));
+        jTextField5.setPreferredSize(new java.awt.Dimension(7, 30));
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Search");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title", "Price", "Quantity", "ItemID", "ImageURL"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable3MouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTable3);
+        if (jTable3.getColumnModel().getColumnCount() > 0) {
+            jTable3.getColumnModel().getColumn(0).setResizable(false);
+            jTable3.getColumnModel().getColumn(1).setResizable(false);
+            jTable3.getColumnModel().getColumn(2).setResizable(false);
+            jTable3.getColumnModel().getColumn(3).setResizable(false);
+            jTable3.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("Current Company Catalog Items");
+        jLabel22.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel23.setText("(No Spaces & Comma-separated) Keywords for Item Search");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane4.setViewportView(jTextArea1);
+
+        jButton3.setText("Add Item to Catalog");
+        jButton3.setMaximumSize(new java.awt.Dimension(170, 25));
+        jButton3.setMinimumSize(new java.awt.Dimension(170, 25));
+        jButton3.setPreferredSize(new java.awt.Dimension(170, 25));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Remove Item from Catalog");
+        jButton4.setActionCommand("Remove Item to Catalog");
+        jButton4.setMaximumSize(new java.awt.Dimension(170, 25));
+        jButton4.setMinimumSize(new java.awt.Dimension(170, 25));
+        jButton4.setPreferredSize(new java.awt.Dimension(170, 25));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout catalogEditorLayout = new javax.swing.GroupLayout(catalogEditor);
         catalogEditor.setLayout(catalogEditorLayout);
         catalogEditorLayout.setHorizontalGroup(
             catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 728, Short.MAX_VALUE)
+            .addGroup(catalogEditorLayout.createSequentialGroup()
+                .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(catalogEditorLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))
+                        .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(catalogEditorLayout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane4)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(50, 50, 50))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, catalogEditorLayout.createSequentialGroup()
+                                .addGap(66, 66, 66)
+                                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(66, 66, 66)))
+                        .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(catalogEditorLayout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(catalogEditorLayout.createSequentialGroup()
+                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1))
+                            .addGroup(catalogEditorLayout.createSequentialGroup()
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         catalogEditorLayout.setVerticalGroup(
             catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGroup(catalogEditorLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(catalogEditorLayout.createSequentialGroup()
+                        .addComponent(jLabel20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(catalogEditorLayout.createSequentialGroup()
+                        .addComponent(jLabel22)
+                        .addGap(14, 14, 14)
+                        .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(catalogEditorLayout.createSequentialGroup()
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jLabel21.getAccessibleContext().setAccessibleDescription("");
 
         layeredPane.add(catalogEditor, "card5");
 
@@ -535,11 +789,11 @@ public class SponsorGUI extends javax.swing.JFrame {
         reporting.setLayout(reportingLayout);
         reportingLayout.setHorizontalGroup(
             reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 728, Short.MAX_VALUE)
+            .addGap(0, 1042, Short.MAX_VALUE)
         );
         reportingLayout.setVerticalGroup(
             reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGap(0, 526, Short.MAX_VALUE)
         );
 
         layeredPane.add(reporting, "card6");
@@ -572,7 +826,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             .addGroup(driverPointsLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1003, Short.MAX_VALUE)
                     .addGroup(driverPointsLayout.createSequentialGroup()
                         .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -595,7 +849,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton16)
                     .addComponent(jButton15))
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addContainerGap(214, Short.MAX_VALUE))
         );
 
         layeredPane.add(driverPoints, "card8");
@@ -619,7 +873,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 438, Short.MAX_VALUE)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -647,7 +901,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                     .addComponent(jButton7)
                     .addComponent(jButton28)
                     .addComponent(jButton30))
-                .addContainerGap(478, Short.MAX_VALUE))
+                .addContainerGap(555, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addContainerGap(81, Short.MAX_VALUE)
@@ -817,39 +1071,43 @@ public class SponsorGUI extends javax.swing.JFrame {
     //Name Update Button
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
         String newName = jTextField1.getText();
-        String[] splitName = newName.split(" ");
-        //Check if all names were entered
-        if(splitName.length != 3) {
+        if(newName.replaceAll(" ", "").equals("")) {
             JOptionPane.showMessageDialog(null, "Please enter a first, middle, and last name separated by spaces.");
         } else {
-            try {
-                String newFirstName = splitName[0];
-                String newMiddleName = splitName[1];
-                String newLastName = splitName[2];
-                PreparedStatement nameSelectPS;
-                ResultSet nameSelectRS;
-                String nameSelectQuery = "SELECT * FROM Users WHERE UserID=?";
-                nameSelectPS = MyConnection.getConnection().prepareStatement(nameSelectQuery);
-                nameSelectPS.setInt(1, this.getUserID());
-                nameSelectRS = nameSelectPS.executeQuery();
-                if(nameSelectRS.next()) {
-                    //Update the database to have the three new names
-                    PreparedStatement updateFirstNamePreparedStatement = MyConnection.getConnection().prepareStatement("UPDATE Users SET FirstName=? WHERE UserID=?");
-                    updateFirstNamePreparedStatement.setString(1, newFirstName);
-                    updateFirstNamePreparedStatement.setInt(2, this.getUserID());
-                    PreparedStatement updateMiddleNamePreparedStatement = MyConnection.getConnection().prepareStatement("UPDATE Users SET MiddleName=? WHERE UserID=?");
-                    updateMiddleNamePreparedStatement.setString(1, newMiddleName);
-                    updateMiddleNamePreparedStatement.setInt(2, this.getUserID());
-                    PreparedStatement updateLastNamePreparedStatement = MyConnection.getConnection().prepareStatement("UPDATE Users SET LastName=? WHERE UserID=?");
-                    updateLastNamePreparedStatement.setString(1, newLastName);
-                    updateLastNamePreparedStatement.setInt(2, this.getUserID());
-                    updateFirstNamePreparedStatement.executeUpdate();
-                    updateMiddleNamePreparedStatement.executeUpdate();
-                    updateLastNamePreparedStatement.executeUpdate();
-                    this.setSponsorName(newName);
+            String[] splitName = newName.split(" ");
+            //Check if all names were entered
+            if(splitName.length != 3) {
+                JOptionPane.showMessageDialog(null, "Please enter a first, middle, and last name separated by spaces.");
+            } else {
+                try {
+                    String newFirstName = splitName[0];
+                    String newMiddleName = splitName[1];
+                    String newLastName = splitName[2];
+                    PreparedStatement nameSelectPS;
+                    ResultSet nameSelectRS;
+                    String nameSelectQuery = "SELECT * FROM Users WHERE UserID=?";
+                    nameSelectPS = MyConnection.getConnection().prepareStatement(nameSelectQuery);
+                    nameSelectPS.setInt(1, this.getUserID());
+                    nameSelectRS = nameSelectPS.executeQuery();
+                    if(nameSelectRS.next()) {
+                        //Update the database to have the three new names
+                        PreparedStatement updateFirstNamePreparedStatement = MyConnection.getConnection().prepareStatement("UPDATE Users SET FirstName=? WHERE UserID=?");
+                        updateFirstNamePreparedStatement.setString(1, newFirstName);
+                        updateFirstNamePreparedStatement.setInt(2, this.getUserID());
+                        PreparedStatement updateMiddleNamePreparedStatement = MyConnection.getConnection().prepareStatement("UPDATE Users SET MiddleName=? WHERE UserID=?");
+                        updateMiddleNamePreparedStatement.setString(1, newMiddleName);
+                        updateMiddleNamePreparedStatement.setInt(2, this.getUserID());
+                        PreparedStatement updateLastNamePreparedStatement = MyConnection.getConnection().prepareStatement("UPDATE Users SET LastName=? WHERE UserID=?");
+                        updateLastNamePreparedStatement.setString(1, newLastName);
+                        updateLastNamePreparedStatement.setInt(2, this.getUserID());
+                        updateFirstNamePreparedStatement.executeUpdate();
+                        updateMiddleNamePreparedStatement.executeUpdate();
+                        updateLastNamePreparedStatement.executeUpdate();
+                        this.setSponsorName(newName);
+                    }
+                } catch(SQLException e) {
+                    Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
                 }
-            } catch(SQLException e) {
-                Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }//GEN-LAST:event_jButton24ActionPerformed
@@ -909,6 +1167,257 @@ public class SponsorGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
+    //Remove item from company catalog button
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        //If item was selected from the catalog table and not the search table, remove it from the company catalog
+        if(!getSearchTableSelected() && getCatalogTableSelected()) {
+            //Get the item information from the jTable row selected
+            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+            int selectedRow = jTable3.getSelectedRow();
+            int itemID = Integer.parseInt(model.getValueAt(selectedRow, 3).toString());
+            try {
+                //Get companyID from sponsor
+                PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
+                sponsorPS.setInt(1, this.getUserID());
+                ResultSet sponsorRS = sponsorPS.executeQuery();
+                //If sponsor was found in database
+                if(sponsorRS.next()) {
+                    int companyID = sponsorRS.getInt("CompanyID");
+                    PreparedStatement catalogItemRemovalPS = MyConnection.getConnection().prepareStatement("DELETE FROM CatalogItems WHERE ItemID=?");
+                    catalogItemRemovalPS.setInt(1, itemID);
+                    catalogItemRemovalPS.executeUpdate();
+                    //Update catalog item table
+                    updateCatalogItemTable();
+                }
+            } catch(SQLException e) {
+                Logger.getLogger(CatalogInformation.class.getName()).log(Level.SEVERE, null, e);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "You cannot remove an item that isn't already in your catalog.");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    //Add item to company catalog button
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        //If item was selected from the search table and not the catalog table, add it to the company catalog
+        if(getSearchTableSelected() && !getCatalogTableSelected()) {
+            //Get the item information from the jTable row selected
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            int selectedRow = jTable1.getSelectedRow();
+            String listingID = model.getValueAt(selectedRow, 0).toString();
+            String title = model.getValueAt(selectedRow, 1).toString();
+            double price = (double) model.getValueAt(selectedRow, 2);
+            price = Math.round(price * 100.0) / 100.0;
+            String imageURL = getLastImageURL();
+            int quantity = (int) model.getValueAt(selectedRow, 3);
+            try {
+                //Get companyID from sponsor
+                PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
+                sponsorPS.setInt(1, this.getUserID());
+                ResultSet sponsorRS = sponsorPS.executeQuery();
+                //If sponsor was found in database
+                if(sponsorRS.next()) {
+                    int companyID = sponsorRS.getInt("CompanyID");
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogItems (CompanyID, Price, ItemDescription, ItemImage, Quantity, ListingID) VALUES (?, ?, ?, ?, ?, ?)");
+                    catalogItemPS.setInt(1, companyID);
+                    catalogItemPS.setDouble(2, price);
+                    catalogItemPS.setString(3, title);
+                    catalogItemPS.setString(4, imageURL);
+                    catalogItemPS.setInt(5, quantity);
+                    catalogItemPS.setString(6, listingID);
+                    catalogItemPS.executeUpdate();
+                    //Update catalog item table
+                    updateCatalogItemTable();
+                }
+            } catch(SQLException e) {
+                Logger.getLogger(CatalogInformation.class.getName()).log(Level.SEVERE, null, e);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "You cannot add an item that isn't from the search table.");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    //Company catalog item row selected
+    private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
+        setSearchTableSelected(false);
+        setCatalogTableSelected(true);
+        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        int selectedRow = jTable3.getSelectedRow();
+        String title = "Title:\n" + model.getValueAt(selectedRow, 0).toString() + "\n\n";
+        String price = "Price:\n$" + String.format("%.2f", model.getValueAt(selectedRow, 1)) + "\n\n";
+        //Default ratio
+        int pointToDollarConversion = 100;
+        //Query database for company's point to dollar conversion ratio
+        try {
+            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
+            sponsorPS.setInt(1, this.getUserID());
+            ResultSet sponsorRS = sponsorPS.executeQuery();
+            if(sponsorRS.next()) {
+                int companyID = sponsorRS.getInt("CompanyID");
+                PreparedStatement pointToDollarConversionPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
+                pointToDollarConversionPS.setInt(1, companyID);
+                ResultSet pointToDollarConversionRS = pointToDollarConversionPS.executeQuery();
+                if(pointToDollarConversionRS.next()) {
+                    pointToDollarConversion = pointToDollarConversionRS.getInt("PointToDollar");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        double pointCost = Double.parseDouble(model.getValueAt(selectedRow, 1).toString()) * pointToDollarConversion;
+        String pointValue = "Point Cost for Drivers:\n" + String.format("%.2f", pointCost) + "\n\n";
+        String quantity = "Quantity:\n" + model.getValueAt(selectedRow, 2).toString();
+        //Update jTextArea with information from selected item
+        jTextArea1.setText(title + price + pointValue + quantity);
+        //Get Image URL from database to display
+        String imageURL = model.getValueAt(selectedRow, 4).toString();
+        try {
+            URL url = new URL(imageURL);
+            Image image = ImageIO.read(url);
+            jLabel21.setIcon(new ImageIcon(image));
+        } catch (Exception ex) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTable3MouseClicked
+
+    //Submit keyword search on Etsy button
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String keywords = jTextField5.getText();
+        String etsyQuery;
+        //If the sponsor provided keywords for the search
+        if(keywords.equals("")) {
+            etsyQuery = "https://openapi.etsy.com/v2/listings/active?api_key=pzm9kr33wye2gmv9fy2h4g64&limit="+getItemRequestLimit();
+        } else {
+            etsyQuery = "https://openapi.etsy.com/v2/listings/active?api_key=pzm9kr33wye2gmv9fy2h4g64&keywords=" + keywords + "&limit="+getItemRequestLimit();
+        }
+        //Send the request to etsy for listing results back
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(etsyQuery))
+            .method("GET", HttpRequest.BodyPublishers.noBody())
+            .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            JSONObject jsonResponse = new JSONObject(response.body());
+
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            //Clear all rows from previous search if necessary
+            if(dtm.getRowCount() > 0) {
+                for(int i = dtm.getRowCount()-1; i >= 0; i--) {
+                    dtm.removeRow(i);
+                }
+            }
+            //Add each listing as a row to the table
+            for(int i = 0; i < jsonResponse.getJSONArray("results").length(); i++) {
+                int listingID = jsonResponse.getJSONArray("results").getJSONObject(i).getInt("listing_id");
+                String title = jsonResponse.getJSONArray("results").getJSONObject(i).getString("title");
+                title = title.replaceAll("&#39;", "\'");
+                title = title.replaceAll("&quot;","\"");
+                double price = Double.parseDouble(jsonResponse.getJSONArray("results").getJSONObject(i).getString("price"));
+                int quantity = jsonResponse.getJSONArray("results").getJSONObject(i).getInt("quantity");
+                Object[] rowData = {listingID, title, price, quantity};
+                dtm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Issue with query: please be sure keywords are spelled correctly, comma-separated, and contain no white space.");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    //New search item row selected event
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        setSearchTableSelected(true);
+        setCatalogTableSelected(false);
+        //Get the item information from the jTable row selected
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int selectedRow = jTable1.getSelectedRow();
+        String title = "Title:\n" + model.getValueAt(selectedRow, 1).toString() + "\n\n";
+        String price = "Price:\n$" + String.format("%.2f", model.getValueAt(selectedRow, 2)) + "\n\n";
+        //Default ratio
+        int pointToDollarConversion = 100;
+        //Query database for company's point to dollar conversion ratio
+        try {
+            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
+            sponsorPS.setInt(1, this.getUserID());
+            ResultSet sponsorRS = sponsorPS.executeQuery();
+            if(sponsorRS.next()) {
+                int companyID = sponsorRS.getInt("CompanyID");
+                PreparedStatement pointToDollarConversionPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
+                pointToDollarConversionPS.setInt(1, companyID);
+                ResultSet pointToDollarConversionRS = pointToDollarConversionPS.executeQuery();
+                if(pointToDollarConversionRS.next()) {
+                    pointToDollarConversion = pointToDollarConversionRS.getInt("PointToDollar");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        double pointCost = Double.parseDouble(model.getValueAt(selectedRow, 2).toString()) * pointToDollarConversion;
+        String pointValue = "Point Cost for Drivers:\n" + String.format("%.2f", pointCost) + "\n\n";
+        String quantity = "Quantity:\n" + model.getValueAt(selectedRow, 3).toString();
+        //Update jTextArea with information from selected item
+        jTextArea1.setText(title + price + pointValue + quantity);
+        //Get Image URL from Etsy to display
+        try {
+            int listingID = (int) model.getValueAt(selectedRow, 0);
+            HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("https://openapi.etsy.com/v2/listings/" + listingID + "/images?api_key=pzm9kr33wye2gmv9fy2h4g64"))
+            .method("GET", HttpRequest.BodyPublishers.noBody())
+            .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            JSONObject jsonResponse = new JSONObject(response.body());
+            setLastImageURL(jsonResponse.getJSONArray("results").getJSONObject(0).getString("url_170x135"));
+            URL url = new URL(getLastImageURL());
+            Image image = ImageIO.read(url);
+            jLabel21.setIcon(new ImageIcon(image));
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Issue with query: problem getting the image URL.");
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    //Update Point to Dollar Ratio button
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int newPointToDollarRatio = Integer.parseInt(jTextField4.getText());
+        int oldPointToDollarRatio;
+        //Query database for company's point to dollar conversion ratio
+        try {
+            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
+            sponsorPS.setInt(1, this.getUserID());
+            ResultSet sponsorRS = sponsorPS.executeQuery();
+            //If sponsor was found in database with user sponsor ID
+            if(sponsorRS.next()) {
+                //Get the company point to dollar conversion using sponsor's CompanyID
+                int companyID = sponsorRS.getInt("CompanyID");
+                PreparedStatement pointToDollarConversionPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
+                pointToDollarConversionPS.setInt(1, companyID);
+                ResultSet pointToDollarConversionRS = pointToDollarConversionPS.executeQuery();
+                //If point to dollar ratio was found for that CompanyID
+                if(pointToDollarConversionRS.next()) {
+                    oldPointToDollarRatio = pointToDollarConversionRS.getInt("PointToDollar");
+                    //If the new ratio is the same as old, don't update
+                    if(newPointToDollarRatio == oldPointToDollarRatio) {
+                        JOptionPane.showMessageDialog(null, "Company point to dollar ratio is already " + newPointToDollarRatio + " points per dollar.");
+                    } else {
+                        //Update Company with new point to dollar ratio
+                        PreparedStatement pointToDollarConversionUpdatePS = MyConnection.getConnection().prepareStatement("UPDATE Company SET PointToDollar=? WHERE CompanyID=?");
+                        pointToDollarConversionUpdatePS.setInt(1, newPointToDollarRatio);
+                        pointToDollarConversionUpdatePS.setInt(2, companyID);
+                        pointToDollarConversionUpdatePS.executeUpdate();
+                        setCompanyPointToDollarRatio(String.valueOf(newPointToDollarRatio));
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
     //Helper Methods for getting and setting user information in the profile
     public void setSponsorName(String name) {
         jTextField1.setText(name);
@@ -926,12 +1435,79 @@ public class SponsorGUI extends javax.swing.JFrame {
         jPasswordField1.setText(password);
     }
     
+    public void setCompanyPointToDollarRatio(String ratio) {
+        jTextField4.setText(ratio);
+    }
+    
     public void setUserID(int id) {
         userID = id;
     }
     
     public int getUserID() {
         return userID;
+    }
+    
+    public int getItemRequestLimit() {
+        return ITEM_REQUEST_LIMIT;
+    }
+    
+    public void setLastImageURL(String lastURL) {
+        lastImageURL = lastURL;
+    }
+    
+    public String getLastImageURL() {
+        return lastImageURL;
+    }
+    
+    public void setSearchTableSelected(Boolean selected) {
+        searchTableSelected = selected;
+    }
+    
+    public Boolean getSearchTableSelected() {
+        return searchTableSelected;
+    }
+    
+    public void setCatalogTableSelected(Boolean selected) {
+        catalogTableSelected = selected;
+    }
+    
+    public Boolean getCatalogTableSelected() {
+        return catalogTableSelected;
+    }
+    
+    public void formatCatalogItemTables() {
+        TableColumnModel tcm = jTable1.getColumnModel();
+        tcm.removeColumn(tcm.getColumn(0));
+        tcm = jTable3.getColumnModel();
+        tcm.removeColumn(tcm.getColumn(4));
+        tcm.removeColumn(tcm.getColumn(3));
+    }
+    
+    public void updateCatalogItemTable() {
+        try {
+            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
+            sponsorPS.setInt(1, this.getUserID());
+            ResultSet sponsorRS = sponsorPS.executeQuery();
+            if(sponsorRS.next()) {
+                int companyID = sponsorRS.getInt("CompanyID");
+                PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=?");
+                catalogItemPS.setInt(1, companyID);
+                ResultSet catalogItemRS = catalogItemPS.executeQuery();
+                DefaultTableModel dtm = (DefaultTableModel) jTable3.getModel();
+                //Clear all rows from previous entries if necessary
+                if(dtm.getRowCount() > 0) {
+                    for(int i = dtm.getRowCount()-1; i >= 0; i--) {
+                        dtm.removeRow(i);
+                    }
+                }
+                while(catalogItemRS.next()) {
+                    Object[] rowData = {catalogItemRS.getString("ItemDescription"), catalogItemRS.getDouble("Price"), catalogItemRS.getInt("Quantity"), catalogItemRS.getInt("ItemID"), catalogItemRS.getString("ItemImage")};
+                    dtm.addRow(rowData);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -982,12 +1558,14 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JPanel catalog;
     private javax.swing.JPanel catalogEditor;
     private javax.swing.JPanel driverPoints;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton25;
@@ -995,7 +1573,9 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton27;
     private javax.swing.JButton jButton28;
     private javax.swing.JButton jButton29;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton30;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -1010,7 +1590,12 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1024,11 +1609,19 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     private javax.swing.JLayeredPane layeredPane;
     private javax.swing.JPanel myAccount;
     private javax.swing.JPanel myApplication;

@@ -26,7 +26,7 @@ public class CatalogInformation {
     
     public static void main(String[] args) throws IOException, InterruptedException{
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://openapi.etsy.com/v2/listings/active?api_key=pzm9kr33wye2gmv9fy2h4g64&limit="+ITEM_REQUEST_LIMIT))
+                .uri(URI.create("https://openapi.etsy.com/v2/listings/active?api_key=pzm9kr33wye2gmv9fy2h4g64&keywords=cards&limit="+ITEM_REQUEST_LIMIT))
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
@@ -34,14 +34,24 @@ public class CatalogInformation {
         parse(jsonResponse);
     }
     
-    public static String parse(JSONObject responseB){
-        for(int i = 0; i < ITEM_REQUEST_LIMIT; i++) {
-            String title = responseB.getJSONArray("results").getJSONObject(i).getString("title");
-            String description = responseB.getJSONArray("results").getJSONObject(i).getString("description");
-            String price = responseB.getJSONArray("results").getJSONObject(i).getString("price");
-            System.out.println(title + "\n" + description + ":" + "\n" + price);
+    public static void parse(JSONObject responseB) throws IOException, InterruptedException{
+        //for(int i = 0; i < responseB.getJSONArray("results").length(); i++) {
+        for(int i = 0; i < 1; i++) {
+            int listingID = responseB.getJSONArray("results").getJSONObject(i).getInt("listing_id");
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://openapi.etsy.com/v2/listings/" + listingID + "/images?api_key=pzm9kr33wye2gmv9fy2h4g64"))
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            JSONObject jsonResponse = new JSONObject(response.body());
+            System.out.println(jsonResponse.getJSONArray("results").getJSONObject(i).getString("url_75x75"));
+            //String title = responseB.getJSONArray("results").getJSONObject(i).getString("title");
+            //title = title.replaceAll("&#39;", "\'");
+            //String description = responseB.getJSONArray("results").getJSONObject(i).getString("description");
+            //String price = responseB.getJSONArray("results").getJSONObject(i).getString("price");
+            //System.out.println(title + "\n" + description + ":" + "\n" + price);
+            //System.out.println(title + "\n" + price);
         }
-        return null;
     }
     
     public static void databaseItemInsert(double price, String title, String imageURL, int quantity) {

@@ -92,12 +92,11 @@ public class LoginGUI extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                        .addComponent(jTextField1))
-                    .addComponent(jButton3)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1)
+                    .addComponent(jPasswordField1))
                 .addContainerGap(194, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -115,7 +114,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         jPanel5.setBackground(new java.awt.Color(45, 49, 66));
@@ -127,6 +126,9 @@ public class LoginGUI extends javax.swing.JFrame {
         jButton1.setText("Create Account");
         jButton1.setBorder(null);
         jButton1.setBorderPainted(false);
+        jButton1.setMaximumSize(new java.awt.Dimension(80, 25));
+        jButton1.setMinimumSize(new java.awt.Dimension(80, 25));
+        jButton1.setPreferredSize(new java.awt.Dimension(80, 25));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -150,7 +152,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -197,8 +199,13 @@ public class LoginGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    //Create Account button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        CreateAccount createAccountFrame = new CreateAccount();
+        createAccountFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        createAccountFrame.setTitle("Good Driver Incentive Program - Create Account");
+        createAccountFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //https://1bestcsharp.blogspot.com/2018/05/java-login-and-register-form-with-mysql-database.html
@@ -261,6 +268,21 @@ public class LoginGUI extends javax.swing.JFrame {
                             String preferredName = loginRS.getString("PreferredName");
                             driverGUI.setDriverPreferredName(preferredName);
                             driverGUI.setDriverPassword(pass);
+                            driverGUI.setSponsorCatalogList(loginRS.getInt("UserID"));
+                            try {
+                                PreparedStatement driverSelectPS;
+                                ResultSet driverSelectRS;
+                                String driverSelectQuery = "SELECT * FROM Driver WHERE UserID=?";
+                                driverSelectPS = MyConnection.getConnection().prepareStatement(driverSelectQuery);
+                                driverSelectPS.setInt(1, loginRS.getInt("UserID"));
+                                driverSelectRS = driverSelectPS.executeQuery();
+                                if (driverSelectRS.next()) {
+                                    String address = driverSelectRS.getString("Address");
+                                    driverGUI.setDriverAddress(address);
+                                }
+                            } catch (SQLException e) {
+                                Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+                            }
                             driverGUI.setVisible(true);
                         //User is a sponsor
                         } else if(userType.equals("S")) {
@@ -274,6 +296,24 @@ public class LoginGUI extends javax.swing.JFrame {
                             String preferredName = loginRS.getString("PreferredName");
                             sponsorGUI.setSponsorPreferredName(preferredName);
                             sponsorGUI.setSponsorPassword(pass);
+                            //Default ratio
+                            int pointToDollarRatio = 100;
+                            //Query database for company's point to dollar conversion ratio
+                            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
+                            sponsorPS.setInt(1, loginRS.getInt("UserID"));
+                            ResultSet sponsorRS = sponsorPS.executeQuery();
+                            if(sponsorRS.next()) {
+                                int companyID = sponsorRS.getInt("CompanyID");
+                                PreparedStatement pointToDollarConversionPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
+                                pointToDollarConversionPS.setInt(1, companyID);
+                                ResultSet pointToDollarConversionRS = pointToDollarConversionPS.executeQuery();
+                                if(pointToDollarConversionRS.next()) {
+                                    pointToDollarRatio = pointToDollarConversionRS.getInt("PointToDollar");
+                                }
+                            }
+                            sponsorGUI.setCompanyPointToDollarRatio(String.valueOf(pointToDollarRatio));
+                            sponsorGUI.formatCatalogItemTables();
+                            sponsorGUI.updateCatalogItemTable();
                             sponsorGUI.setVisible(true);
                         //User is an admin
                         } else if(userType.equals("A")) {
