@@ -141,6 +141,10 @@ public class DriverGUI extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        Points = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Good Driver Incentive Program");
@@ -867,11 +871,40 @@ public class DriverGUI extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        jButton5.setText("My Application");
+        jButton5.setText("Edit");
 
-        jButton15.setText("My Application");
+        jButton15.setText("Cancel");
 
         jLabel17.setText("Recent Purchases");
+
+        jLabel21.setText("My Points");
+
+        jButton3.setText("Refresh");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+                jButton3ActionPerformed1(evt);
+            }
+        });
+
+        jLabel13.setText("jLabel13");
+
+        javax.swing.GroupLayout PointsLayout = new javax.swing.GroupLayout(Points);
+        Points.setLayout(PointsLayout);
+        PointsLayout.setHorizontalGroup(
+            PointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PointsLayout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jLabel13)
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+        PointsLayout.setVerticalGroup(
+            PointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PointsLayout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jLabel13)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout pointsPanelLayout = new javax.swing.GroupLayout(pointsPanel);
         pointsPanel.setLayout(pointsPanelLayout);
@@ -884,9 +917,16 @@ public class DriverGUI extends javax.swing.JFrame {
                     .addGroup(pointsPanelLayout.createSequentialGroup()
                         .addGroup(pointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Points, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pointsPanelLayout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(pointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(pointsPanelLayout.createSequentialGroup()
+                                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton3))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pointsPanelLayout.createSequentialGroup()
+                                        .addGap(8, 8, 8)
+                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -903,7 +943,13 @@ public class DriverGUI extends javax.swing.JFrame {
                 .addGroup(pointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton15)
                     .addComponent(jButton5))
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(pointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Points, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         jLayeredPane1.add(pointsPanel, "card6");
@@ -1511,6 +1557,37 @@ public class DriverGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton17ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            // TODO add your handling code here:
+            PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
+            driverPS.setInt(1, userID);
+            ResultSet driverRS = driverPS.executeQuery();
+            if(driverRS.next()) {
+                int driverID = driverRS.getInt("DriverID");
+                PreparedStatement PointsPS = MyConnection.getConnection().prepareStatement("SELECT Points FROM DriverPoints WHERE UserID=?");
+                PointsPS.setInt(1,driverID);
+                ResultSet PointRS = PointsPS.executeQuery();
+                if(PointRS.next()) {
+                    int points = PointRS.getInt("Points");
+                    String s=String.valueOf(points);
+                    jLabel13.setText(s);
+                }
+                else{
+                    jLabel13.setText("0");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+      
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton3ActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed1
+
+    }//GEN-LAST:event_jButton3ActionPerformed1
+
     //Helper Methods for getting and setting user information in profile
     public void setDriverName(String name) {
         jTextField1.setText(name);
@@ -2035,6 +2112,7 @@ public class DriverGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Points;
     private javax.swing.JPanel applicationPanel;
     private javax.swing.JButton catalogButton;
     private javax.swing.JPanel catalogPanel;
@@ -2047,6 +2125,7 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -2056,12 +2135,14 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    public javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
