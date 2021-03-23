@@ -83,18 +83,11 @@ public class DriverGUI extends javax.swing.JFrame {
         jButton16 = new javax.swing.JButton();
         jLabel20 = new javax.swing.JLabel();
         applicationPanel = new javax.swing.JPanel();
-        label1 = new java.awt.Label();
-        label2 = new java.awt.Label();
-        label3 = new java.awt.Label();
-        label4 = new java.awt.Label();
-        label5 = new java.awt.Label();
-        textField2 = new java.awt.TextField();
-        textField3 = new java.awt.TextField();
-        textField4 = new java.awt.TextField();
-        textField5 = new java.awt.TextField();
         jButton10 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        textField6 = new java.awt.TextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
+        jLabel13 = new javax.swing.JLabel();
         catalogPanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -141,10 +134,6 @@ public class DriverGUI extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        Points = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Good Driver Incentive Program");
@@ -368,22 +357,6 @@ public class DriverGUI extends javax.swing.JFrame {
 
         applicationPanel.setBackground(new java.awt.Color(192, 192, 192));
 
-        label1.setText("Name:");
-
-        label2.setText("Email:");
-
-        label3.setText("Phone Number:");
-
-        label4.setText("Sponsor:");
-
-        label5.setText("Driver's License #:");
-
-        textField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textField5ActionPerformed(evt);
-            }
-        });
-
         jButton10.setText("Submit");
         jButton10.setBorder(null);
         jButton10.setBorderPainted(false);
@@ -396,66 +369,49 @@ public class DriverGUI extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 18)); // NOI18N
         jLabel6.setText("Driver Application Form");
 
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane5.setViewportView(jList2);
+
+        jLabel13.setText("Company:");
+
         javax.swing.GroupLayout applicationPanelLayout = new javax.swing.GroupLayout(applicationPanel);
         applicationPanel.setLayout(applicationPanelLayout);
         applicationPanelLayout.setHorizontalGroup(
             applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(applicationPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(applicationPanelLayout.createSequentialGroup()
-                        .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
-                        .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textField6, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textField3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(164, 164, 164)
+                        .addGap(437, 437, 437)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(applicationPanelLayout.createSequentialGroup()
-                        .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(label5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(12, 12, 12)
-                        .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textField5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textField4, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(228, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel13)
+                        .addGap(27, 27, 27)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(applicationPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
         applicationPanelLayout.setVerticalGroup(
             applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(applicationPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(textField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(label1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
                 .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, applicationPanelLayout.createSequentialGroup()
-                        .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
-                        .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(textField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                    .addGroup(applicationPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6)
+                        .addGap(3, 3, 3)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(applicationPanelLayout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(jLabel13)
+                        .addGap(184, 184, 184)
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
 
         jLayeredPane1.add(applicationPanel, "card3");
@@ -871,40 +827,11 @@ public class DriverGUI extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        jButton5.setText("Edit");
+        jButton5.setText("My Application");
 
-        jButton15.setText("Cancel");
+        jButton15.setText("My Application");
 
         jLabel17.setText("Recent Purchases");
-
-        jLabel21.setText("My Points");
-
-        jButton3.setText("Refresh");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-                jButton3ActionPerformed1(evt);
-            }
-        });
-
-        jLabel13.setText("jLabel13");
-
-        javax.swing.GroupLayout PointsLayout = new javax.swing.GroupLayout(Points);
-        Points.setLayout(PointsLayout);
-        PointsLayout.setHorizontalGroup(
-            PointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PointsLayout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(jLabel13)
-                .addContainerGap(50, Short.MAX_VALUE))
-        );
-        PointsLayout.setVerticalGroup(
-            PointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PointsLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(jLabel13)
-                .addContainerGap())
-        );
 
         javax.swing.GroupLayout pointsPanelLayout = new javax.swing.GroupLayout(pointsPanel);
         pointsPanel.setLayout(pointsPanelLayout);
@@ -917,16 +844,9 @@ public class DriverGUI extends javax.swing.JFrame {
                     .addGroup(pointsPanelLayout.createSequentialGroup()
                         .addGroup(pointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Points, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pointsPanelLayout.createSequentialGroup()
-                                .addGroup(pointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(pointsPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton3))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pointsPanelLayout.createSequentialGroup()
-                                        .addGap(8, 8, 8)
-                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(8, 8, 8)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -943,13 +863,7 @@ public class DriverGUI extends javax.swing.JFrame {
                 .addGroup(pointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton15)
                     .addComponent(jButton5))
-                .addGap(18, 18, 18)
-                .addGroup(pointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Points, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
 
         jLayeredPane1.add(pointsPanel, "card6");
@@ -973,7 +887,7 @@ public class DriverGUI extends javax.swing.JFrame {
                 .addComponent(purchasesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(315, 315, 315)
                 .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
             .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(mainPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -1108,6 +1022,22 @@ public class DriverGUI extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
+        try {
+            String companyName = jList2.getSelectedValue();
+            PreparedStatement companyPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyName=?");
+            companyPS.setString(1, companyName);
+            ResultSet companyRS = companyPS.executeQuery();
+            if (companyRS.next()) {
+                int companyID = companyRS.getInt("CompanyID");
+                PreparedStatement submitApplicationPS = MyConnection.getConnection().prepareStatement("INSERT INTO DriverApplications (ApplicationDate, CompanyID, DriverID, Reason, ApplicationStatus) VALUES (CURRENT_TIMESTAMP, ?, ?, '-', 'Pending')");
+                submitApplicationPS.setInt(1, companyID);
+                submitApplicationPS.setInt(2, this.getUserID());
+                submitApplicationPS.executeUpdate();
+            }
+    
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void myAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myAccountButtonActionPerformed
@@ -1125,10 +1055,6 @@ public class DriverGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "You must be working for a sponsor to view a catalog.");
         }
     }//GEN-LAST:event_catalogButtonActionPerformed
-
-    private void textField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textField5ActionPerformed
 
     private void purchasesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchasesButtonActionPerformed
         // TODO add your handling code here:
@@ -1641,6 +1567,33 @@ public class DriverGUI extends javax.swing.JFrame {
         return currentCatalogSponsor;
     }
     
+    
+    public void setApplicationCompanyList(int userID) {
+        ArrayList<String> listDataArrayList = new ArrayList<String>();
+        try {
+            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID!=?");
+            int companyCounter = 0;
+            sponsorPS.setInt(1, userID);
+            ResultSet sponsorRS = sponsorPS.executeQuery();
+            while(sponsorRS.next()) {
+                int companyID = sponsorRS.getInt("CompanyID");
+                PreparedStatement sponsorCompanyPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
+                sponsorCompanyPS.setInt(1, companyID);
+                ResultSet sponsorCompanyRS = sponsorCompanyPS.executeQuery();
+                if(sponsorCompanyRS.next()) {
+                    listDataArrayList.add(sponsorCompanyRS.getString("CompanyName"));
+                    companyCounter++;
+                }
+            }
+
+            String[] listData = listDataArrayList.toArray(new String[listDataArrayList.size()]);
+            jList2.setListData(listData);
+           
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
     //Helper method to populate the potential sponsoring company list for catalog
     public void setSponsorCatalogList(int userID) {
         ArrayList<String> listDataArrayList = new ArrayList<String>();
@@ -2112,7 +2065,6 @@ public class DriverGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Points;
     private javax.swing.JPanel applicationPanel;
     private javax.swing.JButton catalogButton;
     private javax.swing.JPanel catalogPanel;
@@ -2125,7 +2077,6 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton25;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -2135,14 +2086,13 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    public javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
@@ -2160,6 +2110,7 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
@@ -2171,6 +2122,7 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTable jTable1;
@@ -2183,11 +2135,6 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private java.awt.Label label1;
-    private java.awt.Label label2;
-    private java.awt.Label label3;
-    private java.awt.Label label4;
-    private java.awt.Label label5;
     private javax.swing.JButton logOutButton;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton myAccountButton;
@@ -2197,10 +2144,5 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JPanel profilePanel;
     private javax.swing.JButton purchasesButton;
     private javax.swing.JPanel purchasesPanel;
-    private java.awt.TextField textField2;
-    private java.awt.TextField textField3;
-    private java.awt.TextField textField4;
-    private java.awt.TextField textField5;
-    private java.awt.TextField textField6;
     // End of variables declaration//GEN-END:variables
 }

@@ -269,6 +269,7 @@ public class LoginGUI extends javax.swing.JFrame {
                             driverGUI.setDriverPreferredName(preferredName);
                             driverGUI.setDriverPassword(pass);
                             driverGUI.setSponsorCatalogList(loginRS.getInt("UserID"));
+                            driverGUI.setApplicationCompanyList(loginRS.getInt("UserID"));
                             try {
                                 PreparedStatement driverSelectPS;
                                 ResultSet driverSelectRS;
