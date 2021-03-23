@@ -12,8 +12,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -1020,21 +1022,26 @@ public class DriverGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
+    //Submit Driver Application button
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
         try {
             String companyName = jList2.getSelectedValue();
-            PreparedStatement companyPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyName=?");
-            companyPS.setString(1, companyName);
-            ResultSet companyRS = companyPS.executeQuery();
-            if (companyRS.next()) {
-                int companyID = companyRS.getInt("CompanyID");
-                PreparedStatement submitApplicationPS = MyConnection.getConnection().prepareStatement("INSERT INTO DriverApplications (ApplicationDate, CompanyID, DriverID, Reason, ApplicationStatus) VALUES (CURRENT_TIMESTAMP, ?, ?, '-', 'Pending')");
-                submitApplicationPS.setInt(1, companyID);
-                submitApplicationPS.setInt(2, this.getUserID());
-                submitApplicationPS.executeUpdate();
+            if(companyName != null) {
+                int companyID = Integer.parseInt(companyName.split(": ")[0]);
+                PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
+                driverPS.setInt(1, userID);
+                ResultSet driverRS = driverPS.executeQuery();
+                if(driverRS.next()) {
+                    PreparedStatement submitApplicationPS = MyConnection.getConnection().prepareStatement("INSERT INTO DriverApplications (ApplicationDate, CompanyID, DriverID, Reason, ApplicationStatus) VALUES (CURRENT_TIMESTAMP, ?, ?, '-', 'Pending')");
+                    submitApplicationPS.setInt(1, companyID);
+                    int driverID = driverRS.getInt("DriverID");
+                    submitApplicationPS.setInt(2, driverID);
+                    submitApplicationPS.executeUpdate();
+                    setApplicationCompanyList(userID);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "You must make a company selection.");
             }
-    
         } catch(Exception e) {
             Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -1570,25 +1577,45 @@ public class DriverGUI extends javax.swing.JFrame {
     
     public void setApplicationCompanyList(int userID) {
         ArrayList<String> listDataArrayList = new ArrayList<String>();
+        Set<Integer> existingCompanySet = new HashSet<Integer>();
+        Set<Integer> pendingCompanySet = new HashSet<Integer>();
         try {
-            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID!=?");
-            int companyCounter = 0;
-            sponsorPS.setInt(1, userID);
-            ResultSet sponsorRS = sponsorPS.executeQuery();
-            while(sponsorRS.next()) {
-                int companyID = sponsorRS.getInt("CompanyID");
-                PreparedStatement sponsorCompanyPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
-                sponsorCompanyPS.setInt(1, companyID);
-                ResultSet sponsorCompanyRS = sponsorCompanyPS.executeQuery();
-                if(sponsorCompanyRS.next()) {
-                    listDataArrayList.add(sponsorCompanyRS.getString("CompanyName"));
-                    companyCounter++;
+            PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
+            driverPS.setInt(1, userID);
+            ResultSet driverRS = driverPS.executeQuery();
+            if(driverRS.next()) {
+                int driverID = driverRS.getInt("DriverID");
+                PreparedStatement driverSponsorsPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverPoints WHERE DriverID=?");
+                driverSponsorsPS.setInt(1, driverID);
+                ResultSet driverSponsorRS = driverSponsorsPS.executeQuery();
+                while(driverSponsorRS.next()) {
+                    int companyID = driverSponsorRS.getInt("CompanyID");
+                    existingCompanySet.add(companyID);
+                }
+                PreparedStatement pendingCompanyPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverApplications WHERE DriverID=?");
+                pendingCompanyPS.setInt(1, driverID);
+                ResultSet pendingCompanyRS = pendingCompanyPS.executeQuery();
+                while(pendingCompanyRS.next()) {
+                    if(pendingCompanyRS.getString("ApplicationStatus").equals("Pending")) {
+                        pendingCompanySet.add(pendingCompanyRS.getInt("CompanyID"));
+                    }
+                }
+                PreparedStatement companyNamesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company");
+                ResultSet companyNamesRS = companyNamesPS.executeQuery();
+                while(companyNamesRS.next()) {
+                    int currentCompanyID = companyNamesRS.getInt("CompanyID");
+                    if(!existingCompanySet.contains(currentCompanyID) && !pendingCompanySet.contains(currentCompanyID)) {
+                        jButton10.setVisible(true);
+                        listDataArrayList.add(currentCompanyID + ": " + companyNamesRS.getString("CompanyName"));
+                    }
                 }
             }
-
+            if(listDataArrayList.isEmpty()) {
+                listDataArrayList.add("No available companies.");
+                jButton10.setVisible(false);
+            }
             String[] listData = listDataArrayList.toArray(new String[listDataArrayList.size()]);
             jList2.setListData(listData);
-           
         } catch(Exception e) {
             Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
         }
