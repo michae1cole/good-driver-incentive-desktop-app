@@ -1183,8 +1183,9 @@ public class SponsorGUI extends javax.swing.JFrame {
                 //If sponsor was found in database
                 if(sponsorRS.next()) {
                     int companyID = sponsorRS.getInt("CompanyID");
-                    PreparedStatement catalogItemRemovalPS = MyConnection.getConnection().prepareStatement("DELETE FROM CatalogItems WHERE ItemID=?");
-                    catalogItemRemovalPS.setInt(1, itemID);
+                    PreparedStatement catalogItemRemovalPS = MyConnection.getConnection().prepareStatement("UPDATE CatalogItems SET Removed=? WHERE ItemID=?");
+                    catalogItemRemovalPS.setBoolean(1, true);
+                    catalogItemRemovalPS.setInt(2, itemID);
                     catalogItemRemovalPS.executeUpdate();
                     //Update catalog item table
                     updateCatalogItemTable();
@@ -1218,13 +1219,14 @@ public class SponsorGUI extends javax.swing.JFrame {
                 //If sponsor was found in database
                 if(sponsorRS.next()) {
                     int companyID = sponsorRS.getInt("CompanyID");
-                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogItems (CompanyID, Price, ItemDescription, ItemImage, Quantity, ListingID) VALUES (?, ?, ?, ?, ?, ?)");
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogItems (CompanyID, Price, ItemDescription, ItemImage, Quantity, ListingID, Removed) VALUES (?, ?, ?, ?, ?, ?, ?)");
                     catalogItemPS.setInt(1, companyID);
                     catalogItemPS.setDouble(2, price);
                     catalogItemPS.setString(3, title);
                     catalogItemPS.setString(4, imageURL);
                     catalogItemPS.setInt(5, quantity);
                     catalogItemPS.setString(6, listingID);
+                    catalogItemPS.setBoolean(7, false);
                     catalogItemPS.executeUpdate();
                     //Update catalog item table
                     updateCatalogItemTable();
@@ -1265,7 +1267,8 @@ public class SponsorGUI extends javax.swing.JFrame {
             Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         double pointCost = Double.parseDouble(model.getValueAt(selectedRow, 1).toString()) * pointToDollarConversion;
-        String pointValue = "Point Cost for Drivers:\n" + String.format("%.2f", pointCost) + "\n\n";
+        int roundedCost = (int) pointCost;
+        String pointValue = "Point Cost for Drivers:\n" + roundedCost + "\n\n";
         String quantity = "Quantity:\n" + model.getValueAt(selectedRow, 2).toString();
         //Update jTextArea with information from selected item
         jTextArea1.setText(title + price + pointValue + quantity);
@@ -1355,7 +1358,8 @@ public class SponsorGUI extends javax.swing.JFrame {
             Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         double pointCost = Double.parseDouble(model.getValueAt(selectedRow, 2).toString()) * pointToDollarConversion;
-        String pointValue = "Point Cost for Drivers:\n" + String.format("%.2f", pointCost) + "\n\n";
+        int roundedCost = (int) pointCost;
+        String pointValue = "Point Cost for Drivers:\n" + roundedCost + "\n\n";
         String quantity = "Quantity:\n" + model.getValueAt(selectedRow, 3).toString();
         //Update jTextArea with information from selected item
         jTextArea1.setText(title + price + pointValue + quantity);
@@ -1490,8 +1494,9 @@ public class SponsorGUI extends javax.swing.JFrame {
             ResultSet sponsorRS = sponsorPS.executeQuery();
             if(sponsorRS.next()) {
                 int companyID = sponsorRS.getInt("CompanyID");
-                PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=?");
+                PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=? AND Removed=?");
                 catalogItemPS.setInt(1, companyID);
+                catalogItemPS.setBoolean(2, false);
                 ResultSet catalogItemRS = catalogItemPS.executeQuery();
                 DefaultTableModel dtm = (DefaultTableModel) jTable3.getModel();
                 //Clear all rows from previous entries if necessary

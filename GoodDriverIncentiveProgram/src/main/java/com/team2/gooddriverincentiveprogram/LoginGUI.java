@@ -258,6 +258,7 @@ public class LoginGUI extends javax.swing.JFrame {
                         //User is a driver
                         if(userType.equals("D")) {
                             DriverGUI driverGUI = new DriverGUI();
+                            driverGUI.setLoggingIn(true);
                             driverGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                             driverGUI.setTitle("Good Driver Incentive Program - Driver");
                             driverGUI.switchPanels(driverGUI.getProfilePanel());
@@ -268,6 +269,7 @@ public class LoginGUI extends javax.swing.JFrame {
                             String preferredName = loginRS.getString("PreferredName");
                             driverGUI.setDriverPreferredName(preferredName);
                             driverGUI.setDriverPassword(pass);
+                            driverGUI.formatCartItemTable();
                             driverGUI.setSponsorCatalogList(loginRS.getInt("UserID"));
                             driverGUI.setApplicationCompanyList(loginRS.getInt("UserID"));
                             try {
@@ -284,6 +286,7 @@ public class LoginGUI extends javax.swing.JFrame {
                             } catch (SQLException e) {
                                 Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
                             }
+                            driverGUI.setLoggingIn(false);
                             driverGUI.setVisible(true);
                         //User is a sponsor
                         } else if(userType.equals("S")) {

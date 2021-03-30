@@ -6,7 +6,11 @@
 package com.team2.gooddriverincentiveprogram;
 
 import java.awt.Image;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,19 +18,19 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.ListModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import org.json.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
@@ -43,7 +47,11 @@ public class DriverGUI extends javax.swing.JFrame {
     }
     
     private int userID;
+    private Boolean loggingIn;
     private Boolean hasSponsor;
+    private int currentPurchaseSponsor;
+    private int currentCartSponsor;
+    private Boolean cartItemClicked = false;
     private int currentCatalogSponsor;
     private Deque<CatalogItem> previousQueue;
     private Deque<CatalogItem> nextQueue;
@@ -64,6 +72,7 @@ public class DriverGUI extends javax.swing.JFrame {
         catalogButton = new javax.swing.JButton();
         myAccountButton = new javax.swing.JButton();
         purchasesButton = new javax.swing.JButton();
+        catalogCartButton = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         profilePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -128,8 +137,20 @@ public class DriverGUI extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         purchasesPanel = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        jList4 = new javax.swing.JList<>();
+        jLabel21 = new javax.swing.JLabel();
+        catalogCartPanel = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jLabel15 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jList3 = new javax.swing.JList<>();
+        jLabel14 = new javax.swing.JLabel();
+        jButton11 = new javax.swing.JButton();
         pointsPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -185,6 +206,13 @@ public class DriverGUI extends javax.swing.JFrame {
         purchasesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 purchasesButtonActionPerformed(evt);
+            }
+        });
+
+        catalogCartButton.setText("Catalog Cart");
+        catalogCartButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                catalogCartButtonActionPerformed(evt);
             }
         });
 
@@ -729,16 +757,16 @@ public class DriverGUI extends javax.swing.JFrame {
                                     .addComponent(jButton1))
                                 .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(catalogPanelLayout.createSequentialGroup()
-                        .addGap(107, 107, 107)
+                        .addGap(103, 103, 103)
                         .addComponent(jLabel10)))
-                .addGap(481, 481, 481))
+                .addContainerGap())
         );
         catalogPanelLayout.setVerticalGroup(
             catalogPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(catalogPanelLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel10)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(catalogPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, catalogPanelLayout.createSequentialGroup()
@@ -761,19 +789,16 @@ public class DriverGUI extends javax.swing.JFrame {
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("Purchases");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Item ID", "Point Cost", "Date"
+                "Item Name", "Point Cost", "Date"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.String.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false
@@ -787,7 +812,32 @@ public class DriverGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jTable4.setColumnSelectionAllowed(true);
+        jTable4.getTableHeader().setReorderingAllowed(false);
+        jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable4MouseClicked(evt);
+            }
+        });
+        jScrollPane11.setViewportView(jTable4);
+        jTable4.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTable4.getColumnModel().getColumnCount() > 0) {
+            jTable4.getColumnModel().getColumn(0).setResizable(false);
+            jTable4.getColumnModel().getColumn(1).setResizable(false);
+            jTable4.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jList4.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList4.setToolTipText("");
+        jList4.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList4ValueChanged(evt);
+            }
+        });
+        jScrollPane12.setViewportView(jList4);
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel21.setText("Change Sponsor");
 
         javax.swing.GroupLayout purchasesPanelLayout = new javax.swing.GroupLayout(purchasesPanel);
         purchasesPanel.setLayout(purchasesPanelLayout);
@@ -797,22 +847,157 @@ public class DriverGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(purchasesPanelLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, purchasesPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52))
+            .addGroup(purchasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(purchasesPanelLayout.createSequentialGroup()
+                    .addGap(60, 60, 60)
+                    .addGroup(purchasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(purchasesPanelLayout.createSequentialGroup()
+                            .addGap(99, 99, 99)
+                            .addComponent(jLabel21)))
+                    .addContainerGap(555, Short.MAX_VALUE)))
         );
         purchasesPanelLayout.setVerticalGroup(
             purchasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(purchasesPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(25, 25, 25)
                 .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
+            .addGroup(purchasesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(purchasesPanelLayout.createSequentialGroup()
+                    .addGap(165, 165, 165)
+                    .addComponent(jLabel21)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(174, Short.MAX_VALUE)))
         );
 
         jLayeredPane1.add(purchasesPanel, "card2");
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Item Name", "Point Price", "ItemID", "ListingID", "CartID"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable3.setColumnSelectionAllowed(true);
+        jTable3.getTableHeader().setReorderingAllowed(false);
+        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable3MouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(jTable3);
+        jTable3.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTable3.getColumnModel().getColumnCount() > 0) {
+            jTable3.getColumnModel().getColumn(0).setResizable(false);
+            jTable3.getColumnModel().getColumn(1).setResizable(false);
+            jTable3.getColumnModel().getColumn(2).setResizable(false);
+            jTable3.getColumnModel().getColumn(3).setResizable(false);
+            jTable3.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        jLabel15.setFont(new java.awt.Font("Lucida Grande", 0, 26)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("Catalog Cart");
+
+        jButton4.setText("Purchase Items In Cart");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jList3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList3.setToolTipText("");
+        jList3.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList3ValueChanged(evt);
+            }
+        });
+        jScrollPane7.setViewportView(jList3);
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setText("Change Sponsor");
+
+        jButton11.setText("Remove Item From Cart");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout catalogCartPanelLayout = new javax.swing.GroupLayout(catalogCartPanel);
+        catalogCartPanel.setLayout(catalogCartPanelLayout);
+        catalogCartPanelLayout.setHorizontalGroup(
+            catalogCartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(catalogCartPanelLayout.createSequentialGroup()
+                .addGap(451, 451, 451)
+                .addComponent(jButton11)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(catalogCartPanelLayout.createSequentialGroup()
+                .addGroup(catalogCartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(catalogCartPanelLayout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(catalogCartPanelLayout.createSequentialGroup()
+                        .addGap(132, 132, 132)
+                        .addComponent(jLabel14)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87))
+            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        catalogCartPanelLayout.setVerticalGroup(
+            catalogCartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, catalogCartPanelLayout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addGroup(catalogCartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, catalogCartPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addGap(23, 23, 23)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, catalogCartPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(121, 121, 121)))
+                .addGroup(catalogCartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jButton11))
+                .addGap(21, 21, 21))
+        );
+
+        jLayeredPane1.add(catalogCartPanel, "card7");
 
         pointsPanel.setBackground(new java.awt.Color(191, 192, 192));
 
@@ -885,11 +1070,13 @@ public class DriverGUI extends javax.swing.JFrame {
                         .addComponent(myAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(myPointsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(purchasesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(purchasesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                    .addComponent(catalogCartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(315, 315, 315)
                 .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
             .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(mainPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -908,7 +1095,8 @@ public class DriverGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(myAccountButton)
-                    .addComponent(myPointsButton))
+                    .addComponent(myPointsButton)
+                    .addComponent(catalogCartButton))
                 .addContainerGap(513, Short.MAX_VALUE))
             .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
@@ -1268,7 +1456,8 @@ public class DriverGUI extends javax.swing.JFrame {
             //Get item price and convert to point value
             double price = previousItem.getPrice();
             price = price * pointToDollarRatio;
-            jLabel41.setText(price + " Points");
+            int roundedCost = (int) price;
+            jLabel41.setText(roundedCost + " Points");
             //Set item image
             String imageURL = previousItem.getImageURL();
             jLabel12.setText(imageURL);
@@ -1283,7 +1472,8 @@ public class DriverGUI extends javax.swing.JFrame {
             //Get item price and convert to point value
             price = previousItem.getPrice();
             price = price * pointToDollarRatio;
-            jLabel39.setText(price + " Points");
+            roundedCost = (int) price;
+            jLabel39.setText(roundedCost + " Points");
             //Set item image
             imageURL = previousItem.getImageURL();
             jLabel11.setText(imageURL);
@@ -1298,7 +1488,8 @@ public class DriverGUI extends javax.swing.JFrame {
             //Get item price and convert to point value
             price = previousItem.getPrice();
             price = price * pointToDollarRatio;
-            jLabel37.setText(price + " Points");
+            roundedCost = (int) price;
+            jLabel37.setText(roundedCost + " Points");
             //Set item image
             imageURL = previousItem.getImageURL();
             jLabel9.setText(imageURL);
@@ -1313,7 +1504,8 @@ public class DriverGUI extends javax.swing.JFrame {
             //Get item price and convert to point value
             price = previousItem.getPrice();
             price = price * pointToDollarRatio;
-            jLabel23.setText(price + " Points");
+            roundedCost = (int) price;
+            jLabel23.setText(roundedCost + " Points");
             //Set item image
             imageURL = previousItem.getImageURL();
             jLabel8.setText(imageURL);
@@ -1330,7 +1522,7 @@ public class DriverGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    //Different company selected from list
+    //Different company selected from catalog list
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         String selectedCompany = jList1.getSelectedValue();
         String[] tokens = selectedCompany.split(":");
@@ -1397,7 +1589,8 @@ public class DriverGUI extends javax.swing.JFrame {
                 //Get item price and convert to point value
                 price = nextItem.getPrice();
                 price = price * pointToDollarRatio;
-                jLabel23.setText(price + " Points");
+                int roundedCost = (int) price;
+                jLabel23.setText(roundedCost + " Points");
                 //Set item image
                 imageURL = nextItem.getImageURL();
                 jLabel8.setText(imageURL);
@@ -1416,7 +1609,8 @@ public class DriverGUI extends javax.swing.JFrame {
                 //Get item price and convert to point value
                 price = nextItem.getPrice();
                 price = price * pointToDollarRatio;
-                jLabel37.setText(price + " Points");
+                int roundedCost = (int) price;
+                jLabel37.setText(roundedCost + " Points");
                 //Set item image
                 imageURL = nextItem.getImageURL();
                 jLabel9.setText(imageURL);
@@ -1435,7 +1629,8 @@ public class DriverGUI extends javax.swing.JFrame {
                 //Get item price and convert to point value
                 price = nextItem.getPrice();
                 price = price * pointToDollarRatio;
-                jLabel39.setText(price + " Points");
+                int roundedCost = (int) price;
+                jLabel39.setText(roundedCost + " Points");
                 //Set item image
                 imageURL = nextItem.getImageURL();
                 jLabel11.setText(imageURL);
@@ -1454,7 +1649,8 @@ public class DriverGUI extends javax.swing.JFrame {
                 //Get item price and convert to point value
                 price = nextItem.getPrice();
                 price = price * pointToDollarRatio;
-                jLabel41.setText(price + " Points");
+                int roundedCost = (int) price;
+                jLabel41.setText(roundedCost + " Points");
                 //Set item image
                 imageURL = nextItem.getImageURL();
                 jLabel12.setText(imageURL);
@@ -1474,52 +1670,243 @@ public class DriverGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    //Add to Cart (Fourth Item) Button
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton25ActionPerformed
-
-    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton24ActionPerformed
-
-    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton23ActionPerformed
-
-    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton17ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            // TODO add your handling code here:
             PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
             driverPS.setInt(1, userID);
             ResultSet driverRS = driverPS.executeQuery();
             if(driverRS.next()) {
                 int driverID = driverRS.getInt("DriverID");
-                PreparedStatement PointsPS = MyConnection.getConnection().prepareStatement("SELECT Points FROM DriverPoints WHERE DriverID=?");
-                PointsPS.setInt(1,driverID);
-                ResultSet PointRS = PointsPS.executeQuery();
-                if(PointRS.next()) {
-                    int points = PointRS.getInt("Points");
-                    String s=String.valueOf(points);
-                    jLabel13.setText(s);
-                }
-                else{
-                    jLabel13.setText("0");
-                }
+                String title = jTextArea7.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                int companyID = getCurrentCatalogSponsor();
+                PreparedStatement cartPS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogCart (DriverID, CompanyID, ItemID) VALUES (?, ?, ?)");
+                cartPS.setInt(1, driverID);
+                cartPS.setInt(2, companyID);
+                cartPS.setInt(3, itemID);
+                cartPS.executeUpdate();
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
         }
-        
-      
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    //Add to Cart (Third Item) Button
+    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
+        try {
+            PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
+            driverPS.setInt(1, userID);
+            ResultSet driverRS = driverPS.executeQuery();
+            if(driverRS.next()) {
+                int driverID = driverRS.getInt("DriverID");
+                String title = jTextArea6.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                int companyID = getCurrentCatalogSponsor();
+                PreparedStatement cartPS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogCart (DriverID, CompanyID, ItemID) VALUES (?, ?, ?)");
+                cartPS.setInt(1, driverID);
+                cartPS.setInt(2, companyID);
+                cartPS.setInt(3, itemID);
+                cartPS.executeUpdate();
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_jButton24ActionPerformed
+
+    //Add to Cart (Second Item) Button
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        try {
+            PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
+            driverPS.setInt(1, userID);
+            ResultSet driverRS = driverPS.executeQuery();
+            if(driverRS.next()) {
+                int driverID = driverRS.getInt("DriverID");
+                String title = jTextArea5.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                int companyID = getCurrentCatalogSponsor();
+                PreparedStatement cartPS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogCart (DriverID, CompanyID, ItemID) VALUES (?, ?, ?)");
+                cartPS.setInt(1, driverID);
+                cartPS.setInt(2, companyID);
+                cartPS.setInt(3, itemID);
+                cartPS.executeUpdate();
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_jButton23ActionPerformed
+
+    //Add to Cart (First Item) Button
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        try {
+            PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
+            driverPS.setInt(1, userID);
+            ResultSet driverRS = driverPS.executeQuery();
+            if(driverRS.next()) {
+                int driverID = driverRS.getInt("DriverID");
+                String title = jTextArea1.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                int companyID = getCurrentCatalogSponsor();
+                PreparedStatement cartPS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogCart (DriverID, CompanyID, ItemID) VALUES (?, ?, ?)");
+                cartPS.setInt(1, driverID);
+                cartPS.setInt(2, companyID);
+                cartPS.setInt(3, itemID);
+                cartPS.executeUpdate();
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton3ActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed1
 
     }//GEN-LAST:event_jButton3ActionPerformed1
+
+    //Switch to Catalog Cart panel
+    private void catalogCartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catalogCartButtonActionPerformed
+        if(hasSponsor()) {
+            updateCartItems(currentCartSponsor);
+            switchPanels(catalogCartPanel);
+        } else {
+            JOptionPane.showMessageDialog(null, "You must be working for a sponsor to view a cart.");
+        }
+    }//GEN-LAST:event_catalogCartButtonActionPerformed
+
+    //Purchase Cart Items Button
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+            //Make sure there are items in the user's cart
+            if(model.getRowCount() > 0) {
+                Boolean itemProblem = false;
+                //Get driver's total number of points
+                PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
+                driverPS.setInt(1, userID);
+                ResultSet driverRS = driverPS.executeQuery();
+                if(driverRS.next()) {
+                    int driverID = driverRS.getInt("DriverID");
+                    PreparedStatement driverPointsPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverPoints WHERE DriverID=? AND CompanyID=?");
+                    driverPointsPS.setInt(1, driverID);
+                    driverPointsPS.setInt(2, getCurrentCartSponsor());
+                    ResultSet driverPointsRS = driverPointsPS.executeQuery();
+                    if(driverPointsRS.next()) {
+                        int pointAmount = driverPointsRS.getInt("Points");
+                        //For each item in the cart
+                        for(int i = 0; i < model.getRowCount() && !itemProblem; i++) {
+                            //Query Etsy to make sure listing is still active (not sold out)
+                            String etsyQuery = "https://openapi.etsy.com/v2/listings/" + model.getValueAt(i, 3) + "?api_key=pzm9kr33wye2gmv9fy2h4g64";
+                            //Send the request to etsy for listing results back
+                            HttpRequest request = HttpRequest.newBuilder()
+                            .uri(URI.create(etsyQuery))
+                            .method("GET", HttpRequest.BodyPublishers.noBody())
+                            .build();
+                            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+                            JSONObject jsonResponse = new JSONObject(response.body());
+                            //Tell user listing is not active and to remove item from cart based on Etsy results
+                            String listingState = jsonResponse.getJSONArray("results").getJSONObject(0).getString("state");
+                            if(listingState.equals("active")) {
+                                //Make sure user can afford item based on point total for company
+                                int itemCost = Integer.parseInt(model.getValueAt(i, 1).toString());
+                                if(pointAmount >= itemCost) {
+                                    pointAmount = pointAmount - itemCost;
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Item: " + model.getValueAt(i, 0) + " puts your cart total price above your current total point amount. Please remove item from your cart to continue.");
+                                    itemProblem = true;
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Item: " + model.getValueAt(i, 0) + " is no longer an active listing. Please remove item from your cart to continue.");
+                                itemProblem = true;
+                            }
+                        }
+                        if(!itemProblem) {
+                            PreparedStatement companyPTDRatioPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
+                            companyPTDRatioPS.setInt(1, getCurrentCartSponsor());
+                            ResultSet companyPTDRatioRS = companyPTDRatioPS.executeQuery();
+                            if(companyPTDRatioRS.next()) {
+                                int pointToDollarRatio = companyPTDRatioRS.getInt("PointToDollar");
+                                for(int i = model.getRowCount()-1; i >= 0; i--) {
+                                    //Add every item to CatalogPurchases table
+                                    PreparedStatement catalogPurchasePS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogPurchases (PointCost, MonetaryCost, DriverID, CompanyID, ItemID, PurchaseDate) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
+                                    int itemCost = Integer.parseInt(model.getValueAt(i, 1).toString());
+                                    catalogPurchasePS.setInt(1, itemCost);
+                                    double monetaryCost = Double.parseDouble(model.getValueAt(i, 1).toString()) / pointToDollarRatio;
+                                    catalogPurchasePS.setDouble(2, monetaryCost);
+                                    catalogPurchasePS.setInt(3, driverID);
+                                    catalogPurchasePS.setInt(4, getCurrentCartSponsor());
+                                    int itemID = Integer.parseInt(model.getValueAt(i, 2).toString());
+                                    catalogPurchasePS.setInt(5, itemID);
+                                    catalogPurchasePS.executeUpdate();
+                                    //Remove every item from the cart catalog
+                                    PreparedStatement cartItemRemovalPS = MyConnection.getConnection().prepareStatement("DELETE FROM CatalogCart WHERE CartID=?");
+                                    cartItemRemovalPS.setInt(1, Integer.parseInt(model.getValueAt(i, 4).toString()));
+                                    cartItemRemovalPS.executeUpdate();
+                                    //Remove every item from cart table
+                                    model.removeRow(i);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "You must have items in your cart to make a purchase.");
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    //Different cart sponsor selected
+    private void jList3ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList3ValueChanged
+        String selectedCompany = jList3.getSelectedValue();
+        String[] tokens = selectedCompany.split(":");
+        int selectedCompanyID = Integer.parseInt(tokens[0]);
+        setCurrentCartSponsor(selectedCompanyID, tokens[1]);
+        cartItemClicked = false;
+    }//GEN-LAST:event_jList3ValueChanged
+
+    //Helper method to determine if item in cart was clicked
+    private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
+        cartItemClicked = true;
+    }//GEN-LAST:event_jTable3MouseClicked
+
+    //Remove Item From Cart Button
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        if(cartItemClicked) {
+            //Get the item information from the jTable row selected
+            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+            int selectedRow = jTable3.getSelectedRow();
+            int itemID = Integer.parseInt(model.getValueAt(selectedRow, 2).toString());
+            try {
+                //Remove Item from CatalogCart
+                PreparedStatement catalogItemRemovalPS = MyConnection.getConnection().prepareStatement("DELETE FROM CatalogCart WHERE CartID=?");
+                catalogItemRemovalPS.setInt(1, Integer.parseInt(model.getValueAt(selectedRow, 4).toString()));
+                catalogItemRemovalPS.executeUpdate();
+                //Update cart item table
+                cartItemClicked = false;
+                updateCartItems(getCurrentCartSponsor());
+            } catch(SQLException e) {
+                Logger.getLogger(CatalogInformation.class.getName()).log(Level.SEVERE, null, e);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "You must select an item to remove.");
+        }
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable4MouseClicked
+
+    //Different purchase sponsor selected
+    private void jList4ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList4ValueChanged
+        String selectedCompany = jList4.getSelectedValue();
+        String[] tokens = selectedCompany.split(":");
+        int selectedCompanyID = Integer.parseInt(tokens[0]);
+        setCurrentPurchaseSponsor(selectedCompanyID, tokens[1]);
+    }//GEN-LAST:event_jList4ValueChanged
 
     //Helper Methods for getting and setting user information in profile
     public void setDriverName(String name) {
@@ -1554,12 +1941,40 @@ public class DriverGUI extends javax.swing.JFrame {
         return userID;
     }
     
+    public void setLoggingIn(Boolean login) {
+        loggingIn = login;
+    }
+    
+    public Boolean getLoggingIn() {
+        return loggingIn;
+    }
+    
     public Boolean hasSponsor() {
         return hasSponsor;
     }
     
     public void setHasSponsor(Boolean has) {
         hasSponsor = has;
+    }
+    
+    public void setCurrentPurchaseSponsor(int companyID, String companyName) {
+        jLabel16.setText(companyName + " Previous Catalog Purchases");
+        currentPurchaseSponsor = companyID;
+        updatePurchaseItems(companyID);
+    }
+    
+    public int getCurrentPurchaseSponsor() {
+        return currentPurchaseSponsor;
+    }
+    
+    public void setCurrentCartSponsor(int companyID, String companyName) {
+        jLabel15.setText(companyName + " Catalog Cart");
+        currentCartSponsor = companyID;
+        updateCartItems(companyID);
+    }
+    
+    public int getCurrentCartSponsor() {
+        return currentCartSponsor;
     }
     
     public void setCurrentCatalogSponsor(int companyID, String companyName) {
@@ -1574,7 +1989,7 @@ public class DriverGUI extends javax.swing.JFrame {
         return currentCatalogSponsor;
     }
     
-    
+    //Helper method to populate the potential company list for drivers to send applications
     public void setApplicationCompanyList(int userID) {
         ArrayList<String> listDataArrayList = new ArrayList<String>();
         Set<Integer> existingCompanySet = new HashSet<Integer>();
@@ -1651,22 +2066,119 @@ public class DriverGUI extends javax.swing.JFrame {
                 setHasSponsor(true);
                 String[] listData = listDataArrayList.toArray(new String[listDataArrayList.size()]);
                 jList1.setListData(listData);
+                jList3.setListData(listData);
+                jList4.setListData(listData);
                 String currentCompany = listData[0];
                 String[] tokens = currentCompany.split(":");
                 int currentCompanyID = Integer.parseInt(tokens[0]);
                 setCurrentCatalogSponsor(currentCompanyID, tokens[1]);
+                setCurrentCartSponsor(currentCompanyID, tokens[1]);
+                setCurrentPurchaseSponsor(currentCompanyID, tokens[1]);
             }
         } catch(Exception e) {
             Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
+    //Helper method for showing previous purchases based on sponsoring company selected
+    public void updatePurchaseItems(int companyID) {
+        try {
+            DefaultTableModel dtm = (DefaultTableModel) jTable4.getModel();
+            //Clear all rows from previous sponsor if necessary
+            if(dtm.getRowCount() > 0) {
+                for(int i = dtm.getRowCount()-1; i >= 0; i--) {
+                    dtm.removeRow(i);
+                }
+            }
+            PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
+            driverPS.setInt(1, userID);
+            ResultSet driverRS = driverPS.executeQuery();
+            if(driverRS.next()) {
+                int driverID = driverRS.getInt("DriverID");
+                PreparedStatement previousPurchasesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases WHERE DriverID=? AND CompanyID=?");
+                previousPurchasesPS.setInt(1, driverID);
+                previousPurchasesPS.setInt(2, getCurrentPurchaseSponsor());
+                ResultSet previousPurchasesRS = previousPurchasesPS.executeQuery();
+                //Add each purchase item as a row to the table
+                while(previousPurchasesRS.next()) {
+                    PreparedStatement purchasedItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE ItemID=?");
+                    purchasedItemPS.setInt(1, previousPurchasesRS.getInt("ItemID"));
+                    ResultSet purchasedItemRS = purchasedItemPS.executeQuery();
+                    if(purchasedItemRS.next()) {
+                        PreparedStatement companyPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
+                        companyPS.setInt(1, getCurrentPurchaseSponsor());
+                        ResultSet companyRS = companyPS.executeQuery();
+                        if(companyRS.next()) {
+                            double pointCost = purchasedItemRS.getDouble("Price") * companyRS.getInt("PointToDollar");
+                            int roundedCost = (int) pointCost;
+                            Object[] rowData = {purchasedItemRS.getString("ItemDescription"), roundedCost, previousPurchasesRS.getDate("PurchaseDate")};
+                            dtm.addRow(rowData);
+                        }
+                    }
+                }
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+   
+    //Helper method for showing items in cart based on sponsoring company selected
+    public void updateCartItems(int companyID) {
+        try {
+            DefaultTableModel dtm = (DefaultTableModel) jTable3.getModel();
+            //Clear all rows from previous search if necessary
+            if(dtm.getRowCount() > 0) {
+                for(int i = dtm.getRowCount()-1; i >= 0; i--) {
+                    dtm.removeRow(i);
+                }
+            }
+            PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
+            driverPS.setInt(1, userID);
+            ResultSet driverRS = driverPS.executeQuery();
+            if(driverRS.next()) {
+                int driverID = driverRS.getInt("DriverID");
+                PreparedStatement companyCatalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogCart WHERE DriverID=? AND CompanyID=?");
+                companyCatalogItemPS.setInt(1, driverID);
+                companyCatalogItemPS.setInt(2, getCurrentCartSponsor());
+                ResultSet companyCatalogItemRS = companyCatalogItemPS.executeQuery();
+                //Add each cart item as a row to the table
+                while(companyCatalogItemRS.next()) {
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE ItemID=?");
+                    catalogItemPS.setInt(1, companyCatalogItemRS.getInt("ItemID"));
+                    ResultSet catalogItemRS = catalogItemPS.executeQuery();
+                    if(catalogItemRS.next()) {
+                        PreparedStatement companyPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
+                        companyPS.setInt(1, getCurrentCartSponsor());
+                        ResultSet companyRS = companyPS.executeQuery();
+                        if(companyRS.next()) {
+                            double pointCost = catalogItemRS.getDouble("Price") * companyRS.getInt("PointToDollar");
+                            int roundedCost = (int) pointCost;
+                            Object[] rowData = {catalogItemRS.getString("ItemDescription"), roundedCost, companyCatalogItemRS.getInt("ItemID"), catalogItemRS.getInt("ListingID"), companyCatalogItemRS.getInt("CartID")};
+                            dtm.addRow(rowData);
+                        }
+                    }
+                }
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
+    //Helper method for removing hidden table columns
+    public void formatCartItemTable() {
+        TableColumnModel tcm = jTable3.getColumnModel();
+        tcm.removeColumn(tcm.getColumn(4));
+        tcm.removeColumn(tcm.getColumn(3));
+        tcm.removeColumn(tcm.getColumn(2));
+    }
+    
     //Helper method for showing catalog items based on sponsoring company selected
     public void updateCatalogItems(int companyID) {
         try {
             //Get total number of catalog items for company
-            PreparedStatement catalogItemCountPS = MyConnection.getConnection().prepareStatement("SELECT COUNT(*) FROM CatalogItems WHERE CompanyID=?");
+            PreparedStatement catalogItemCountPS = MyConnection.getConnection().prepareStatement("SELECT COUNT(*) FROM CatalogItems WHERE CompanyID=? AND Removed=?");
             catalogItemCountPS.setInt(1, companyID);
+            catalogItemCountPS.setBoolean(2, false);
             ResultSet catalogItemCountRS = catalogItemCountPS.executeQuery();
             if(catalogItemCountRS.next()) {
                 int count = catalogItemCountRS.getInt(1);
@@ -1679,7 +2191,9 @@ public class DriverGUI extends javax.swing.JFrame {
                     jPanel15.setVisible(false);
                     jButton1.setVisible(false);
                     jButton2.setVisible(false);
-                    JOptionPane.showMessageDialog(null, "Catalog is empty.");
+                    if(!loggingIn) {
+                        JOptionPane.showMessageDialog(null, "Catalog is empty.");
+                    }
                 } else if(count == 1) {
                     //Only show one panel if there is one item
                     jPanel1.setVisible(true);
@@ -1691,8 +2205,9 @@ public class DriverGUI extends javax.swing.JFrame {
                     jButton1.setVisible(false);
                     jButton2.setVisible(false);
                     //Update jPanel7 to have item information
-                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=?");
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=? AND Removed=?");
                     catalogItemPS.setInt(1, getCurrentCatalogSponsor());
+                    catalogItemPS.setBoolean(2, false);
                     ResultSet catalogItemRS = catalogItemPS.executeQuery();
                     if(catalogItemRS.next()) {
                         //Set item title
@@ -1705,7 +2220,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         if(pointToDollarRS.next()) {
                             int pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
                             price = price * pointToDollarRatio;
-                            jLabel23.setText(price + " Points");
+                            int roundedCost = (int) price;
+                            jLabel23.setText(roundedCost + " Points");
                         }
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
@@ -1734,8 +2250,9 @@ public class DriverGUI extends javax.swing.JFrame {
                         pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
                     }
                     //Update jPanel7 to have item information
-                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=?");
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=? AND Removed=?");
                     catalogItemPS.setInt(1, getCurrentCatalogSponsor());
+                    catalogItemPS.setBoolean(2, false);
                     ResultSet catalogItemRS = catalogItemPS.executeQuery();
                     if(catalogItemRS.next()) {
                         //Set item title
@@ -1743,7 +2260,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel23.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel23.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel8.setText(imageURL);
@@ -1758,7 +2276,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel37.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel37.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel9.setText(imageURL);
@@ -1786,8 +2305,9 @@ public class DriverGUI extends javax.swing.JFrame {
                     if(pointToDollarRS.next()) {
                         pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
                     }
-                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=?");
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=? AND Removed=?");
                     catalogItemPS.setInt(1, getCurrentCatalogSponsor());
+                    catalogItemPS.setBoolean(2, false);
                     ResultSet catalogItemRS = catalogItemPS.executeQuery();
                     //Update jPanel7 to have item information
                     if(catalogItemRS.next()) {
@@ -1796,7 +2316,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel23.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel23.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel8.setText(imageURL);
@@ -1811,7 +2332,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel37.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel37.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel9.setText(imageURL);
@@ -1826,7 +2348,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel39.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel39.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel11.setText(imageURL);
@@ -1856,8 +2379,9 @@ public class DriverGUI extends javax.swing.JFrame {
                         pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
                     }
                     //Update jPanel7 to have item information
-                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=?");
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=? AND Removed=?");
                     catalogItemPS.setInt(1, getCurrentCatalogSponsor());
+                    catalogItemPS.setBoolean(2, false);
                     ResultSet catalogItemRS = catalogItemPS.executeQuery();
                     if(catalogItemRS.next()) {
                         //Set item title
@@ -1865,7 +2389,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel23.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel23.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel8.setText(imageURL);
@@ -1880,7 +2405,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel37.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel37.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel9.setText(imageURL);
@@ -1895,7 +2421,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel39.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel39.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel11.setText(imageURL);
@@ -1910,7 +2437,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel41.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel41.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel12.setText(imageURL);
@@ -1940,8 +2468,9 @@ public class DriverGUI extends javax.swing.JFrame {
                         pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
                     }
                     //Update jPanel7 to have item information
-                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=?");
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE CompanyID=? AND Removed=?");
                     catalogItemPS.setInt(1, getCurrentCatalogSponsor());
+                    catalogItemPS.setBoolean(2, false);
                     ResultSet catalogItemRS = catalogItemPS.executeQuery();
                     if(catalogItemRS.next()) {
                         //Set item title
@@ -1949,7 +2478,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel23.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel23.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel8.setText(imageURL);
@@ -1964,7 +2494,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel37.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel37.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel9.setText(imageURL);
@@ -1979,7 +2510,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel39.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel39.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel11.setText(imageURL);
@@ -1994,7 +2526,8 @@ public class DriverGUI extends javax.swing.JFrame {
                         //Get item price and convert to point value
                         double price = catalogItemRS.getDouble("Price");
                         price = price * pointToDollarRatio;
-                        jLabel41.setText(price + " Points");
+                        int roundedCost = (int) price;
+                        jLabel41.setText(roundedCost + " Points");
                         //Set item image
                         String imageURL = catalogItemRS.getString("ItemImage");
                         jLabel12.setText(imageURL);
@@ -2012,6 +2545,11 @@ public class DriverGUI extends javax.swing.JFrame {
         } catch(Exception e) {
             Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
         }
+    }
+    
+    //Helper method for removing certain functionality from alternate user views of a driver
+    public void removeFunctionality() {
+        //TODO Remove specific elements to prevent driver view switches from having full functionality
     }
     
     //Helper Class for catalog items
@@ -2094,9 +2632,12 @@ public class DriverGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel applicationPanel;
     private javax.swing.JButton catalogButton;
+    private javax.swing.JButton catalogCartButton;
+    private javax.swing.JPanel catalogCartPanel;
     private javax.swing.JPanel catalogPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
@@ -2104,6 +2645,7 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -2114,12 +2656,15 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
@@ -2138,22 +2683,28 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
+    private javax.swing.JList<String> jList3;
+    private javax.swing.JList<String> jList4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea5;
     private javax.swing.JTextArea jTextArea6;
