@@ -6,9 +6,6 @@
 package com.team2.gooddriverincentiveprogram;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -17,15 +14,16 @@ import java.net.http.HttpResponse;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -126,11 +124,14 @@ public class SponsorGUI extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         reporting = new javax.swing.JPanel();
         driverPoints = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
-        jLabel17 = new javax.swing.JLabel();
+        driverListScrollPane = new javax.swing.JScrollPane();
+        driverList = new javax.swing.JList<>();
+        submitPtChBtn = new javax.swing.JButton();
+        driverListLabel = new javax.swing.JLabel();
+        pointChangeLabel = new javax.swing.JLabel();
+        pointChangeVal = new javax.swing.JTextField();
+        reasonLabel = new javax.swing.JLabel();
+        reasonText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -800,24 +801,25 @@ public class SponsorGUI extends javax.swing.JFrame {
 
         driverPoints.setBackground(new java.awt.Color(191, 192, 192));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Example", "Example", "Example"},
-                {"Example", "Example", "Example"},
-                {"Example", "Example", "Example"},
-                {"Example", "Example", "Example"}
-            },
-            new String [] {
-                "Item", "Price", "Date Purchased"
+        driverList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        driverListScrollPane.setViewportView(driverList);
+
+        submitPtChBtn.setText("Submit Point Change");
+        submitPtChBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitPtChBtnActionPerformed(evt);
             }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        });
 
-        jButton15.setText("My Application");
+        driverListLabel.setText("Select driver from list:");
 
-        jButton16.setText("My Application");
+        pointChangeLabel.setText("Enter a point change value (Use \"-\" for point subtraction. (Ex. -200, 150))");
 
-        jLabel17.setText("Recent Purchases");
+        reasonLabel.setText("Insert a brief reason for point change here:");
 
         javax.swing.GroupLayout driverPointsLayout = new javax.swing.GroupLayout(driverPoints);
         driverPoints.setLayout(driverPointsLayout);
@@ -826,15 +828,15 @@ public class SponsorGUI extends javax.swing.JFrame {
             .addGroup(driverPointsLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1003, Short.MAX_VALUE)
+                    .addComponent(driverListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1006, Short.MAX_VALUE)
                     .addGroup(driverPointsLayout.createSequentialGroup()
                         .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(driverPointsLayout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(pointChangeLabel)
+                            .addComponent(pointChangeVal, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(submitPtChBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(driverListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(reasonText, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(reasonLabel))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -842,14 +844,20 @@ public class SponsorGUI extends javax.swing.JFrame {
             driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, driverPointsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(driverListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton16)
-                    .addComponent(jButton15))
-                .addContainerGap(214, Short.MAX_VALUE))
+                .addComponent(driverListScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(pointChangeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pointChangeVal, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(reasonLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(reasonText, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(submitPtChBtn)
+                .addGap(35, 35, 35))
         );
 
         layeredPane.add(driverPoints, "card8");
@@ -929,6 +937,69 @@ public class SponsorGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Populate the driver list on driver points panel
+    //MAYBE ADD EMAIL TO LIST ITEM
+    private void populateDriverList(){
+        ArrayList<String> listDataArrayList = new ArrayList<>();
+//        Set<Integer> driverIDList = new HashSet<>();
+        ArrayList<Integer> driverIDList = new ArrayList<>();
+        Set<Integer> userIDList = new HashSet<>();
+        ArrayList<Integer> driverPointList = new ArrayList<>();
+        try{
+            int compID = -1;
+            int driverID = -1;
+            int i = 0;
+            //Get current sponsor's company ID
+            PreparedStatement getUserPS = MyConnection.getConnection().prepareStatement("SELECT CompanyID FROM Sponsor WHERE UserID=?");
+            getUserPS.setInt(1, userID);
+            ResultSet sponsorRS = getUserPS.executeQuery();
+            while(sponsorRS.next()){
+                compID = sponsorRS.getInt("CompanyID");
+            }
+            
+            //Use company ID to query for driver IDs and driver points
+            PreparedStatement driversPS = MyConnection.getConnection().prepareStatement("SELECT DriverID, Points FROM DriverPoints WHERE CompanyID=?");
+            driversPS.setInt(1, compID);
+            ResultSet driversRS = driversPS.executeQuery();
+            while(driversRS.next()){
+                driverID = driversRS.getInt("DriverID");
+                driverIDList.add(driverID);
+                int driverPt = driversRS.getInt("Points");
+                driverPointList.add(driverPt);
+            }
+            
+            //Use driver IDs to fetch user IDs
+            PreparedStatement driversUserPS = MyConnection.getConnection().prepareStatement("SELECT UserID FROM Driver WHERE DriverID=?");
+            for(int ID : driverIDList){
+                driversUserPS.setInt(1, ID);
+                ResultSet driverUserbyID = driversUserPS.executeQuery();
+                while(driverUserbyID.next()){
+                   int usrID = driverUserbyID.getInt("UserID");
+                   userIDList.add(usrID);
+                }
+            }
+            
+            //User user IDS to fetch driver names and populate list
+            PreparedStatement driversNamesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Users WHERE UserID=?");
+            for(int ID : userIDList){
+                driversNamesPS.setInt(1, ID);
+                ResultSet driverNamebyID = driversNamesPS.executeQuery();
+                while(driverNamebyID.next()){
+                   String fName = driverNamebyID.getString("FirstName");
+                   String lName = driverNamebyID.getString("LastName");
+                   String fullName = fName + " " + lName;
+                   String listItems = driverIDList.get(i) + ": " + fullName + ": " + driverPointList.get(i);
+                   listDataArrayList.add(listItems);
+                }
+                ++i;
+            }
+            String[] listData = listDataArrayList.toArray(new String[listDataArrayList.size()]);
+            driverList.setListData(listData);
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
     //Logout button
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         //Redirect to login frame
@@ -952,6 +1023,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
         // TODO add your handling code here:
         switchPanels(driverPoints);
+        populateDriverList();
     }//GEN-LAST:event_jButton28ActionPerformed
 
     private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
@@ -1422,6 +1494,75 @@ public class SponsorGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
 
+    private void submitPtChBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitPtChBtnActionPerformed
+        //Parse selected value string to get individual data
+        String selectedVal = driverList.getSelectedValue();
+        String reasonVal = reasonText.getText();
+        int changeVal = 0;
+        
+        //Check if point change value is valid
+        try{
+            changeVal = Integer.parseInt(pointChangeVal.getText());
+        }
+        catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid integer number for point change value!");
+        }
+        
+        //Check if driver list selection is empty, stop if so
+        //Check if reason text field is empty, stop if so
+        if(selectedVal.equals("") || reasonVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please make sure a driver is selected and a reason has been provided!");
+        }
+        else{
+            //Success! Driver selected and reason provided
+            String[] vals = selectedVal.split(": ", 5);
+            String selectedDrvrID = vals[0];
+            String selectedName = vals[1];
+            String selectedPts = vals[2];
+//            int pointsVal = Integer.parseInt(selectedPts);
+            int driverIDInt = Integer.parseInt(selectedDrvrID);
+//            pointsVal += changeVal;
+            
+            try{
+                //Insert updated point value for specified driver with reason
+                //FIXME ADD INTO QUERY TO GET SPONSOR ID
+                int compID = 0;
+                int sponsorID = 0;
+                PreparedStatement getUserPS = MyConnection.getConnection().prepareStatement("SELECT CompanyID, SponsorID FROM Sponsor WHERE UserID=?");
+                getUserPS.setInt(1, userID);
+                ResultSet sponsorRS = getUserPS.executeQuery();
+                while(sponsorRS.next()){
+                    compID = sponsorRS.getInt("CompanyID");
+                    sponsorID = sponsorRS.getInt("SponsorID");
+                }
+                
+//                PreparedStatement updatePointsPS = MyConnection.getConnection().prepareStatement("UPDATE DriverPoints SET Points=? WHERE DriverID=? AND CompanyID=?");
+//                updatePointsPS.setInt(1, pointsVal);
+//                updatePointsPS.setInt(1, changeVal);
+//                updatePointsPS.setInt(2, driverIDInt);
+//                updatePointsPS.setInt(3, compID);
+//                updatePointsPS.executeUpdate();
+
+                PreparedStatement changePointsPS = MyConnection.getConnection().prepareStatement("INSERT INTO PointChanges (PointChange, DriverID, SponsorID, CompanyID, Reason, PointChangeDate) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
+                changePointsPS.setInt(1, changeVal);
+                changePointsPS.setInt(2, driverIDInt);
+                changePointsPS.setInt(3, sponsorID);
+                changePointsPS.setInt(4, compID);
+                changePointsPS.setString(5, reasonVal);
+                changePointsPS.executeUpdate();
+                
+            }
+            catch(Exception e) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+            }
+            
+            reasonText.setText("");
+            pointChangeVal.setText("");
+            driverList.clearSelection();
+            populateDriverList();
+        }
+    }//GEN-LAST:event_submitPtChBtnActionPerformed
+
     //Helper Methods for getting and setting user information in the profile
     public void setSponsorName(String name) {
         jTextField1.setText(name);
@@ -1562,14 +1703,15 @@ public class SponsorGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel catalog;
     private javax.swing.JPanel catalogEditor;
+    private javax.swing.JList<String> driverList;
+    private javax.swing.JLabel driverListLabel;
+    private javax.swing.JScrollPane driverListScrollPane;
     private javax.swing.JPanel driverPoints;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
@@ -1593,7 +1735,6 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -1615,11 +1756,9 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
@@ -1630,6 +1769,11 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JLayeredPane layeredPane;
     private javax.swing.JPanel myAccount;
     private javax.swing.JPanel myApplication;
+    private javax.swing.JLabel pointChangeLabel;
+    private javax.swing.JTextField pointChangeVal;
+    private javax.swing.JLabel reasonLabel;
+    private javax.swing.JTextField reasonText;
     private javax.swing.JPanel reporting;
+    private javax.swing.JButton submitPtChBtn;
     // End of variables declaration//GEN-END:variables
 }
