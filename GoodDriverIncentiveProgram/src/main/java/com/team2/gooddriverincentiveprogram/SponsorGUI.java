@@ -86,6 +86,12 @@ public class SponsorGUI extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         myApplication = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
+        approveApplicationButton = new javax.swing.JButton();
+        declineApplicationButton = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        applicationTable = new javax.swing.JTable();
+        reasonTextField = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
         catalog = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -345,21 +351,98 @@ public class SponsorGUI extends javax.swing.JFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("My Application");
 
+        approveApplicationButton.setText("Approve");
+        approveApplicationButton.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                approveApplicationButtonAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        approveApplicationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                approveApplicationButtonActionPerformed(evt);
+            }
+        });
+
+        declineApplicationButton.setText("Decline");
+        declineApplicationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                declineApplicationButtonActionPerformed(evt);
+            }
+        });
+
+        applicationTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Application ID", "First Name", "Last Name", "Driver ID", "Company ID", "Date", "Status", "Reason"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(applicationTable);
+
+        reasonTextField.setText("jTextField6");
+
+        jLabel24.setText("Reason:");
+
         javax.swing.GroupLayout myApplicationLayout = new javax.swing.GroupLayout(myApplication);
         myApplication.setLayout(myApplicationLayout);
         myApplicationLayout.setHorizontalGroup(
             myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(myApplicationLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1062, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(myApplicationLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addGroup(myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(declineApplicationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(approveApplicationButton))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 682, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(myApplicationLayout.createSequentialGroup()
+                        .addComponent(jLabel24)
+                        .addGap(18, 18, 18)
+                        .addComponent(reasonTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         myApplicationLayout.setVerticalGroup(
             myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(myApplicationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
-                .addContainerGap(481, Short.MAX_VALUE))
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addGroup(myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel24)
+                    .addComponent(reasonTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addComponent(approveApplicationButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(declineApplicationButton)
+                .addContainerGap(113, Short.MAX_VALUE))
         );
 
         layeredPane.add(myApplication, "card3");
@@ -717,7 +800,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                                 .addGap(50, 50, 50)
                                 .addGroup(catalogEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane4)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(50, 50, 50))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, catalogEditorLayout.createSequentialGroup()
@@ -1563,6 +1646,47 @@ public class SponsorGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_submitPtChBtnActionPerformed
 
+    private void approveApplicationButtonAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_approveApplicationButtonAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_approveApplicationButtonAncestorAdded
+
+    private void approveApplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approveApplicationButtonActionPerformed
+        try {
+            int row = applicationTable.getSelectedRow();
+            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("UPDATE DriverApplications SET Reason=?, ApplicationStatus=? WHERE DriverApplicationID=?");
+            sponsorPS.setString(1, reasonTextField.getText());
+            sponsorPS.setString(2, "Approved");
+            sponsorPS.setInt(3, Integer.parseInt(applicationTable.getModel().getValueAt(row, 0).toString()));
+            sponsorPS.executeUpdate();
+            
+            PreparedStatement sponsorPS2 = MyConnection.getConnection().prepareStatement("INSERT INTO DriverPoints (DriverID, CompanyID, Points) VALUES (?, ?, 0)");
+            String driverID = applicationTable.getModel().getValueAt(row, 3).toString();
+            String companyID = applicationTable.getModel().getValueAt(row, 4).toString();
+            sponsorPS2.setString(1, driverID);
+            sponsorPS2.setString(2, companyID);
+            sponsorPS2.executeUpdate();
+        } catch(Exception e) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+    }//GEN-LAST:event_approveApplicationButtonActionPerformed
+
+    
+    private void declineApplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineApplicationButtonActionPerformed
+
+        try {
+            int row = applicationTable.getSelectedRow();
+            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("UPDATE DriverApplications SET Reason=?, ApplicationStatus=? WHERE DriverApplicationID=?");
+            sponsorPS.setString(1, reasonTextField.getText());
+            sponsorPS.setString(2, "Declined");
+            sponsorPS.setInt(3, Integer.parseInt(applicationTable.getModel().getValueAt(row, 0).toString()));
+            sponsorPS.executeUpdate();
+        } catch(Exception e) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+    }//GEN-LAST:event_declineApplicationButtonActionPerformed
+
     //Helper Methods for getting and setting user information in the profile
     public void setSponsorName(String name) {
         jTextField1.setText(name);
@@ -1628,7 +1752,30 @@ public class SponsorGUI extends javax.swing.JFrame {
         tcm.removeColumn(tcm.getColumn(3));
     }
     
+    public void setDriverApplicationTable() {
+        DefaultTableModel dtm = (DefaultTableModel) applicationTable.getModel();
+        if(dtm.getRowCount() > 0) {
+            for(int i = dtm.getRowCount()-1; i >= 0; i--) {
+                dtm.removeRow(i);
+            }
+        }
+        try {
+            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT Sponsor.CompanyID, DriverApplications.DriverApplicationID, Users.FirstName, Users.LastName, Driver.DriverID, DriverApplications.ApplicationDate, DriverApplications.ApplicationStatus, DriverApplications.Reason FROM DriverApplications join Sponsor on Sponsor.CompanyID=DriverApplications.CompanyID join Driver on Driver.DriverID=DriverApplications.DriverID join Users on Driver.UserID=Users.UserID where Sponsor.userID=?");
+            sponsorPS.setInt(1, this.getUserID());
+            ResultSet sponsorRS = sponsorPS.executeQuery();
+            while (sponsorRS.next()) {
+                Object[] rowData = {sponsorRS.getInt("DriverApplicationID"), sponsorRS.getString("FirstName"), sponsorRS.getString("LastName"), sponsorRS.getString("DriverID"), sponsorRS.getString("CompanyID"), sponsorRS.getDate("ApplicationDate"), sponsorRS.getString("ApplicationStatus"), sponsorRS.getString("Reason")};
+                dtm.addRow(rowData);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     public void updateCatalogItemTable() {
+        ArrayList<String> listDataArrayList = new ArrayList<String>();
         try {
             PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
             sponsorPS.setInt(1, this.getUserID());
@@ -1701,8 +1848,11 @@ public class SponsorGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable applicationTable;
+    private javax.swing.JButton approveApplicationButton;
     private javax.swing.JPanel catalog;
     private javax.swing.JPanel catalogEditor;
+    private javax.swing.JButton declineApplicationButton;
     private javax.swing.JList<String> driverList;
     private javax.swing.JLabel driverListLabel;
     private javax.swing.JScrollPane driverListScrollPane;
@@ -1742,6 +1892,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1758,6 +1909,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
@@ -1773,6 +1925,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JTextField pointChangeVal;
     private javax.swing.JLabel reasonLabel;
     private javax.swing.JTextField reasonText;
+    private javax.swing.JTextField reasonTextField;
     private javax.swing.JPanel reporting;
     private javax.swing.JButton submitPtChBtn;
     // End of variables declaration//GEN-END:variables

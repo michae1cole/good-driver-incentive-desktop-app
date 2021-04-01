@@ -100,6 +100,10 @@ public class DriverGUI extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
         jLabel13 = new javax.swing.JLabel();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        driverApplicationsTable = new javax.swing.JTable();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
         catalogPanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -411,6 +415,38 @@ public class DriverGUI extends javax.swing.JFrame {
 
         jLabel13.setText("Company:");
 
+        driverApplicationsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Company Name", "Application Date", "Application Status", "Reason"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane13.setViewportView(driverApplicationsTable);
+
+        jLabel26.setText("Open Applications");
+
+        jLabel27.setText("New Application:");
+
         javax.swing.GroupLayout applicationPanelLayout = new javax.swing.GroupLayout(applicationPanel);
         applicationPanel.setLayout(applicationPanelLayout);
         applicationPanelLayout.setHorizontalGroup(
@@ -418,33 +454,50 @@ public class DriverGUI extends javax.swing.JFrame {
             .addGroup(applicationPanelLayout.createSequentialGroup()
                 .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(applicationPanelLayout.createSequentialGroup()
-                        .addGap(437, 437, 437)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(98, 98, 98)
+                        .addComponent(jLabel27))
                     .addGroup(applicationPanelLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel13)
-                        .addGap(27, 27, 27)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(applicationPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(219, Short.MAX_VALUE))
+                        .addGap(53, 53, 53)
+                        .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(applicationPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, applicationPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(145, 145, 145))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, applicationPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel26)
+                        .addGap(314, 314, 314))))
+            .addGroup(applicationPanelLayout.createSequentialGroup()
+                .addGap(437, 437, 437)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         applicationPanelLayout.setVerticalGroup(
             applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(applicationPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addGap(29, 29, 29)
+                .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel26)
+                    .addComponent(jLabel27))
                 .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(applicationPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel6)
-                        .addGap(3, 3, 3)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(applicationPanelLayout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(jLabel13)
-                        .addGap(184, 184, 184)
+                        .addGap(32, 32, 32)
+                        .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         jLayeredPane1.add(applicationPanel, "card3");
@@ -1109,7 +1162,7 @@ public class DriverGUI extends javax.swing.JFrame {
                     .addComponent(catalogCartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(315, 315, 315)
                 .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(mainPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -2040,6 +2093,28 @@ public class DriverGUI extends javax.swing.JFrame {
         return currentCatalogSponsor;
     }
     
+    public void setApplicationTable() {
+        DefaultTableModel dtm = (DefaultTableModel) driverApplicationsTable.getModel();
+        if(dtm.getRowCount() > 0) {
+            for(int i = dtm.getRowCount()-1; i >= 0; i--) {
+                dtm.removeRow(i);
+            }
+        }
+        try {
+            PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT Company.CompanyName, DriverApplications.ApplicationDate, DriverApplications.ApplicationStatus, DriverApplications.Reason FROM DriverApplications join Driver on Driver.DriverID = DriverApplications.DriverID join Company on Company.CompanyID = DriverApplications.CompanyID where UserID=?");
+            driverPS.setInt(1, this.getUserID());
+            ResultSet driverRS = driverPS.executeQuery();
+            while (driverRS.next()) {
+                Object[] rowData = {driverRS.getString("CompanyName"), driverRS.getDate("ApplicationDate"), driverRS.getString("ApplicationStatus"), driverRS.getString("Reason")};
+                dtm.addRow(rowData);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     //Helper method to populate the potential company list for drivers to send applications
     public void setApplicationCompanyList(int userID) {
         ArrayList<String> listDataArrayList = new ArrayList<String>();
@@ -2725,6 +2800,7 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JButton catalogCartButton;
     private javax.swing.JPanel catalogCartPanel;
     private javax.swing.JPanel catalogPanel;
+    private javax.swing.JTable driverApplicationsTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -2757,6 +2833,8 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
@@ -2786,6 +2864,7 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;

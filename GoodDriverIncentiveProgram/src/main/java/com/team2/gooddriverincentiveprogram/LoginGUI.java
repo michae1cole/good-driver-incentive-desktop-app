@@ -272,6 +272,7 @@ public class LoginGUI extends javax.swing.JFrame {
                             driverGUI.formatCartItemTable();
                             driverGUI.setSponsorCatalogList(loginRS.getInt("UserID"));
                             driverGUI.setApplicationCompanyList(loginRS.getInt("UserID"));
+                            driverGUI.setApplicationTable();
                             try {
                                 PreparedStatement driverSelectPS;
                                 ResultSet driverSelectRS;
@@ -300,6 +301,7 @@ public class LoginGUI extends javax.swing.JFrame {
                             String preferredName = loginRS.getString("PreferredName");
                             sponsorGUI.setSponsorPreferredName(preferredName);
                             sponsorGUI.setSponsorPassword(pass);
+                            sponsorGUI.setDriverApplicationTable();
                             //Default ratio
                             int pointToDollarRatio = 100;
                             //Query database for company's point to dollar conversion ratio
