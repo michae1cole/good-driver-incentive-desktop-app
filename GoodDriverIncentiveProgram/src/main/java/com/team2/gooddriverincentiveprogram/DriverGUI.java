@@ -96,14 +96,13 @@ public class DriverGUI extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         applicationPanel = new javax.swing.JPanel();
         jButton10 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane13 = new javax.swing.JScrollPane();
         driverApplicationsTable = new javax.swing.JTable();
         jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
         catalogPanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -394,7 +393,7 @@ public class DriverGUI extends javax.swing.JFrame {
 
         applicationPanel.setBackground(new java.awt.Color(192, 192, 192));
 
-        jButton10.setText("Submit");
+        jButton10.setText("Submit Application");
         jButton10.setBorder(null);
         jButton10.setBorderPainted(false);
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -403,17 +402,12 @@ public class DriverGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 18)); // NOI18N
-        jLabel6.setText("Driver Application Form");
-
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        jList2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane5.setViewportView(jList2);
 
-        jLabel13.setText("Company:");
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Choose Application Sponsor");
 
         driverApplicationsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -443,61 +437,49 @@ public class DriverGUI extends javax.swing.JFrame {
         });
         jScrollPane13.setViewportView(driverApplicationsTable);
 
-        jLabel26.setText("Open Applications");
+        jLabel26.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel26.setText("Previous Applications");
 
-        jLabel27.setText("New Application:");
+        jLabel28.setFont(new java.awt.Font("Lucida Grande", 0, 26)); // NOI18N
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("My Applications");
 
         javax.swing.GroupLayout applicationPanelLayout = new javax.swing.GroupLayout(applicationPanel);
         applicationPanel.setLayout(applicationPanelLayout);
         applicationPanelLayout.setHorizontalGroup(
             applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, applicationPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(applicationPanelLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
                 .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(applicationPanelLayout.createSequentialGroup()
-                        .addGap(98, 98, 98)
-                        .addComponent(jLabel27))
-                    .addGroup(applicationPanelLayout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(applicationPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-                .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, applicationPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(145, 145, 145))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, applicationPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel26)
-                        .addGap(314, 314, 314))))
-            .addGroup(applicationPanelLayout.createSequentialGroup()
-                .addGap(437, 437, 437)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 811, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 811, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButton10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addGap(0, 51, Short.MAX_VALUE))
         );
         applicationPanelLayout.setVerticalGroup(
             applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(applicationPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6)
-                .addGap(29, 29, 29)
-                .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel26)
-                    .addComponent(jLabel27))
-                .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(applicationPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(applicationPanelLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(applicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addComponent(jLabel28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jLayeredPane1.add(applicationPanel, "card3");
@@ -1162,7 +1144,7 @@ public class DriverGUI extends javax.swing.JFrame {
                     .addComponent(catalogCartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(315, 315, 315)
                 .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
             .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(mainPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -1312,6 +1294,7 @@ public class DriverGUI extends javax.swing.JFrame {
                     submitApplicationPS.setInt(2, driverID);
                     submitApplicationPS.executeUpdate();
                     setApplicationCompanyList(userID);
+                    setApplicationTable();
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "You must make a company selection.");
@@ -1338,12 +1321,19 @@ public class DriverGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_catalogButtonActionPerformed
 
     private void purchasesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchasesButtonActionPerformed
-        // TODO add your handling code here:
-        switchPanels(purchasesPanel);
+        if(hasSponsor()) {
+            switchPanels(purchasesPanel);
+        } else {
+            JOptionPane.showMessageDialog(null, "You must be working for a sponsor to view your purchases.");
+        }
     }//GEN-LAST:event_purchasesButtonActionPerformed
 
     private void myPointsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myPointsButtonActionPerformed
-        switchPanels(pointsPanel);
+        if(hasSponsor()) {
+            switchPanels(pointsPanel);
+        } else {
+            JOptionPane.showMessageDialog(null, "You must be working for a sponsor to view your points.");
+        }
     }//GEN-LAST:event_myPointsButtonActionPerformed
 
     //Name Update Button
@@ -2834,7 +2824,7 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
@@ -2844,7 +2834,6 @@ public class DriverGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

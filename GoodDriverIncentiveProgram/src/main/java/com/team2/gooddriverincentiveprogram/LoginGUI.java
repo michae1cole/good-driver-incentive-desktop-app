@@ -203,7 +203,7 @@ public class LoginGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         CreateAccount createAccountFrame = new CreateAccount();
         createAccountFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        createAccountFrame.setTitle("Good Driver Incentive Program - Create Account");
+        createAccountFrame.setTitle("Good Driver Incentive Program - Create Driver Account");
         createAccountFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -294,6 +294,7 @@ public class LoginGUI extends javax.swing.JFrame {
                             SponsorGUI sponsorGUI = new SponsorGUI();
                             sponsorGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                             sponsorGUI.setTitle("Good Driver Incentive Program - Sponsor");
+                            sponsorGUI.setLoggingIn(true);
                             sponsorGUI.setUserID(loginRS.getInt("UserID"));
                             String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
                             sponsorGUI.setSponsorName(fullName);
@@ -301,6 +302,7 @@ public class LoginGUI extends javax.swing.JFrame {
                             String preferredName = loginRS.getString("PreferredName");
                             sponsorGUI.setSponsorPreferredName(preferredName);
                             sponsorGUI.setSponsorPassword(pass);
+                            sponsorGUI.formatApplicationTable();
                             sponsorGUI.setDriverApplicationTable();
                             //Default ratio
                             int pointToDollarRatio = 100;
@@ -316,10 +318,13 @@ public class LoginGUI extends javax.swing.JFrame {
                                 if(pointToDollarConversionRS.next()) {
                                     pointToDollarRatio = pointToDollarConversionRS.getInt("PointToDollar");
                                 }
+                                sponsorGUI.showCatalogItems(companyID);
                             }
                             sponsorGUI.setCompanyPointToDollarRatio(String.valueOf(pointToDollarRatio));
                             sponsorGUI.formatCatalogItemTables();
                             sponsorGUI.updateCatalogItemTable();
+                            sponsorGUI.setCompanyDriverList(loginRS.getInt("UserID"));
+                            sponsorGUI.setLoggingIn(false);
                             sponsorGUI.setVisible(true);
                         //User is an admin
                         } else if(userType.equals("A")) {

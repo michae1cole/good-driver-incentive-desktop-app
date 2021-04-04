@@ -15,7 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,6 +50,11 @@ public class SponsorGUI extends javax.swing.JFrame {
     private String lastImageURL;
     private Boolean searchTableSelected = false;
     private Boolean catalogTableSelected = false;
+    private int currentCatalogDriverSelected = 0;
+    private Deque<CatalogItem> previousQueue;
+    private Deque<CatalogItem> nextQueue;
+    private Boolean hasDrivers;
+    private Boolean loggingIn;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,7 +73,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         jButton23 = new javax.swing.JButton();
         jButton28 = new javax.swing.JButton();
         jButton29 = new javax.swing.JButton();
-        jButton30 = new javax.swing.JButton();
+        CreateDriverButton = new javax.swing.JButton();
         layeredPane = new javax.swing.JLayeredPane();
         myAccount = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -93,23 +100,41 @@ public class SponsorGUI extends javax.swing.JFrame {
         reasonTextField = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
         catalog = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jButton10 = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jButton11 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jButton12 = new javax.swing.JButton();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jButton13 = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
+        CatalogTitleLabel = new javax.swing.JLabel();
+        CatalogItemPanel = new javax.swing.JPanel();
+        FirstCatalogItemPanel = new javax.swing.JPanel();
+        FirstItemPointCostLabel = new javax.swing.JLabel();
+        FirstItemBuyButton = new javax.swing.JButton();
+        FirstItemImageLabel = new javax.swing.JLabel();
+        FirstItemTitleScrollPane = new javax.swing.JScrollPane();
+        FirstItemTitleTextArea = new javax.swing.JTextArea();
+        FirstItemImageURLLabel = new javax.swing.JLabel();
+        SecondCatalogItemPanel = new javax.swing.JPanel();
+        SecondItemPointCostLabel = new javax.swing.JLabel();
+        SecondItemBuyButton = new javax.swing.JButton();
+        SecondItemImageLabel = new javax.swing.JLabel();
+        SecondItemTitleScrollPane = new javax.swing.JScrollPane();
+        SecondItemTitleTextArea = new javax.swing.JTextArea();
+        SecondItemImageURLLabel = new javax.swing.JLabel();
+        ThirdCatalogItemPanel = new javax.swing.JPanel();
+        ThirdItemPointCostLabel = new javax.swing.JLabel();
+        ThirdItemBuyButton = new javax.swing.JButton();
+        ThirdItemImageLabel = new javax.swing.JLabel();
+        ThirdItemTitleScrollPane = new javax.swing.JScrollPane();
+        ThirdItemTitleTextArea = new javax.swing.JTextArea();
+        ThirdItemImageURLLabel = new javax.swing.JLabel();
+        FourthCatalogItemPanel = new javax.swing.JPanel();
+        FourthItemPointCostLabel = new javax.swing.JLabel();
+        FourthItemBuyButton = new javax.swing.JButton();
+        FourthItemImageLabel = new javax.swing.JLabel();
+        FourthItemTitleScrollPane = new javax.swing.JScrollPane();
+        FourthItemTitleTextArea = new javax.swing.JTextArea();
+        FourthItemImageURLLabel = new javax.swing.JLabel();
+        PreviousCatalogButton = new javax.swing.JButton();
+        NextCatalogButton = new javax.swing.JButton();
+        DriverUserCatalogScrollPane = new javax.swing.JScrollPane();
+        DriverUserCatalogList = new javax.swing.JList<>();
+        ChangeDriverCatalogLabel = new javax.swing.JLabel();
         catalogEditor = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
@@ -157,7 +182,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             }
         });
 
-        jButton8.setText("My Application");
+        jButton8.setText("Driver Applications");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
@@ -192,10 +217,10 @@ public class SponsorGUI extends javax.swing.JFrame {
             }
         });
 
-        jButton30.setText("Delete Account");
-        jButton30.addActionListener(new java.awt.event.ActionListener() {
+        CreateDriverButton.setText("Create Driver");
+        CreateDriverButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton30ActionPerformed(evt);
+                CreateDriverButtonActionPerformed(evt);
             }
         });
 
@@ -309,7 +334,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                                 .addComponent(jButton25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jButton27))))
-                .addContainerGap(406, Short.MAX_VALUE))
+                .addContainerGap(516, Short.MAX_VALUE))
         );
         myAccountLayout.setVerticalGroup(
             myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,7 +374,7 @@ public class SponsorGUI extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 26)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("My Application");
+        jLabel7.setText("Driver Applications");
 
         approveApplicationButton.setText("Approve");
         approveApplicationButton.addAncestorListener(new javax.swing.event.AncestorListener() {
@@ -376,20 +401,20 @@ public class SponsorGUI extends javax.swing.JFrame {
 
         applicationTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Application ID", "First Name", "Last Name", "Driver ID", "Company ID", "Date", "Status", "Reason"
+                "Application ID", "First Name", "Last Name", "Username", "Status", "Reason", "Date"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -402,8 +427,9 @@ public class SponsorGUI extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(applicationTable);
 
-        reasonTextField.setText("jTextField6");
+        reasonTextField.setToolTipText("");
 
+        jLabel24.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel24.setText("Reason:");
 
         javax.swing.GroupLayout myApplicationLayout = new javax.swing.GroupLayout(myApplication);
@@ -411,143 +437,338 @@ public class SponsorGUI extends javax.swing.JFrame {
         myApplicationLayout.setHorizontalGroup(
             myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(myApplicationLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1062, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(myApplicationLayout.createSequentialGroup()
-                .addGap(49, 49, 49)
                 .addGroup(myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(declineApplicationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(approveApplicationButton))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 682, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(myApplicationLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(myApplicationLayout.createSequentialGroup()
+                        .addGap(368, 368, 368)
                         .addComponent(jLabel24)
-                        .addGap(18, 18, 18)
-                        .addComponent(reasonTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(reasonTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, myApplicationLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(approveApplicationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(declineApplicationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(478, 478, 478))
+            .addGroup(myApplicationLayout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1055, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         myApplicationLayout.setVerticalGroup(
             myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(myApplicationLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(33, 33, 33)
                 .addComponent(jLabel7)
-                .addGap(17, 17, 17)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 33, Short.MAX_VALUE)
                 .addGroup(myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
-                    .addComponent(reasonTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addComponent(approveApplicationButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(declineApplicationButton)
-                .addContainerGap(113, Short.MAX_VALUE))
+                    .addComponent(reasonTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
+                .addGroup(myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(declineApplicationButton)
+                    .addComponent(approveApplicationButton))
+                .addGap(67, 67, 67))
         );
 
         layeredPane.add(myApplication, "card3");
 
         catalog.setBackground(new java.awt.Color(191, 192, 192));
 
-        jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 26)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Catalog");
+        CatalogTitleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 26)); // NOI18N
+        CatalogTitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        CatalogTitleLabel.setText("Catalog");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 109, Short.MAX_VALUE)
-        );
+        CatalogItemPanel.setMinimumSize(new java.awt.Dimension(833, 307));
 
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("description");
+        FirstItemPointCostLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        FirstItemPointCostLabel.setText("Point Price");
 
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("price");
-
-        jButton10.setText("Buy");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        FirstItemBuyButton.setText("Buy for Driver");
+        FirstItemBuyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                FirstItemBuyButtonActionPerformed(evt);
             }
         });
 
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("description");
+        FirstItemTitleTextArea.setColumns(20);
+        FirstItemTitleTextArea.setRows(5);
+        FirstItemTitleScrollPane.setViewportView(FirstItemTitleTextArea);
 
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("price");
+        FirstItemImageURLLabel.setText("ImageURL");
 
-        jButton11.setText("Buy");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        javax.swing.GroupLayout FirstCatalogItemPanelLayout = new javax.swing.GroupLayout(FirstCatalogItemPanel);
+        FirstCatalogItemPanel.setLayout(FirstCatalogItemPanelLayout);
+        FirstCatalogItemPanelLayout.setHorizontalGroup(
+            FirstCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FirstCatalogItemPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(FirstCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(FirstItemBuyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(FirstItemPointCostLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(FirstCatalogItemPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(FirstItemTitleScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(180, 180, 180))
+            .addGroup(FirstCatalogItemPanelLayout.createSequentialGroup()
+                .addGroup(FirstCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(FirstCatalogItemPanelLayout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(FirstItemImageURLLabel))
+                    .addGroup(FirstCatalogItemPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(FirstItemImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        FirstCatalogItemPanelLayout.setVerticalGroup(
+            FirstCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FirstCatalogItemPanelLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(FirstItemImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(FirstItemTitleScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(FirstItemPointCostLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(FirstItemBuyButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(FirstItemImageURLLabel)
+                .addContainerGap())
+        );
+
+        SecondItemPointCostLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        SecondItemPointCostLabel.setText("Point Price");
+
+        SecondItemBuyButton.setText("Buy for Driver");
+        SecondItemBuyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                SecondItemBuyButtonActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        SecondItemTitleTextArea.setColumns(20);
+        SecondItemTitleTextArea.setRows(5);
+        SecondItemTitleScrollPane.setViewportView(SecondItemTitleTextArea);
+
+        SecondItemImageURLLabel.setText("ImageURL");
+
+        javax.swing.GroupLayout SecondCatalogItemPanelLayout = new javax.swing.GroupLayout(SecondCatalogItemPanel);
+        SecondCatalogItemPanel.setLayout(SecondCatalogItemPanelLayout);
+        SecondCatalogItemPanelLayout.setHorizontalGroup(
+            SecondCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SecondCatalogItemPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(SecondCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(SecondCatalogItemPanelLayout.createSequentialGroup()
+                        .addComponent(SecondItemImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(SecondCatalogItemPanelLayout.createSequentialGroup()
+                        .addGroup(SecondCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(SecondItemBuyButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(SecondItemTitleScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(SecondItemPointCostLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(SecondCatalogItemPanelLayout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(SecondItemImageURLLabel)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 109, Short.MAX_VALUE)
+        SecondCatalogItemPanelLayout.setVerticalGroup(
+            SecondCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SecondCatalogItemPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(SecondItemImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SecondItemTitleScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(SecondItemPointCostLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(SecondItemBuyButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SecondItemImageURLLabel)
+                .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 109, Short.MAX_VALUE)
-        );
+        ThirdItemPointCostLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ThirdItemPointCostLabel.setText("Point Price");
 
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("description");
-
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("price");
-
-        jButton12.setText("Buy");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
+        ThirdItemBuyButton.setText("Buy for Driver");
+        ThirdItemBuyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
+                ThirdItemBuyButtonActionPerformed(evt);
             }
         });
 
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("description");
+        ThirdItemTitleTextArea.setColumns(20);
+        ThirdItemTitleTextArea.setRows(5);
+        ThirdItemTitleScrollPane.setViewportView(ThirdItemTitleTextArea);
 
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("price");
+        ThirdItemImageURLLabel.setText("ImageURL");
 
-        jButton13.setText("Buy");
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
+        javax.swing.GroupLayout ThirdCatalogItemPanelLayout = new javax.swing.GroupLayout(ThirdCatalogItemPanel);
+        ThirdCatalogItemPanel.setLayout(ThirdCatalogItemPanelLayout);
+        ThirdCatalogItemPanelLayout.setHorizontalGroup(
+            ThirdCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ThirdCatalogItemPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ThirdCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ThirdCatalogItemPanelLayout.createSequentialGroup()
+                        .addGroup(ThirdCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ThirdItemImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ThirdItemTitleScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThirdCatalogItemPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(ThirdCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThirdCatalogItemPanelLayout.createSequentialGroup()
+                                .addComponent(ThirdItemImageURLLabel)
+                                .addGap(69, 69, 69))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThirdCatalogItemPanelLayout.createSequentialGroup()
+                                .addComponent(ThirdItemPointCostLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThirdCatalogItemPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ThirdItemBuyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        ThirdCatalogItemPanelLayout.setVerticalGroup(
+            ThirdCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ThirdCatalogItemPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(ThirdItemImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ThirdItemTitleScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ThirdItemPointCostLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ThirdItemBuyButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ThirdItemImageURLLabel)
+                .addContainerGap())
+        );
+
+        FourthItemPointCostLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        FourthItemPointCostLabel.setText("Point Price");
+
+        FourthItemBuyButton.setText("Buy for Driver");
+        FourthItemBuyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
+                FourthItemBuyButtonActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        FourthItemTitleTextArea.setColumns(20);
+        FourthItemTitleTextArea.setRows(5);
+        FourthItemTitleScrollPane.setViewportView(FourthItemTitleTextArea);
+
+        FourthItemImageURLLabel.setText("ImageURL");
+
+        javax.swing.GroupLayout FourthCatalogItemPanelLayout = new javax.swing.GroupLayout(FourthCatalogItemPanel);
+        FourthCatalogItemPanel.setLayout(FourthCatalogItemPanelLayout);
+        FourthCatalogItemPanelLayout.setHorizontalGroup(
+            FourthCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FourthCatalogItemPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(FourthCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(FourthCatalogItemPanelLayout.createSequentialGroup()
+                        .addComponent(FourthItemImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(FourthCatalogItemPanelLayout.createSequentialGroup()
+                        .addGroup(FourthCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(FourthItemPointCostLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(FourthItemTitleScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FourthCatalogItemPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(FourthCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FourthCatalogItemPanelLayout.createSequentialGroup()
+                                .addComponent(FourthItemImageURLLabel)
+                                .addGap(69, 69, 69))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FourthCatalogItemPanelLayout.createSequentialGroup()
+                                .addComponent(FourthItemBuyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 109, Short.MAX_VALUE)
+        FourthCatalogItemPanelLayout.setVerticalGroup(
+            FourthCatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FourthCatalogItemPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(FourthItemImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(FourthItemTitleScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(FourthItemPointCostLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(FourthItemBuyButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(FourthItemImageURLLabel)
+                .addContainerGap())
         );
+
+        javax.swing.GroupLayout CatalogItemPanelLayout = new javax.swing.GroupLayout(CatalogItemPanel);
+        CatalogItemPanel.setLayout(CatalogItemPanelLayout);
+        CatalogItemPanelLayout.setHorizontalGroup(
+            CatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CatalogItemPanelLayout.createSequentialGroup()
+                .addGap(425, 425, 425)
+                .addComponent(ThirdCatalogItemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(FourthCatalogItemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(CatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(CatalogItemPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(FirstCatalogItemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(SecondCatalogItemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(425, Short.MAX_VALUE)))
+        );
+        CatalogItemPanelLayout.setVerticalGroup(
+            CatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CatalogItemPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(CatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(FourthCatalogItemPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ThirdCatalogItemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(CatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(CatalogItemPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(CatalogItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(FirstCatalogItemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(SecondCatalogItemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+
+        PreviousCatalogButton.setText("Previous");
+        PreviousCatalogButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PreviousCatalogButtonActionPerformed(evt);
+            }
+        });
+
+        NextCatalogButton.setText("Next");
+        NextCatalogButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextCatalogButtonActionPerformed(evt);
+            }
+        });
+
+        DriverUserCatalogList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        DriverUserCatalogList.setToolTipText("");
+        DriverUserCatalogList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                DriverUserCatalogListValueChanged(evt);
+            }
+        });
+        DriverUserCatalogScrollPane.setViewportView(DriverUserCatalogList);
+
+        ChangeDriverCatalogLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        ChangeDriverCatalogLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChangeDriverCatalogLabel.setText("Change Driver");
 
         javax.swing.GroupLayout catalogLayout = new javax.swing.GroupLayout(catalog);
         catalog.setLayout(catalogLayout);
@@ -555,83 +776,37 @@ public class SponsorGUI extends javax.swing.JFrame {
             catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(catalogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE)
+                .addComponent(CatalogTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1128, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(catalogLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                    .addGroup(catalogLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addGap(53, 53, 53)
-                .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(catalogLayout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(59, 59, 59)
-                .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(catalogLayout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(catalogLayout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(60, 60, 60))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, catalogLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ChangeDriverCatalogLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DriverUserCatalogScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(CatalogItemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(catalogLayout.createSequentialGroup()
+                            .addComponent(PreviousCatalogButton)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(NextCatalogButton))))
+                .addGap(159, 159, 159))
         );
         catalogLayout.setVerticalGroup(
             catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(catalogLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(catalogLayout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(catalogLayout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(catalogLayout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(catalogLayout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(288, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addComponent(CatalogTitleLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ChangeDriverCatalogLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(DriverUserCatalogScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CatalogItemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PreviousCatalogButton)
+                    .addComponent(NextCatalogButton))
+                .addGap(38, 38, 38))
         );
 
         layeredPane.add(catalog, "card4");
@@ -873,11 +1048,11 @@ public class SponsorGUI extends javax.swing.JFrame {
         reporting.setLayout(reportingLayout);
         reportingLayout.setHorizontalGroup(
             reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1042, Short.MAX_VALUE)
+            .addGap(0, 1148, Short.MAX_VALUE)
         );
         reportingLayout.setVerticalGroup(
             reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 526, Short.MAX_VALUE)
+            .addGap(0, 541, Short.MAX_VALUE)
         );
 
         layeredPane.add(reporting, "card6");
@@ -911,7 +1086,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             .addGroup(driverPointsLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(driverListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1006, Short.MAX_VALUE)
+                    .addComponent(driverListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1109, Short.MAX_VALUE)
                     .addGroup(driverPointsLayout.createSequentialGroup()
                         .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pointChangeLabel)
@@ -937,7 +1112,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(reasonLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(reasonText, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                .addComponent(reasonText, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(submitPtChBtn)
                 .addGap(35, 35, 35))
@@ -964,12 +1139,11 @@ public class SponsorGUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 438, Short.MAX_VALUE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CreateDriverButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 389, Short.MAX_VALUE)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -985,14 +1159,14 @@ public class SponsorGUI extends javax.swing.JFrame {
                     .addComponent(jButton9)
                     .addComponent(jButton8)
                     .addComponent(jButton6)
-                    .addComponent(jButton29))
+                    .addComponent(jButton29)
+                    .addComponent(CreateDriverButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton23)
                     .addComponent(jButton7)
-                    .addComponent(jButton28)
-                    .addComponent(jButton30))
-                .addContainerGap(555, Short.MAX_VALUE))
+                    .addComponent(jButton28))
+                .addContainerGap(564, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addContainerGap(81, Short.MAX_VALUE)
@@ -1021,10 +1195,8 @@ public class SponsorGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //Populate the driver list on driver points panel
-    //MAYBE ADD EMAIL TO LIST ITEM
     private void populateDriverList(){
         ArrayList<String> listDataArrayList = new ArrayList<>();
-//        Set<Integer> driverIDList = new HashSet<>();
         ArrayList<Integer> driverIDList = new ArrayList<>();
         Set<Integer> userIDList = new HashSet<>();
         ArrayList<Integer> driverPointList = new ArrayList<>();
@@ -1070,7 +1242,8 @@ public class SponsorGUI extends javax.swing.JFrame {
                 while(driverNamebyID.next()){
                    String fName = driverNamebyID.getString("FirstName");
                    String lName = driverNamebyID.getString("LastName");
-                   String fullName = fName + " " + lName;
+                   String username = driverNamebyID.getString("Username");
+                   String fullName = fName + " " + lName + " (" + username + ")";
                    String listItems = driverIDList.get(i) + ": " + fullName + ": " + driverPointList.get(i);
                    listDataArrayList.add(listItems);
                 }
@@ -1113,10 +1286,6 @@ public class SponsorGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         switchPanels(reporting);
     }//GEN-LAST:event_jButton29ActionPerformed
-
-    private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton30ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -1206,22 +1375,6 @@ public class SponsorGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         switchPanels(catalog);
     }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
-
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton12ActionPerformed
-
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton13ActionPerformed
 
     //Name Update Button
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
@@ -1593,7 +1746,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         
         //Check if driver list selection is empty, stop if so
         //Check if reason text field is empty, stop if so
-        if(selectedVal.equals("") || reasonVal.equals("")){
+        if(selectedVal == null || reasonVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please make sure a driver is selected and a reason has been provided!");
         }
         else{
@@ -1602,13 +1755,10 @@ public class SponsorGUI extends javax.swing.JFrame {
             String selectedDrvrID = vals[0];
             String selectedName = vals[1];
             String selectedPts = vals[2];
-//            int pointsVal = Integer.parseInt(selectedPts);
             int driverIDInt = Integer.parseInt(selectedDrvrID);
-//            pointsVal += changeVal;
             
             try{
                 //Insert updated point value for specified driver with reason
-                //FIXME ADD INTO QUERY TO GET SPONSOR ID
                 int compID = 0;
                 int sponsorID = 0;
                 PreparedStatement getUserPS = MyConnection.getConnection().prepareStatement("SELECT CompanyID, SponsorID FROM Sponsor WHERE UserID=?");
@@ -1618,13 +1768,6 @@ public class SponsorGUI extends javax.swing.JFrame {
                     compID = sponsorRS.getInt("CompanyID");
                     sponsorID = sponsorRS.getInt("SponsorID");
                 }
-                
-//                PreparedStatement updatePointsPS = MyConnection.getConnection().prepareStatement("UPDATE DriverPoints SET Points=? WHERE DriverID=? AND CompanyID=?");
-//                updatePointsPS.setInt(1, pointsVal);
-//                updatePointsPS.setInt(1, changeVal);
-//                updatePointsPS.setInt(2, driverIDInt);
-//                updatePointsPS.setInt(3, compID);
-//                updatePointsPS.executeUpdate();
 
                 PreparedStatement changePointsPS = MyConnection.getConnection().prepareStatement("INSERT INTO PointChanges (PointChange, DriverID, SponsorID, CompanyID, Reason, PointChangeDate) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
                 changePointsPS.setInt(1, changeVal);
@@ -1652,19 +1795,32 @@ public class SponsorGUI extends javax.swing.JFrame {
 
     private void approveApplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approveApplicationButtonActionPerformed
         try {
-            int row = applicationTable.getSelectedRow();
-            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("UPDATE DriverApplications SET Reason=?, ApplicationStatus=? WHERE DriverApplicationID=?");
-            sponsorPS.setString(1, reasonTextField.getText());
-            sponsorPS.setString(2, "Approved");
-            sponsorPS.setInt(3, Integer.parseInt(applicationTable.getModel().getValueAt(row, 0).toString()));
-            sponsorPS.executeUpdate();
-            
-            PreparedStatement sponsorPS2 = MyConnection.getConnection().prepareStatement("INSERT INTO DriverPoints (DriverID, CompanyID, Points) VALUES (?, ?, 0)");
-            String driverID = applicationTable.getModel().getValueAt(row, 3).toString();
-            String companyID = applicationTable.getModel().getValueAt(row, 4).toString();
-            sponsorPS2.setString(1, driverID);
-            sponsorPS2.setString(2, companyID);
-            sponsorPS2.executeUpdate();
+            if(applicationTable.getSelectedRow() != -1 && !reasonTextField.getText().equals("")) {
+                int row = applicationTable.getSelectedRow();
+                if(applicationTable.getModel().getValueAt(row, 4).equals("Pending")) {
+                    PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("UPDATE DriverApplications SET Reason=?, ApplicationStatus=? WHERE DriverApplicationID=?");
+                    sponsorPS.setString(1, reasonTextField.getText());
+                    sponsorPS.setString(2, "Approved");
+                    sponsorPS.setInt(3, Integer.parseInt(applicationTable.getModel().getValueAt(row, 0).toString()));
+                    sponsorPS.executeUpdate();
+
+                    PreparedStatement sponsorPS2 = MyConnection.getConnection().prepareStatement("INSERT INTO DriverPoints (DriverID, CompanyID, Points) VALUES (?, ?, 0)");
+                    PreparedStatement applicationPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverApplications WHERE DriverApplicationID=?");
+                    applicationPS.setInt(1, Integer.parseInt(applicationTable.getModel().getValueAt(row, 0).toString()));
+                    ResultSet applicationRS = applicationPS.executeQuery();
+                    if(applicationRS.next()) {
+                        sponsorPS2.setInt(1, applicationRS.getInt("DriverID"));
+                        sponsorPS2.setInt(2, applicationRS.getInt("CompanyID"));
+                        sponsorPS2.executeUpdate();
+                        setDriverApplicationTable();
+                        reasonTextField.setText("");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "This application has already been accepted or denied.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please make sure an application is accepted and a reason is given.");
+            }
         } catch(Exception e) {
             Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -1673,20 +1829,978 @@ public class SponsorGUI extends javax.swing.JFrame {
 
     
     private void declineApplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineApplicationButtonActionPerformed
-
         try {
-            int row = applicationTable.getSelectedRow();
-            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("UPDATE DriverApplications SET Reason=?, ApplicationStatus=? WHERE DriverApplicationID=?");
-            sponsorPS.setString(1, reasonTextField.getText());
-            sponsorPS.setString(2, "Declined");
-            sponsorPS.setInt(3, Integer.parseInt(applicationTable.getModel().getValueAt(row, 0).toString()));
-            sponsorPS.executeUpdate();
+            if(applicationTable.getSelectedRow() != -1 && !reasonTextField.getText().equals("")) {
+                int row = applicationTable.getSelectedRow();
+                if(applicationTable.getModel().getValueAt(row, 4).equals("Pending")) {
+                    PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("UPDATE DriverApplications SET Reason=?, ApplicationStatus=? WHERE DriverApplicationID=?");
+                    sponsorPS.setString(1, reasonTextField.getText());
+                    sponsorPS.setString(2, "Declined");
+                    sponsorPS.setInt(3, Integer.parseInt(applicationTable.getModel().getValueAt(row, 0).toString()));
+                    sponsorPS.executeUpdate();
+                    setDriverApplicationTable();
+                    reasonTextField.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(null, "This application has already been accepted or denied.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please make sure an application is accepted and a reason is given.");
+            }
         } catch(Exception e) {
             Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
 
     }//GEN-LAST:event_declineApplicationButtonActionPerformed
 
+    private void CreateDriverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateDriverButtonActionPerformed
+        CreateAccount createAccountFrame = new CreateAccount();
+        createAccountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        createAccountFrame.setTitle("Good Driver Incentive Program - Create Driver Account");
+        createAccountFrame.setVisible(true);
+    }//GEN-LAST:event_CreateDriverButtonActionPerformed
+
+    private void FirstItemBuyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FirstItemBuyButtonActionPerformed
+        try {
+            if(currentCatalogDriverSelected != 0) {  
+                //Get item information
+                String title = FirstItemTitleTextArea.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                //Get driver information
+                int driverID = getCurrentCatalogDriver();
+                //Check if item is available
+                PreparedStatement listingPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE ItemID=?");
+                listingPS.setInt(1, itemID);
+                ResultSet listingRS = listingPS.executeQuery();
+                if(listingRS.next()) {
+                    int listingID = listingRS.getInt("ListingID");
+                    //Query Etsy to make sure listing is still active (not sold out)
+                    String etsyQuery = "https://openapi.etsy.com/v2/listings/" + listingID + "?api_key=pzm9kr33wye2gmv9fy2h4g64";
+                    //Send the request to etsy for listing results back
+                    HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(etsyQuery))
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+                    HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+                    JSONObject jsonResponse = new JSONObject(response.body());
+                    //Tell user listing is not active and to remove item from cart based on Etsy results
+                    String listingState = jsonResponse.getJSONArray("results").getJSONObject(0).getString("state");
+                    if(listingState.equals("active")) {
+                        //Check if driver can afford item
+                        PreparedStatement driverPointsPS = MyConnection.getConnection().prepareStatement("SELECT DriverPoints.Points, Company.PointToDollar, Company.CompanyID FROM DriverPoints JOIN Sponsor ON Sponsor.CompanyID=DriverPoints.CompanyID JOIN Company ON Sponsor.CompanyID=Company.CompanyID WHERE DriverID=? AND Sponsor.UserID=?");
+                        driverPointsPS.setInt(1, driverID);
+                        driverPointsPS.setInt(2, userID);
+                        ResultSet driverPointsRS = driverPointsPS.executeQuery();
+                        if(driverPointsRS.next()) {
+                            double price = listingRS.getDouble("Price");
+                            int pointToDollar = driverPointsRS.getInt("PointToDollar");
+                            double pointCost = price * pointToDollar;
+                            int roundedCost = (int) pointCost;
+                            if(driverPointsRS.getInt("Points") >= roundedCost) {
+                                //Add to purchase table
+                                PreparedStatement catalogPurchasePS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogPurchases (PointCost, MonetaryCost, DriverID, CompanyID, ItemID, PurchaseDate) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
+                                catalogPurchasePS.setInt(1, roundedCost);
+                                catalogPurchasePS.setDouble(2, price);
+                                catalogPurchasePS.setInt(3, driverID);
+                                catalogPurchasePS.setInt(4, driverPointsRS.getInt("CompanyID"));
+                                catalogPurchasePS.setInt(5, itemID);
+                                catalogPurchasePS.executeUpdate();
+                                currentCatalogDriverSelected = 0;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "This driver cannot afford the item with their current point total.");
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Item is no longer an active listing, please remove it from your catalog.");
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_FirstItemBuyButtonActionPerformed
+
+    private void SecondItemBuyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SecondItemBuyButtonActionPerformed
+        try {
+            if(currentCatalogDriverSelected != 0) {  
+                //Get item information
+                String title = SecondItemTitleTextArea.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                //Get driver information
+                int driverID = getCurrentCatalogDriver();
+                //Check if item is available
+                PreparedStatement listingPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE ItemID=?");
+                listingPS.setInt(1, itemID);
+                ResultSet listingRS = listingPS.executeQuery();
+                if(listingRS.next()) {
+                    int listingID = listingRS.getInt("ListingID");
+                    //Query Etsy to make sure listing is still active (not sold out)
+                    String etsyQuery = "https://openapi.etsy.com/v2/listings/" + listingID + "?api_key=pzm9kr33wye2gmv9fy2h4g64";
+                    //Send the request to etsy for listing results back
+                    HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(etsyQuery))
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+                    HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+                    JSONObject jsonResponse = new JSONObject(response.body());
+                    //Tell user listing is not active and to remove item from cart based on Etsy results
+                    String listingState = jsonResponse.getJSONArray("results").getJSONObject(0).getString("state");
+                    if(listingState.equals("active")) {
+                        //Check if driver can afford item
+                        PreparedStatement driverPointsPS = MyConnection.getConnection().prepareStatement("SELECT DriverPoints.Points, Company.PointToDollar, Company.CompanyID FROM DriverPoints JOIN Sponsor ON Sponsor.CompanyID=DriverPoints.CompanyID JOIN Company ON Sponsor.CompanyID=Company.CompanyID WHERE DriverID=? AND Sponsor.UserID=?");
+                        driverPointsPS.setInt(1, driverID);
+                        driverPointsPS.setInt(2, userID);
+                        ResultSet driverPointsRS = driverPointsPS.executeQuery();
+                        if(driverPointsRS.next()) {
+                            double price = listingRS.getDouble("Price");
+                            int pointToDollar = driverPointsRS.getInt("PointToDollar");
+                            double pointCost = price * pointToDollar;
+                            int roundedCost = (int) pointCost;
+                            if(driverPointsRS.getInt("Points") >= roundedCost) {
+                                //Add to purchase table
+                                PreparedStatement catalogPurchasePS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogPurchases (PointCost, MonetaryCost, DriverID, CompanyID, ItemID, PurchaseDate) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
+                                catalogPurchasePS.setInt(1, roundedCost);
+                                catalogPurchasePS.setDouble(2, price);
+                                catalogPurchasePS.setInt(3, driverID);
+                                catalogPurchasePS.setInt(4, driverPointsRS.getInt("CompanyID"));
+                                catalogPurchasePS.setInt(5, itemID);
+                                catalogPurchasePS.executeUpdate();
+                                currentCatalogDriverSelected = 0;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "This driver cannot afford the item with their current point total.");
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Item is no longer an active listing, please remove it from your catalog.");
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_SecondItemBuyButtonActionPerformed
+
+    private void ThirdItemBuyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThirdItemBuyButtonActionPerformed
+        try {
+            if(currentCatalogDriverSelected != 0) {  
+                //Get item information
+                String title = ThirdItemTitleTextArea.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                //Get driver information
+                int driverID = getCurrentCatalogDriver();
+                //Check if item is available
+                PreparedStatement listingPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE ItemID=?");
+                listingPS.setInt(1, itemID);
+                ResultSet listingRS = listingPS.executeQuery();
+                if(listingRS.next()) {
+                    int listingID = listingRS.getInt("ListingID");
+                    //Query Etsy to make sure listing is still active (not sold out)
+                    String etsyQuery = "https://openapi.etsy.com/v2/listings/" + listingID + "?api_key=pzm9kr33wye2gmv9fy2h4g64";
+                    //Send the request to etsy for listing results back
+                    HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(etsyQuery))
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+                    HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+                    JSONObject jsonResponse = new JSONObject(response.body());
+                    //Tell user listing is not active and to remove item from cart based on Etsy results
+                    String listingState = jsonResponse.getJSONArray("results").getJSONObject(0).getString("state");
+                    if(listingState.equals("active")) {
+                        //Check if driver can afford item
+                        PreparedStatement driverPointsPS = MyConnection.getConnection().prepareStatement("SELECT DriverPoints.Points, Company.PointToDollar, Company.CompanyID FROM DriverPoints JOIN Sponsor ON Sponsor.CompanyID=DriverPoints.CompanyID JOIN Company ON Sponsor.CompanyID=Company.CompanyID WHERE DriverID=? AND Sponsor.UserID=?");
+                        driverPointsPS.setInt(1, driverID);
+                        driverPointsPS.setInt(2, userID);
+                        ResultSet driverPointsRS = driverPointsPS.executeQuery();
+                        if(driverPointsRS.next()) {
+                            double price = listingRS.getDouble("Price");
+                            int pointToDollar = driverPointsRS.getInt("PointToDollar");
+                            double pointCost = price * pointToDollar;
+                            int roundedCost = (int) pointCost;
+                            if(driverPointsRS.getInt("Points") >= roundedCost) {
+                                //Add to purchase table
+                                PreparedStatement catalogPurchasePS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogPurchases (PointCost, MonetaryCost, DriverID, CompanyID, ItemID, PurchaseDate) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
+                                catalogPurchasePS.setInt(1, roundedCost);
+                                catalogPurchasePS.setDouble(2, price);
+                                catalogPurchasePS.setInt(3, driverID);
+                                catalogPurchasePS.setInt(4, driverPointsRS.getInt("CompanyID"));
+                                catalogPurchasePS.setInt(5, itemID);
+                                catalogPurchasePS.executeUpdate();
+                                currentCatalogDriverSelected = 0;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "This driver cannot afford the item with their current point total.");
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Item is no longer an active listing, please remove it from your catalog.");
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_ThirdItemBuyButtonActionPerformed
+
+    private void FourthItemBuyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FourthItemBuyButtonActionPerformed
+       try {
+            if(currentCatalogDriverSelected != 0) {  
+                //Get item information
+                String title = FourthItemTitleTextArea.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                //Get driver information
+                int driverID = getCurrentCatalogDriver();
+                //Check if item is available
+                PreparedStatement listingPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems WHERE ItemID=?");
+                listingPS.setInt(1, itemID);
+                ResultSet listingRS = listingPS.executeQuery();
+                if(listingRS.next()) {
+                    int listingID = listingRS.getInt("ListingID");
+                    //Query Etsy to make sure listing is still active (not sold out)
+                    String etsyQuery = "https://openapi.etsy.com/v2/listings/" + listingID + "?api_key=pzm9kr33wye2gmv9fy2h4g64";
+                    //Send the request to etsy for listing results back
+                    HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(etsyQuery))
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+                    HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+                    JSONObject jsonResponse = new JSONObject(response.body());
+                    //Tell user listing is not active and to remove item from cart based on Etsy results
+                    String listingState = jsonResponse.getJSONArray("results").getJSONObject(0).getString("state");
+                    if(listingState.equals("active")) {
+                        //Check if driver can afford item
+                        PreparedStatement driverPointsPS = MyConnection.getConnection().prepareStatement("SELECT DriverPoints.Points, Company.PointToDollar, Company.CompanyID FROM DriverPoints JOIN Sponsor ON Sponsor.CompanyID=DriverPoints.CompanyID JOIN Company ON Sponsor.CompanyID=Company.CompanyID WHERE DriverID=? AND Sponsor.UserID=?");
+                        driverPointsPS.setInt(1, driverID);
+                        driverPointsPS.setInt(2, userID);
+                        ResultSet driverPointsRS = driverPointsPS.executeQuery();
+                        if(driverPointsRS.next()) {
+                            double price = listingRS.getDouble("Price");
+                            int pointToDollar = driverPointsRS.getInt("PointToDollar");
+                            double pointCost = price * pointToDollar;
+                            int roundedCost = (int) pointCost;
+                            if(driverPointsRS.getInt("Points") >= roundedCost) {
+                                //Add to purchase table
+                                PreparedStatement catalogPurchasePS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogPurchases (PointCost, MonetaryCost, DriverID, CompanyID, ItemID, PurchaseDate) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
+                                catalogPurchasePS.setInt(1, roundedCost);
+                                catalogPurchasePS.setDouble(2, price);
+                                catalogPurchasePS.setInt(3, driverID);
+                                catalogPurchasePS.setInt(4, driverPointsRS.getInt("CompanyID"));
+                                catalogPurchasePS.setInt(5, itemID);
+                                catalogPurchasePS.executeUpdate();
+                                currentCatalogDriverSelected = 0;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "This driver cannot afford the item with their current point total.");
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Item is no longer an active listing, please remove it from your catalog.");
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_FourthItemBuyButtonActionPerformed
+
+    private void PreviousCatalogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviousCatalogButtonActionPerformed
+        //Get current items (up to four) and add them to the front of next queue (using .isVisible)
+        try {
+            PreparedStatement pointToDollarPS = MyConnection.getConnection().prepareStatement("SELECT Company.PointToDollar FROM Company JOIN Sponsor ON Sponsor.CompanyID=Company.CompanyID WHERE Sponsor.UserID=?");
+            pointToDollarPS.setInt(1, userID);
+            ResultSet pointToDollarRS = pointToDollarPS.executeQuery();
+            int pointToDollarRatio = 100;
+            if(pointToDollarRS.next()) {
+                pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
+            }
+            //FourthCatalogItemPanel
+            if(FourthCatalogItemPanel.isVisible()) {
+                String title = FourthItemTitleTextArea.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                title = tokens[1];
+                double price = Double.parseDouble(FourthItemPointCostLabel.getText().split(" ")[0]) / pointToDollarRatio;
+                String imageURL = FourthItemImageURLLabel.getText();
+                CatalogItem newItem = new CatalogItem(itemID, price, title, imageURL);
+                nextQueue.addFirst(newItem);
+            }
+            //ThirdCatalogItemPanel
+            if(ThirdCatalogItemPanel.isVisible()) {
+                String title = ThirdItemTitleTextArea.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                title = tokens[1];
+                double price = Double.parseDouble(ThirdItemPointCostLabel.getText().split(" ")[0]) / pointToDollarRatio;
+                String imageURL = ThirdItemImageURLLabel.getText();
+                CatalogItem newItem = new CatalogItem(itemID, price, title, imageURL);
+                nextQueue.addFirst(newItem);
+            }
+            //SecondCatalogItemPanel
+            if(SecondCatalogItemPanel.isVisible()) {
+                String title = SecondItemTitleTextArea.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                title = tokens[1];
+                double price = Double.parseDouble(SecondItemPointCostLabel.getText().split(" ")[0]) / pointToDollarRatio;
+                String imageURL = SecondItemImageURLLabel.getText();
+                CatalogItem newItem = new CatalogItem(itemID, price, title, imageURL);
+                nextQueue.addFirst(newItem);
+            }
+            //FirstCatalogItemPanel
+            if(FirstCatalogItemPanel.isVisible()) {
+                String title = FirstItemTitleTextArea.getText();
+                String[] tokens = title.split(": ");
+                int itemID = Integer.parseInt(tokens[0]);
+                title = tokens[1];
+                double price = Double.parseDouble(FirstItemPointCostLabel.getText().split(" ")[0]) / pointToDollarRatio;
+                String imageURL = FirstItemImageURLLabel.getText();
+                CatalogItem newItem = new CatalogItem(itemID, price, title, imageURL);
+                nextQueue.addFirst(newItem);
+            }
+            //Make next button visible
+            NextCatalogButton.setVisible(true);
+            //Get previous four items and display them through previousQueue
+            //Update FourthCatalogItemPanel to have item information
+            FourthCatalogItemPanel.setVisible(true);
+            CatalogItem previousItem = previousQueue.removeLast();
+            //Set item title
+            FourthItemTitleTextArea.setText(previousItem.getItemID() + ": " + previousItem.getTitle());
+            //Get item price and convert to point value
+            double price = previousItem.getPrice();
+            price = price * pointToDollarRatio;
+            int roundedCost = (int) price;
+            FourthItemPointCostLabel.setText(roundedCost + " Points");
+            //Set item image
+            String imageURL = previousItem.getImageURL();
+            FourthItemImageURLLabel.setText(imageURL);
+            URL url = new URL(imageURL);
+            Image image = ImageIO.read(url);
+            FourthItemImageLabel.setIcon(new ImageIcon(image));
+            //Update ThirdCatalogItemPanel to have item information
+            ThirdCatalogItemPanel.setVisible(true);
+            previousItem = previousQueue.removeLast();
+            //Set item title
+            ThirdItemTitleTextArea.setText(previousItem.getItemID() + ": " + previousItem.getTitle());
+            //Get item price and convert to point value
+            price = previousItem.getPrice();
+            price = price * pointToDollarRatio;
+            roundedCost = (int) price;
+            ThirdItemPointCostLabel.setText(roundedCost + " Points");
+            //Set item image
+            imageURL = previousItem.getImageURL();
+            ThirdItemImageURLLabel.setText(imageURL);
+            url = new URL(imageURL);
+            image = ImageIO.read(url);
+            ThirdItemImageLabel.setIcon(new ImageIcon(image));
+            //Update SecondCatalogItemPanel to have item information
+            SecondCatalogItemPanel.setVisible(true);
+            previousItem = previousQueue.removeLast();
+            //Set item title
+            SecondItemTitleTextArea.setText(previousItem.getItemID() + ": " + previousItem.getTitle());
+            //Get item price and convert to point value
+            price = previousItem.getPrice();
+            price = price * pointToDollarRatio;
+            roundedCost = (int) price;
+            SecondItemPointCostLabel.setText(roundedCost + " Points");
+            //Set item image
+            imageURL = previousItem.getImageURL();
+            SecondItemImageURLLabel.setText(imageURL);
+            url = new URL(imageURL);
+            image = ImageIO.read(url);
+            SecondItemImageLabel.setIcon(new ImageIcon(image));
+            //Update FirstCatalogItemPanel to have item information
+            FirstCatalogItemPanel.setVisible(true);
+            previousItem = previousQueue.removeLast();
+            //Set item title
+            FirstItemTitleTextArea.setText(previousItem.getItemID() + ": " + previousItem.getTitle());
+            //Get item price and convert to point value
+            price = previousItem.getPrice();
+            price = price * pointToDollarRatio;
+            roundedCost = (int) price;
+            FirstItemPointCostLabel.setText(roundedCost + " Points");
+            //Set item image
+            imageURL = previousItem.getImageURL();
+            FirstItemImageURLLabel.setText(imageURL);
+            url = new URL(imageURL);
+            image = ImageIO.read(url);
+            FirstItemImageLabel.setIcon(new ImageIcon(image));
+            //If more items exist, leave previous button
+            //Otherwise, make it invisible
+            if(previousQueue.isEmpty()) {
+                PreviousCatalogButton.setVisible(false);
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_PreviousCatalogButtonActionPerformed
+
+    private void NextCatalogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextCatalogButtonActionPerformed
+        //Get current four items and add them to the previous queue
+        try {
+            PreparedStatement pointToDollarPS = MyConnection.getConnection().prepareStatement("SELECT Company.PointToDollar FROM Company JOIN Sponsor ON Sponsor.CompanyID=Company.CompanyID WHERE Sponsor.UserID=?");
+            pointToDollarPS.setInt(1, userID);
+            ResultSet pointToDollarRS = pointToDollarPS.executeQuery();
+            int pointToDollarRatio = 100;
+            if(pointToDollarRS.next()) {
+                pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
+            }
+            //FirstCatalogItemPanel
+            String title = FirstItemTitleTextArea.getText();
+            String[] tokens = title.split(": ");
+            int itemID = Integer.parseInt(tokens[0]);
+            title = tokens[1];
+            double price = Double.parseDouble(FirstItemPointCostLabel.getText().split(" ")[0]) / pointToDollarRatio;
+            String imageURL = FirstItemImageURLLabel.getText();
+            CatalogItem newItem = new CatalogItem(itemID, price, title, imageURL);
+            previousQueue.add(newItem);
+            //SecondCatalogItemPanel
+            title = SecondItemTitleTextArea.getText();
+            tokens = title.split(": ");
+            itemID = Integer.parseInt(tokens[0]);
+            title = tokens[1];
+            price = Double.parseDouble(SecondItemPointCostLabel.getText().split(" ")[0]) / pointToDollarRatio;
+            imageURL = SecondItemImageURLLabel.getText();
+            newItem = new CatalogItem(itemID, price, title, imageURL);
+            previousQueue.add(newItem);
+            //ThirdCatalogItemPanel
+            title = ThirdItemTitleTextArea.getText();
+            tokens = title.split(": ");
+            itemID = Integer.parseInt(tokens[0]);
+            title = tokens[1];
+            price = Double.parseDouble(ThirdItemPointCostLabel.getText().split(" ")[0]) / pointToDollarRatio;
+            imageURL = ThirdItemImageURLLabel.getText();
+            newItem = new CatalogItem(itemID, price, title, imageURL);
+            previousQueue.add(newItem);
+            //FourthItemCatalog
+            title = FourthItemTitleTextArea.getText();
+            tokens = title.split(": ");
+            itemID = Integer.parseInt(tokens[0]);
+            title = tokens[1];
+            price = Double.parseDouble(FourthItemPointCostLabel.getText().split(" ")[0]) / pointToDollarRatio;
+            imageURL = FourthItemImageURLLabel.getText();
+            newItem = new CatalogItem(itemID, price, title, imageURL);
+            previousQueue.add(newItem);
+            //Make previous button visible
+            PreviousCatalogButton.setVisible(true);
+            //Get next number of items (up to four) and display them
+            if(!nextQueue.isEmpty()) {
+                FirstCatalogItemPanel.setVisible(true);
+                //Update FirstCatalogItemPanel to have item information
+                CatalogItem nextItem = nextQueue.removeFirst();
+                //Set item title
+                FirstItemTitleTextArea.setText(nextItem.getItemID() + ": " + nextItem.getTitle());
+                //Get item price and convert to point value
+                price = nextItem.getPrice();
+                price = price * pointToDollarRatio;
+                int roundedCost = (int) price;
+                FirstItemPointCostLabel.setText(roundedCost + " Points");
+                //Set item image
+                imageURL = nextItem.getImageURL();
+                FirstItemImageURLLabel.setText(imageURL);
+                URL url = new URL(imageURL);
+                Image image = ImageIO.read(url);
+                FirstItemImageLabel.setIcon(new ImageIcon(image));
+            } else {
+                FirstCatalogItemPanel.setVisible(false);
+            }
+            if(!nextQueue.isEmpty()) {
+                SecondCatalogItemPanel.setVisible(true);
+                //Update SecondCatalogItemPanel to have item information
+                CatalogItem nextItem = nextQueue.removeFirst();
+                //Set item title
+                SecondItemTitleTextArea.setText(nextItem.getItemID() + ": " + nextItem.getTitle());
+                //Get item price and convert to point value
+                price = nextItem.getPrice();
+                price = price * pointToDollarRatio;
+                int roundedCost = (int) price;
+                SecondItemPointCostLabel.setText(roundedCost + " Points");
+                //Set item image
+                imageURL = nextItem.getImageURL();
+                SecondItemImageURLLabel.setText(imageURL);
+                URL url = new URL(imageURL);
+                Image image = ImageIO.read(url);
+                SecondItemImageLabel.setIcon(new ImageIcon(image));
+            } else {
+                SecondCatalogItemPanel.setVisible(false);
+            }
+            if(!nextQueue.isEmpty()) {
+                ThirdCatalogItemPanel.setVisible(true);
+                //Update ThirdCatalogItemPanel to have item information
+                CatalogItem nextItem = nextQueue.removeFirst();
+                //Set item title
+                ThirdItemTitleTextArea.setText(nextItem.getItemID() + ": " + nextItem.getTitle());
+                //Get item price and convert to point value
+                price = nextItem.getPrice();
+                price = price * pointToDollarRatio;
+                int roundedCost = (int) price;
+                ThirdItemPointCostLabel.setText(roundedCost + " Points");
+                //Set item image
+                imageURL = nextItem.getImageURL();
+                ThirdItemImageURLLabel.setText(imageURL);
+                URL url = new URL(imageURL);
+                Image image = ImageIO.read(url);
+                ThirdItemImageLabel.setIcon(new ImageIcon(image));
+            } else {
+                ThirdCatalogItemPanel.setVisible(false);
+            }
+            if(!nextQueue.isEmpty()) {
+                FourthCatalogItemPanel.setVisible(true);
+                //Update FourthCatalogItemPanel to have item information
+                CatalogItem nextItem = nextQueue.removeFirst();
+                //Set item title
+                FourthItemTitleTextArea.setText(nextItem.getItemID() + ": " + nextItem.getTitle());
+                //Get item price and convert to point value
+                price = nextItem.getPrice();
+                price = price * pointToDollarRatio;
+                int roundedCost = (int) price;
+                FourthItemPointCostLabel.setText(roundedCost + " Points");
+                //Set item image
+                imageURL = nextItem.getImageURL();
+                FourthItemImageURLLabel.setText(imageURL);
+                URL url = new URL(imageURL);
+                Image image = ImageIO.read(url);
+                FourthItemImageLabel.setIcon(new ImageIcon(image));
+            } else {
+                FourthCatalogItemPanel.setVisible(false);
+            }
+            //If more items exist, leave next button
+            //Otherwise, make it invisible
+            if(nextQueue.isEmpty()) {
+                NextCatalogButton.setVisible(false);
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_NextCatalogButtonActionPerformed
+
+    private void DriverUserCatalogListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_DriverUserCatalogListValueChanged
+        if(hasDrivers) {
+            String selectedDriver = DriverUserCatalogList.getSelectedValue();
+            String[] tokens = selectedDriver.split(":");
+            int selectedDriverID = Integer.parseInt(tokens[0]);
+            setCurrentCatalogDriver(selectedDriverID);
+        }
+    }//GEN-LAST:event_DriverUserCatalogListValueChanged
+
+    public void setCurrentCatalogDriver(int driverID) {
+        currentCatalogDriverSelected = driverID;
+    }
+    
+    public int getCurrentCatalogDriver() {
+        return currentCatalogDriverSelected;
+    }
+    
+    //Helper method for showing catalog items
+    public void showCatalogItems(int companyID) {
+        try {
+            nextQueue = new LinkedList<>();
+            previousQueue = new LinkedList<>();
+            //Get total number of catalog items for company
+            PreparedStatement catalogItemCountPS = MyConnection.getConnection().prepareStatement("SELECT COUNT(*) FROM CatalogItems WHERE CompanyID=? AND Removed=?");
+            catalogItemCountPS.setInt(1, companyID);
+            catalogItemCountPS.setBoolean(2, false);
+            ResultSet catalogItemCountRS = catalogItemCountPS.executeQuery();
+            if(catalogItemCountRS.next()) {
+                int count = catalogItemCountRS.getInt(1);
+                if(count <= 0) {
+                    //Show message if there are no items in the catalog
+                    CatalogItemPanel.setVisible(false);
+                    FirstCatalogItemPanel.setVisible(false);
+                    SecondCatalogItemPanel.setVisible(false);
+                    ThirdCatalogItemPanel.setVisible(false);
+                    FourthCatalogItemPanel.setVisible(false);
+                    NextCatalogButton.setVisible(false);
+                    PreviousCatalogButton.setVisible(false);
+                    if(!loggingIn) {
+                        JOptionPane.showMessageDialog(null, "Catalog is empty, please add items through Catalog Editor Tab.");
+                    }
+                } else if(count == 1) {
+                    //Only show one panel if there is one item
+                    CatalogItemPanel.setVisible(true);
+                    FirstCatalogItemPanel.setVisible(true);
+                    FirstItemImageURLLabel.setVisible(false);
+                    SecondCatalogItemPanel.setVisible(false);
+                    ThirdCatalogItemPanel.setVisible(false);
+                    FourthCatalogItemPanel.setVisible(false);
+                    NextCatalogButton.setVisible(false);
+                    PreviousCatalogButton.setVisible(false);
+                    //Update FirstCatalogItemPanel to have item information
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems JOIN Sponsor ON Sponsor.CompanyID = CatalogItems.CompanyID WHERE Sponsor.UserID=? AND Removed=?");
+                    catalogItemPS.setInt(1, userID);
+                    catalogItemPS.setBoolean(2, false);
+                    ResultSet catalogItemRS = catalogItemPS.executeQuery();
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        FirstItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        PreparedStatement pointToDollarPS = MyConnection.getConnection().prepareStatement("SELECT Company.PointToDollar FROM Company JOIN Sponsor ON Sponsor.CompanyID=Company.CompanyID WHERE Sponsor.UserID=?");
+                        pointToDollarPS.setInt(1, userID);
+                        ResultSet pointToDollarRS = pointToDollarPS.executeQuery();
+                        if(pointToDollarRS.next()) {
+                            int pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
+                            price = price * pointToDollarRatio;
+                            int roundedCost = (int) price;
+                            FirstItemPointCostLabel.setText(roundedCost + " Points");
+                        }
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        FirstItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        FirstItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                } else if(count == 2) {
+                    //Only show two panels if there are two items
+                    CatalogItemPanel.setVisible(true);
+                    FirstCatalogItemPanel.setVisible(true);
+                    FirstItemImageURLLabel.setVisible(false);
+                    SecondCatalogItemPanel.setVisible(true);
+                    SecondItemImageURLLabel.setVisible(false);
+                    ThirdCatalogItemPanel.setVisible(false);
+                    FourthCatalogItemPanel.setVisible(false);
+                    NextCatalogButton.setVisible(false);
+                    PreviousCatalogButton.setVisible(false);
+                    //Get pointToDollar conversion ratio
+                    int pointToDollarRatio = 100;
+                    PreparedStatement pointToDollarPS = MyConnection.getConnection().prepareStatement("SELECT Company.PointToDollar FROM Company JOIN Sponsor ON Sponsor.CompanyID=Company.CompanyID WHERE Sponsor.UserID=?");
+                    pointToDollarPS.setInt(1, userID);
+                    ResultSet pointToDollarRS = pointToDollarPS.executeQuery();
+                    if(pointToDollarRS.next()) {
+                        pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
+                    }
+                    //Update FirstCatalogItemPanel to have item information
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems JOIN Sponsor ON Sponsor.CompanyID = CatalogItems.CompanyID WHERE Sponsor.UserID=? AND Removed=?");
+                    catalogItemPS.setInt(1, userID);
+                    catalogItemPS.setBoolean(2, false);
+                    ResultSet catalogItemRS = catalogItemPS.executeQuery();
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        FirstItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        FirstItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        FirstItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        FirstItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                    //Update SecondCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        SecondItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        SecondItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        SecondItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        SecondItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                } else if(count == 3) {
+                    //Only show three panels if there are three items
+                    CatalogItemPanel.setVisible(true);
+                    FirstCatalogItemPanel.setVisible(true);
+                    FirstItemImageURLLabel.setVisible(false);
+                    SecondCatalogItemPanel.setVisible(true);
+                    SecondItemImageURLLabel.setVisible(false);
+                    ThirdCatalogItemPanel.setVisible(true);
+                    ThirdItemImageURLLabel.setVisible(false);
+                    FourthCatalogItemPanel.setVisible(false);
+                    NextCatalogButton.setVisible(false);
+                    PreviousCatalogButton.setVisible(false);
+                    //Get pointToDollar conversion ratio
+                    int pointToDollarRatio = 100;
+                    PreparedStatement pointToDollarPS = MyConnection.getConnection().prepareStatement("SELECT Company.PointToDollar FROM Company JOIN Sponsor ON Sponsor.CompanyID=Company.CompanyID WHERE Sponsor.UserID=?");
+                    pointToDollarPS.setInt(1, userID);
+                    ResultSet pointToDollarRS = pointToDollarPS.executeQuery();
+                    if(pointToDollarRS.next()) {
+                        pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
+                    }
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems JOIN Sponsor ON Sponsor.CompanyID = CatalogItems.CompanyID WHERE Sponsor.UserID=? AND Removed=?");
+                    catalogItemPS.setInt(1, userID);
+                    catalogItemPS.setBoolean(2, false);
+                    ResultSet catalogItemRS = catalogItemPS.executeQuery();
+                    //Update FirstCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        FirstItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        FirstItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        FirstItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        FirstItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                    //Update SecondCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        SecondItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        SecondItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        SecondItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        SecondItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                    //Update ThirdCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        ThirdItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        ThirdItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        ThirdItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        ThirdItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                } else if(count == 4) {
+                    //Only show four panels if there are four items
+                    CatalogItemPanel.setVisible(true);
+                    FirstCatalogItemPanel.setVisible(true);
+                    FirstItemImageURLLabel.setVisible(false);
+                    SecondCatalogItemPanel.setVisible(true);
+                    SecondItemImageURLLabel.setVisible(false);
+                    ThirdCatalogItemPanel.setVisible(true);
+                    ThirdItemImageURLLabel.setVisible(false);
+                    FourthCatalogItemPanel.setVisible(true);
+                    FourthItemImageURLLabel.setVisible(false);
+                    NextCatalogButton.setVisible(false);
+                    PreviousCatalogButton.setVisible(false);
+                    //Get pointToDollar conversion ratio
+                    int pointToDollarRatio = 100;
+                    PreparedStatement pointToDollarPS = MyConnection.getConnection().prepareStatement("SELECT Company.PointToDollar FROM Company JOIN Sponsor ON Sponsor.CompanyID=Company.CompanyID WHERE Sponsor.UserID=?");
+                    pointToDollarPS.setInt(1, userID);
+                    ResultSet pointToDollarRS = pointToDollarPS.executeQuery();
+                    if(pointToDollarRS.next()) {
+                        pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
+                    }
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems JOIN Sponsor ON Sponsor.CompanyID = CatalogItems.CompanyID WHERE Sponsor.UserID=? AND Removed=?");
+                    catalogItemPS.setInt(1, userID);
+                    catalogItemPS.setBoolean(2, false);
+                    ResultSet catalogItemRS = catalogItemPS.executeQuery();
+                    //Update FirstCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        FirstItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        FirstItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        FirstItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        FirstItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                    //Update SecondCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        SecondItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        SecondItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        SecondItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        SecondItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                    //Update ThirdCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        ThirdItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        ThirdItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        ThirdItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        ThirdItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                    //Update FourthCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        FourthItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        FourthItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        FourthItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        FourthItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                } else {
+                    //Show next button if there are more
+                    CatalogItemPanel.setVisible(true);
+                    FirstCatalogItemPanel.setVisible(true);
+                    FirstItemImageURLLabel.setVisible(false);
+                    SecondCatalogItemPanel.setVisible(true);
+                    SecondItemImageURLLabel.setVisible(false);
+                    ThirdCatalogItemPanel.setVisible(true);
+                    ThirdItemImageURLLabel.setVisible(false);
+                    FourthCatalogItemPanel.setVisible(true);
+                    FourthItemImageURLLabel.setVisible(false);
+                    NextCatalogButton.setVisible(true);
+                    PreviousCatalogButton.setVisible(false);
+                    //Get pointToDollar conversion ratio
+                    int pointToDollarRatio = 100;
+                    PreparedStatement pointToDollarPS = MyConnection.getConnection().prepareStatement("SELECT Company.PointToDollar FROM Company JOIN Sponsor ON Sponsor.CompanyID=Company.CompanyID WHERE Sponsor.UserID=?");
+                    pointToDollarPS.setInt(1, userID);
+                    ResultSet pointToDollarRS = pointToDollarPS.executeQuery();
+                    if(pointToDollarRS.next()) {
+                        pointToDollarRatio = pointToDollarRS.getInt("PointToDollar");
+                    }
+                    PreparedStatement catalogItemPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogItems JOIN Sponsor ON Sponsor.CompanyID = CatalogItems.CompanyID WHERE Sponsor.UserID=? AND Removed=?");
+                    catalogItemPS.setInt(1, userID);
+                    catalogItemPS.setBoolean(2, false);
+                    ResultSet catalogItemRS = catalogItemPS.executeQuery();
+                    //Update FirstCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        FirstItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        FirstItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        FirstItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        FirstItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                    //Update SecondCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        SecondItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        SecondItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        SecondItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        SecondItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                    //Update ThirdCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        ThirdItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        ThirdItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        ThirdItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        ThirdItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                    //Update FourthCatalogItemPanel to have item information
+                    if(catalogItemRS.next()) {
+                        //Set item title
+                        FourthItemTitleTextArea.setText(catalogItemRS.getInt("ItemID") + ": " + catalogItemRS.getString("ItemDescription"));
+                        //Get item price and convert to point value
+                        double price = catalogItemRS.getDouble("Price");
+                        price = price * pointToDollarRatio;
+                        int roundedCost = (int) price;
+                        FourthItemPointCostLabel.setText(roundedCost + " Points");
+                        //Set item image
+                        String imageURL = catalogItemRS.getString("ItemImage");
+                        FourthItemImageURLLabel.setText(imageURL);
+                        URL url = new URL(imageURL);
+                        Image image = ImageIO.read(url);
+                        FourthItemImageLabel.setIcon(new ImageIcon(image));
+                    }
+                    //Store remaining items in array for access by "Next" button
+                    while(catalogItemRS.next()) {
+                        CatalogItem newCatalogItem = new CatalogItem(catalogItemRS.getInt("ItemID"), catalogItemRS.getDouble("Price"), catalogItemRS.getString("ItemDescription"), catalogItemRS.getString("ItemImage"));
+                        nextQueue.addLast(newCatalogItem);
+                    }
+                }
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
+    //Helper method to populate the drivers for a company
+    public void setCompanyDriverList(int userID) {
+        ArrayList<String> listDataArrayList = new ArrayList<String>();
+        int driverCounter = 0;
+        try {
+            PreparedStatement driversForCompanyPS = MyConnection.getConnection().prepareStatement("SELECT Driver.DriverID, Users.FirstName, Users.LastName, Users.Username FROM DriverPoints join Sponsor on Sponsor.CompanyID=DriverPoints.CompanyID join Driver on Driver.DriverID=DriverPoints.DriverID join Users on Driver.UserID=Users.UserID where Sponsor.UserID=?");
+            driversForCompanyPS.setInt(1, userID);
+            ResultSet driversForCompanyRS = driversForCompanyPS.executeQuery();
+            while(driversForCompanyRS.next()) {
+                listDataArrayList.add(driversForCompanyRS.getInt("DriverID") + ": " + driversForCompanyRS.getString("FirstName") + " " + driversForCompanyRS.getString("LastName") + " (" + driversForCompanyRS.getString("Username") + ")");
+                driverCounter++;
+            }
+            if(driverCounter == 0) {
+                setHasDrivers(false);
+                String[] listData = {"No drivers available"};
+                DriverUserCatalogList.setListData(listData);
+            } else {
+                setHasDrivers(true);
+                String[] listData = listDataArrayList.toArray(new String[listDataArrayList.size()]);
+                DriverUserCatalogList.setListData(listData);
+            }
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
     //Helper Methods for getting and setting user information in the profile
     public void setSponsorName(String name) {
         jTextField1.setText(name);
@@ -1744,12 +2858,33 @@ public class SponsorGUI extends javax.swing.JFrame {
         return catalogTableSelected;
     }
     
+    public Boolean hasDrivers() {
+        return hasDrivers;
+    }
+    
+    public void setHasDrivers(Boolean has) {
+        hasDrivers = has;
+    }
+    
+    public void setLoggingIn(Boolean login) {
+        loggingIn = login;
+    }
+    
+    public Boolean getLoggingIn() {
+        return loggingIn;
+    }
+    
     public void formatCatalogItemTables() {
         TableColumnModel tcm = jTable1.getColumnModel();
         tcm.removeColumn(tcm.getColumn(0));
         tcm = jTable3.getColumnModel();
         tcm.removeColumn(tcm.getColumn(4));
         tcm.removeColumn(tcm.getColumn(3));
+    }
+    
+    public void formatApplicationTable() {
+        TableColumnModel tcm = applicationTable.getColumnModel();
+        tcm.removeColumn(tcm.getColumn(0));
     }
     
     public void setDriverApplicationTable() {
@@ -1760,11 +2895,11 @@ public class SponsorGUI extends javax.swing.JFrame {
             }
         }
         try {
-            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT Sponsor.CompanyID, DriverApplications.DriverApplicationID, Users.FirstName, Users.LastName, Driver.DriverID, DriverApplications.ApplicationDate, DriverApplications.ApplicationStatus, DriverApplications.Reason FROM DriverApplications join Sponsor on Sponsor.CompanyID=DriverApplications.CompanyID join Driver on Driver.DriverID=DriverApplications.DriverID join Users on Driver.UserID=Users.UserID where Sponsor.userID=?");
+            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT DriverApplications.DriverApplicationID, Users.FirstName, Users.LastName, Users.Username, DriverApplications.ApplicationDate, DriverApplications.ApplicationStatus, DriverApplications.Reason FROM DriverApplications join Sponsor on Sponsor.CompanyID=DriverApplications.CompanyID join Driver on Driver.DriverID=DriverApplications.DriverID join Users on Driver.UserID=Users.UserID where Sponsor.userID=?");
             sponsorPS.setInt(1, this.getUserID());
             ResultSet sponsorRS = sponsorPS.executeQuery();
             while (sponsorRS.next()) {
-                Object[] rowData = {sponsorRS.getInt("DriverApplicationID"), sponsorRS.getString("FirstName"), sponsorRS.getString("LastName"), sponsorRS.getString("DriverID"), sponsorRS.getString("CompanyID"), sponsorRS.getDate("ApplicationDate"), sponsorRS.getString("ApplicationStatus"), sponsorRS.getString("Reason")};
+                Object[] rowData = {sponsorRS.getInt("DriverApplicationID"), sponsorRS.getString("FirstName"), sponsorRS.getString("LastName"), sponsorRS.getString("Username"), sponsorRS.getString("ApplicationStatus"), sponsorRS.getString("Reason"), sponsorRS.getDate("ApplicationDate")};
                 dtm.addRow(rowData);
             }
 
@@ -1772,7 +2907,6 @@ public class SponsorGUI extends javax.swing.JFrame {
             Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     
     public void updateCatalogItemTable() {
         ArrayList<String> listDataArrayList = new ArrayList<String>();
@@ -1800,6 +2934,37 @@ public class SponsorGUI extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //Helper Class for catalog items
+    public class CatalogItem {
+        private int itemID;
+        private double price;
+        private String title;
+        private String imageURL;
+        
+        public CatalogItem(int inItemID, double inPrice, String inTitle, String inImageURL) {
+            itemID = inItemID;
+            price = inPrice;
+            title = inTitle;
+            imageURL = inImageURL;
+        }
+        
+        public int getItemID() {
+            return itemID;
+        }
+        
+        public double getPrice() {
+            return price;
+        }
+        
+        public String getTitle() {
+            return title;
+        }
+        
+        public String getImageURL() {
+            return imageURL;
         }
     }
     
@@ -1848,6 +3013,42 @@ public class SponsorGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel CatalogItemPanel;
+    private javax.swing.JLabel CatalogTitleLabel;
+    private javax.swing.JLabel ChangeDriverCatalogLabel;
+    private javax.swing.JButton CreateDriverButton;
+    private javax.swing.JList<String> DriverUserCatalogList;
+    private javax.swing.JScrollPane DriverUserCatalogScrollPane;
+    private javax.swing.JPanel FirstCatalogItemPanel;
+    private javax.swing.JButton FirstItemBuyButton;
+    private javax.swing.JLabel FirstItemImageLabel;
+    private javax.swing.JLabel FirstItemImageURLLabel;
+    private javax.swing.JLabel FirstItemPointCostLabel;
+    private javax.swing.JScrollPane FirstItemTitleScrollPane;
+    private javax.swing.JTextArea FirstItemTitleTextArea;
+    private javax.swing.JPanel FourthCatalogItemPanel;
+    private javax.swing.JButton FourthItemBuyButton;
+    private javax.swing.JLabel FourthItemImageLabel;
+    private javax.swing.JLabel FourthItemImageURLLabel;
+    private javax.swing.JLabel FourthItemPointCostLabel;
+    private javax.swing.JScrollPane FourthItemTitleScrollPane;
+    private javax.swing.JTextArea FourthItemTitleTextArea;
+    private javax.swing.JButton NextCatalogButton;
+    private javax.swing.JButton PreviousCatalogButton;
+    private javax.swing.JPanel SecondCatalogItemPanel;
+    private javax.swing.JButton SecondItemBuyButton;
+    private javax.swing.JLabel SecondItemImageLabel;
+    private javax.swing.JLabel SecondItemImageURLLabel;
+    private javax.swing.JLabel SecondItemPointCostLabel;
+    private javax.swing.JScrollPane SecondItemTitleScrollPane;
+    private javax.swing.JTextArea SecondItemTitleTextArea;
+    private javax.swing.JPanel ThirdCatalogItemPanel;
+    private javax.swing.JButton ThirdItemBuyButton;
+    private javax.swing.JLabel ThirdItemImageLabel;
+    private javax.swing.JLabel ThirdItemImageURLLabel;
+    private javax.swing.JLabel ThirdItemPointCostLabel;
+    private javax.swing.JScrollPane ThirdItemTitleScrollPane;
+    private javax.swing.JTextArea ThirdItemTitleTextArea;
     private javax.swing.JTable applicationTable;
     private javax.swing.JButton approveApplicationButton;
     private javax.swing.JPanel catalog;
@@ -1858,10 +3059,6 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane driverListScrollPane;
     private javax.swing.JPanel driverPoints;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
@@ -1871,19 +3068,12 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton28;
     private javax.swing.JButton jButton29;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton30;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -1896,15 +3086,8 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
