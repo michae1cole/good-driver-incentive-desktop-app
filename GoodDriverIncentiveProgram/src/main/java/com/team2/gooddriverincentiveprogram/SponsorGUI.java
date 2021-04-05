@@ -163,6 +163,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         pointChangeVal = new javax.swing.JTextField();
         reasonLabel = new javax.swing.JLabel();
         reasonText = new javax.swing.JTextField();
+        CreateSponsorButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1120,6 +1121,13 @@ public class SponsorGUI extends javax.swing.JFrame {
 
         layeredPane.add(driverPoints, "card8");
 
+        CreateSponsorButton.setText("Create Sponsor");
+        CreateSponsorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateSponsorButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -1141,8 +1149,11 @@ public class SponsorGUI extends javax.swing.JFrame {
                         .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(CreateDriverButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 389, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CreateSponsorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 393, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1165,8 +1176,9 @@ public class SponsorGUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton23)
                     .addComponent(jButton7)
-                    .addComponent(jButton28))
-                .addContainerGap(564, Short.MAX_VALUE))
+                    .addComponent(jButton28)
+                    .addComponent(CreateSponsorButton))
+                .addContainerGap(570, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addContainerGap(81, Short.MAX_VALUE)
@@ -2390,6 +2402,13 @@ public class SponsorGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DriverUserCatalogListValueChanged
 
+    private void CreateSponsorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateSponsorButtonActionPerformed
+        CreateSponsorAccount createAccountFrame = new CreateSponsorAccount();
+        createAccountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        createAccountFrame.setTitle("Good Driver Incentive Program - Create Sponsor Account");
+        createAccountFrame.setVisible(true);
+    }//GEN-LAST:event_CreateSponsorButtonActionPerformed
+
     public void setCurrentCatalogDriver(int driverID) {
         currentCatalogDriverSelected = driverID;
     }
@@ -3017,6 +3036,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JLabel CatalogTitleLabel;
     private javax.swing.JLabel ChangeDriverCatalogLabel;
     private javax.swing.JButton CreateDriverButton;
+    private javax.swing.JButton CreateSponsorButton;
     private javax.swing.JList<String> DriverUserCatalogList;
     private javax.swing.JScrollPane DriverUserCatalogScrollPane;
     private javax.swing.JPanel FirstCatalogItemPanel;
