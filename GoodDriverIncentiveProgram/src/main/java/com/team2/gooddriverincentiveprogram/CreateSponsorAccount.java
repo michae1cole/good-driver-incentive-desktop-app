@@ -262,7 +262,7 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
                         int companyID = companyRS.getInt("CompanyID");
                         PreparedStatement driverCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Sponsor (CompanyID, UserID) VALUES (?, ?)");
                         driverCreationPS.setInt(1, companyID);
-                        driverCreationPS.setInt(2, userid);
+                        driverCreationPS.setInt(2, UID);
                         driverCreationPS.executeUpdate();
                     }
                     
