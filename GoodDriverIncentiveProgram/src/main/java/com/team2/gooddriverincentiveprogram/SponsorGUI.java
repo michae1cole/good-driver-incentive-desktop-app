@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -163,6 +163,16 @@ public class SponsorGUI extends javax.swing.JFrame {
         pointChangeVal = new javax.swing.JTextField();
         reasonLabel = new javax.swing.JLabel();
         reasonText = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        driverFirstNameField = new javax.swing.JTextField();
+        driverLastNameField = new javax.swing.JTextField();
+        driverPreferredNameField = new javax.swing.JTextField();
+        driverUsernameField = new javax.swing.JTextField();
+        updateDriverInfoButton = new javax.swing.JButton();
         CreateSponsorButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -204,7 +214,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             }
         });
 
-        jButton28.setText("Driver Points");
+        jButton28.setText("Driver Points / Info");
         jButton28.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton28ActionPerformed(evt);
@@ -1065,6 +1075,11 @@ public class SponsorGUI extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        driverList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                driverListValueChanged(evt);
+            }
+        });
         driverListScrollPane.setViewportView(driverList);
 
         submitPtChBtn.setText("Submit Point Change");
@@ -1080,6 +1095,24 @@ public class SponsorGUI extends javax.swing.JFrame {
 
         reasonLabel.setText("Insert a brief reason for point change here:");
 
+        jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel6.setText("Driver Information");
+
+        jLabel8.setText("First Name:");
+
+        jLabel9.setText("Last Name:");
+
+        jLabel10.setText("Preferred Name:");
+
+        jLabel11.setText("Username:");
+
+        updateDriverInfoButton.setText("Update");
+        updateDriverInfoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateDriverInfoButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout driverPointsLayout = new javax.swing.GroupLayout(driverPoints);
         driverPoints.setLayout(driverPointsLayout);
         driverPointsLayout.setHorizontalGroup(
@@ -1087,17 +1120,40 @@ public class SponsorGUI extends javax.swing.JFrame {
             .addGroup(driverPointsLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(driverListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1109, Short.MAX_VALUE)
                     .addGroup(driverPointsLayout.createSequentialGroup()
                         .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pointChangeLabel)
-                            .addComponent(pointChangeVal, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(submitPtChBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(driverListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(reasonText, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(reasonLabel))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(driverListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1109, Short.MAX_VALUE)
+                            .addGroup(driverPointsLayout.createSequentialGroup()
+                                .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(driverPointsLayout.createSequentialGroup()
+                                        .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(submitPtChBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(driverListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(reasonText, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(reasonLabel))
+                                        .addGap(236, 236, 236)
+                                        .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel9)
+                                            .addComponent(jLabel10)
+                                            .addComponent(jLabel11)
+                                            .addComponent(jLabel8)))
+                                    .addComponent(pointChangeVal, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(driverFirstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(driverLastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(driverPreferredNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(driverUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(driverPointsLayout.createSequentialGroup()
+                                        .addGap(49, 49, 49)
+                                        .addComponent(updateDriverInfoButton)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(driverPointsLayout.createSequentialGroup()
+                        .addComponent(pointChangeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(224, 224, 224))))
         );
         driverPointsLayout.setVerticalGroup(
             driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1105,17 +1161,47 @@ public class SponsorGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(driverListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(driverListScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(pointChangeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(driverPointsLayout.createSequentialGroup()
+                        .addComponent(driverListScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(driverPointsLayout.createSequentialGroup()
+                                .addComponent(pointChangeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pointChangeVal, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, driverPointsLayout.createSequentialGroup()
+                                .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel8)
+                                    .addComponent(driverFirstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(2, 2, 2))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, driverPointsLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(46, 46, 46)))
+                .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(driverPointsLayout.createSequentialGroup()
+                        .addComponent(reasonLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(reasonText))
+                    .addGroup(driverPointsLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(driverLastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(driverPreferredNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(driverUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11))
+                        .addGap(0, 12, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pointChangeVal, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(reasonLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(reasonText, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(submitPtChBtn)
+                .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(submitPtChBtn)
+                    .addComponent(updateDriverInfoButton))
                 .addGap(35, 35, 35))
         );
 
@@ -2409,6 +2495,49 @@ public class SponsorGUI extends javax.swing.JFrame {
         createAccountFrame.setVisible(true);
     }//GEN-LAST:event_CreateSponsorButtonActionPerformed
 
+    private void driverListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_driverListValueChanged
+        // TODO add your handling code here:
+        try {
+            String selectedDriver = driverList.getSelectedValue();
+            String[] tokens = selectedDriver.split(":");
+            int selectedDriverID = Integer.parseInt(tokens[0]);
+            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT Users.FirstName, Users.LastName, Users.PreferredName, Users.Username FROM Driver join Users on Users.UserID = Driver.UserID where Driver.DriverID=?");
+            sponsorPS.setInt(1, selectedDriverID);
+            ResultSet sponsorRS = sponsorPS.executeQuery();  
+            sponsorRS.next();
+            driverFirstNameField.setText(sponsorRS.getString("FirstName"));
+            driverLastNameField.setText(sponsorRS.getString("LastName"));
+            driverPreferredNameField.setText(sponsorRS.getString("PreferredName"));
+            driverUsernameField.setText(sponsorRS.getString("Username"));
+            
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_driverListValueChanged
+
+    private void updateDriverInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDriverInfoButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            String selectedDriver = driverList.getSelectedValue();
+            String[] tokens = selectedDriver.split(":");
+            int selectedDriverID = Integer.parseInt(tokens[0]);
+            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT UserID FROM Driver where DriverID=?");
+            sponsorPS.setInt(1, selectedDriverID);
+            ResultSet sponsorRS = sponsorPS.executeQuery();  
+            sponsorRS.next();
+            String userID = sponsorRS.getString("UserID");
+            PreparedStatement updateDriverInfoPS = MyConnection.getConnection().prepareStatement("UPDATE Users SET FirstName=?, LastName=?, PreferredName=?, Username=? WHERE UserID=?");
+            updateDriverInfoPS.setString(1, driverFirstNameField.getText());
+            updateDriverInfoPS.setString(2, driverLastNameField.getText());
+            updateDriverInfoPS.setString(3, driverPreferredNameField.getText());
+            updateDriverInfoPS.setString(4, driverUsernameField.getText());
+            updateDriverInfoPS.setString(5, userID);
+            updateDriverInfoPS.executeUpdate();
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_updateDriverInfoButtonActionPerformed
+
     public void setCurrentCatalogDriver(int driverID) {
         currentCatalogDriverSelected = driverID;
     }
@@ -3074,10 +3203,14 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JPanel catalog;
     private javax.swing.JPanel catalogEditor;
     private javax.swing.JButton declineApplicationButton;
+    private javax.swing.JTextField driverFirstNameField;
+    private javax.swing.JTextField driverLastNameField;
     private javax.swing.JList<String> driverList;
     private javax.swing.JLabel driverListLabel;
     private javax.swing.JScrollPane driverListScrollPane;
     private javax.swing.JPanel driverPoints;
+    private javax.swing.JTextField driverPreferredNameField;
+    private javax.swing.JTextField driverUsernameField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton23;
@@ -3094,6 +3227,8 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -3106,7 +3241,10 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -3131,5 +3269,6 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JTextField reasonTextField;
     private javax.swing.JPanel reporting;
     private javax.swing.JButton submitPtChBtn;
+    private javax.swing.JButton updateDriverInfoButton;
     // End of variables declaration//GEN-END:variables
 }
