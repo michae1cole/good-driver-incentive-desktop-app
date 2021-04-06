@@ -21,10 +21,14 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
  */
 public class CreateSponsorAccount extends javax.swing.JFrame {
 
+    static private int userid;
+
     /**
      * Creates new form CreateSponsorAccount
+     * @param userID the userid of the sponsor
      */
-    public CreateSponsorAccount() {
+    public CreateSponsorAccount(int userID) {
+        userid = userID;
         initComponents();
     }
 
@@ -48,13 +52,11 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
         jPasswordField2 = new javax.swing.JPasswordField();
 
@@ -88,17 +90,6 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("Company Name");
-        jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-
-        jTextField8.setToolTipText("");
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -113,19 +104,17 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel7)
                             .addComponent(jLabel6)
                             .addComponent(jLabel5)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,11 +156,7 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -213,10 +198,6 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
-
     //Create Account button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //Get username
@@ -240,7 +221,7 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
         String lastName = jTextField6.getText();
         String preferredName = jTextField7.getText();
         //Get address for driver
-        String companyName = jTextField8.getText();
+        
         //Check criteria for each field
         if(!usernameMatcher.matches()) {
             JOptionPane.showMessageDialog(null, "Username must be a valid email address.");
@@ -254,9 +235,7 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "You must enter a middle name.");
         } else if(lastName.replaceAll(" ", "").equals("")) {
             JOptionPane.showMessageDialog(null, "You must enter a last name.");
-        } else if(companyName.replaceAll(" ", "").equals("")) {
-            JOptionPane.showMessageDialog(null, "You must enter a company name.");
-        } else {
+        }  else {
             //Create new account in database
             try {
                 //Update User table
@@ -275,15 +254,15 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
                 identificationPS.setString(1, uname);
                 ResultSet identificationRS = identificationPS.executeQuery();
                 if(identificationRS.next()) {
-                    int userID = identificationRS.getInt("UserID");
-                    PreparedStatement companyPS = MyConnection.getConnection().prepareStatement("Select * FROM Company WHERE CompanyName=?");
-                    companyPS.setString(1, companyName);
+                    int UID = identificationRS.getInt("UserID");
+                    PreparedStatement companyPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company JOIN Sponsor ON Sponsor.CompanyID=Company.CompanyID WHERE Sponsor.UserID=?");
+                    companyPS.setInt(1, userid);
                     ResultSet companyRS = companyPS.executeQuery();
                     if(companyRS.next()) {
                         int companyID = companyRS.getInt("CompanyID");
                         PreparedStatement driverCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Sponsor (CompanyID, UserID) VALUES (?, ?)");
                         driverCreationPS.setInt(1, companyID);
-                        driverCreationPS.setInt(2, userID);
+                        driverCreationPS.setInt(2, userid);
                         driverCreationPS.executeUpdate();
                     }
                     
@@ -330,7 +309,7 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateSponsorAccount().setVisible(true);
+                new CreateSponsorAccount(userid).setVisible(true);
             }
         });
     }
@@ -345,7 +324,6 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
@@ -355,6 +333,5 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables
 }
