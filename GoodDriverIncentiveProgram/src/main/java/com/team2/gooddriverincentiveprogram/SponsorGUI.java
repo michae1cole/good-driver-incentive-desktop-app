@@ -1264,7 +1264,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             String[] listData = listDataArrayList.toArray(new String[listDataArrayList.size()]);
             driverList.setListData(listData);
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
@@ -1930,7 +1930,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_FirstItemBuyButtonActionPerformed
 
@@ -1993,7 +1993,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_SecondItemBuyButtonActionPerformed
 
@@ -2056,7 +2056,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_ThirdItemBuyButtonActionPerformed
 
@@ -2119,7 +2119,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_FourthItemBuyButtonActionPerformed
 
@@ -2250,7 +2250,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 PreviousCatalogButton.setVisible(false);
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_PreviousCatalogButtonActionPerformed
 
@@ -2389,7 +2389,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 NextCatalogButton.setVisible(false);
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_NextCatalogButtonActionPerformed
 
@@ -2403,10 +2403,20 @@ public class SponsorGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_DriverUserCatalogListValueChanged
 
     private void CreateSponsorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateSponsorButtonActionPerformed
-        CreateSponsorAccount createAccountFrame = new CreateSponsorAccount();
-        createAccountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        createAccountFrame.setTitle("Good Driver Incentive Program - Create Sponsor Account");
-        createAccountFrame.setVisible(true);
+        try {
+            PreparedStatement companyPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company JOIN Sponsor ON Sponsor.CompanyID=Company.CompanyID WHERE Sponsor.UserID=?");
+            companyPS.setInt(1, userID);
+            ResultSet companyRS = companyPS.executeQuery();
+            if(companyRS.next()) {
+                CreateSponsorAccount createAccountFrame = new CreateSponsorAccount();
+                createAccountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                createAccountFrame.setTitle("Good Driver Incentive Program - Create Sponsor Account");
+                createAccountFrame.setCompanyID(companyRS.getInt("CompanyID"));
+                createAccountFrame.setVisible(true);
+            }
+        } catch(Exception e) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
     }//GEN-LAST:event_CreateSponsorButtonActionPerformed
 
     public void setCurrentCatalogDriver(int driverID) {
@@ -2790,7 +2800,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 }
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
@@ -2816,7 +2826,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 DriverUserCatalogList.setListData(listData);
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
