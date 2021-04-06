@@ -174,6 +174,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         driverUsernameField = new javax.swing.JTextField();
         updateDriverInfoButton = new javax.swing.JButton();
         CreateSponsorButton = new javax.swing.JButton();
+        SwitchtoDriverView = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1214,6 +1215,14 @@ public class SponsorGUI extends javax.swing.JFrame {
             }
         });
 
+        SwitchtoDriverView.setText("Switch to Driver View");
+        SwitchtoDriverView.setActionCommand("SwitchtoDriverView");
+        SwitchtoDriverView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SwitchtoDriverViewActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -1234,12 +1243,14 @@ public class SponsorGUI extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(CreateDriverButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(CreateDriverButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SwitchtoDriverView, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(CreateSponsorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 393, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 242, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1257,7 +1268,8 @@ public class SponsorGUI extends javax.swing.JFrame {
                     .addComponent(jButton8)
                     .addComponent(jButton6)
                     .addComponent(jButton29)
-                    .addComponent(CreateDriverButton))
+                    .addComponent(CreateDriverButton)
+                    .addComponent(SwitchtoDriverView))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton23)
@@ -1271,6 +1283,8 @@ public class SponsorGUI extends javax.swing.JFrame {
                     .addComponent(layeredPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
+
+        SwitchtoDriverView.getAccessibleContext().setAccessibleName("SwitchtoDriverView");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -2495,6 +2509,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         createAccountFrame.setVisible(true);
     }//GEN-LAST:event_CreateSponsorButtonActionPerformed
 
+<<<<<<< Updated upstream
     private void driverListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_driverListValueChanged
         // TODO add your handling code here:
         try {
@@ -2537,6 +2552,40 @@ public class SponsorGUI extends javax.swing.JFrame {
             Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_updateDriverInfoButtonActionPerformed
+=======
+    private void SwitchtoDriverViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SwitchtoDriverViewActionPerformed
+//        try{
+//            int uid = this.getUserID();
+//            PreparedStatement switchPS;
+//            ResultSet switchRS;
+//            String loginQuery = "SELECT * FROM Company JOIN Sponsor ON Sponsor.CompanyID=Company.CompanyID WHERE Sponsor.UserID=?";
+//
+//            switchPS = MyConnection.getConnection().prepareStatement(loginQuery);
+//            switchPS.setInt(1,uid);
+//
+//            switchRS = switchPS.executeQuery();
+//            
+//            DriverGUI driverGUI = new DriverGUI();
+//            driverGUI.setLoggingIn(true);
+//            driverGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//            driverGUI.setTitle("Good Driver Incentive Program - Driver");
+//            driverGUI.switchPanels(driverGUI.getProfilePanel());
+//            driverGUI.setUserID(switchRS.getInt("UserID"));
+//            String fullName = switchRS.getString("FirstName") + " " + switchRS.getString("MiddleName") + " " + switchRS.getString("LastName");
+//            driverGUI.setDriverName(fullName);
+//            driverGUI.setDriverUsername(uname);
+//            String preferredName = switchRS.getString("PreferredName");
+//            driverGUI.setDriverPreferredName(preferredName);
+//            driverGUI.setDriverPassword(pass);
+//            driverGUI.formatCartItemTable();
+//            driverGUI.setSponsorCatalogList(switchRS.getInt("UserID"));
+//            driverGUI.setApplicationCompanyList(switchRS.getInt("UserID"));
+//            driverGUI.setApplicationTable();
+//        }catch(SQLException e) {
+//                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, e);
+//        }
+    }//GEN-LAST:event_SwitchtoDriverViewActionPerformed
+>>>>>>> Stashed changes
 
     public void setCurrentCatalogDriver(int driverID) {
         currentCatalogDriverSelected = driverID;
@@ -3191,6 +3240,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JLabel SecondItemPointCostLabel;
     private javax.swing.JScrollPane SecondItemTitleScrollPane;
     private javax.swing.JTextArea SecondItemTitleTextArea;
+    private javax.swing.JButton SwitchtoDriverView;
     private javax.swing.JPanel ThirdCatalogItemPanel;
     private javax.swing.JButton ThirdItemBuyButton;
     private javax.swing.JLabel ThirdItemImageLabel;

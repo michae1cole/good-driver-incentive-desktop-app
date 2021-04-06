@@ -59,12 +59,15 @@ com\team2\gooddriverincentiveprogram\SponsorGUI$14.class
 com\team2\gooddriverincentiveprogram\DriverGUI$29.class
 com\team2\gooddriverincentiveprogram\LoginGUI$1.class
 com\team2\gooddriverincentiveprogram\DriverGUI$5.class
+com\team2\gooddriverincentiveprogram\CreateSponsorAccount.class
+com\team2\gooddriverincentiveprogram\CreateSponsorAccount$2.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$CatalogItem.class
 com\team2\gooddriverincentiveprogram\LoginGUI$5.class
 com\team2\gooddriverincentiveprogram\AdminGUI$18.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$24.class
 com\team2\gooddriverincentiveprogram\DriverGUI$13.class
 com\team2\gooddriverincentiveprogram\AdminGUI$20.class
+com\team2\gooddriverincentiveprogram\SponsorGUI$39.class
 com\team2\gooddriverincentiveprogram\DriverGUI$21.class
 com\team2\gooddriverincentiveprogram\LoginGUI$2.class
 com\team2\gooddriverincentiveprogram\DriverGUI$33.class
@@ -95,6 +98,7 @@ com\team2\gooddriverincentiveprogram\AdminGUI$23.class
 com\team2\gooddriverincentiveprogram\DriverGUI$30.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$23.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$33.class
+com\team2\gooddriverincentiveprogram\CreateSponsorAccount$1.class
 com\team2\gooddriverincentiveprogram\DriverGUI$20.class
 com\team2\gooddriverincentiveprogram\AdminGUI$6.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$34.class
