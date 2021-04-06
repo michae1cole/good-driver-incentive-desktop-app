@@ -2403,7 +2403,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_DriverUserCatalogListValueChanged
 
     private void CreateSponsorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateSponsorButtonActionPerformed
-        CreateSponsorAccount createAccountFrame = new CreateSponsorAccount();
+        CreateSponsorAccount createAccountFrame = new CreateSponsorAccount(userID);
         createAccountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         createAccountFrame.setTitle("Good Driver Incentive Program - Create Sponsor Account");
         createAccountFrame.setVisible(true);
