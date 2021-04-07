@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.sql.Timestamp;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -154,6 +155,8 @@ public class SponsorGUI extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
         reporting = new javax.swing.JPanel();
+        reportScrollPane = new javax.swing.JScrollPane();
+        driverReportTable = new javax.swing.JTable();
         driverPoints = new javax.swing.JPanel();
         driverListScrollPane = new javax.swing.JScrollPane();
         driverList = new javax.swing.JList<>();
@@ -469,7 +472,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             .addGroup(myApplicationLayout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1055, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         myApplicationLayout.setVerticalGroup(
             myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -478,7 +481,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 33, Short.MAX_VALUE)
+                .addGap(18, 35, Short.MAX_VALUE)
                 .addGroup(myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
                     .addComponent(reasonTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
@@ -788,7 +791,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(catalogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(CatalogTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1128, Short.MAX_VALUE)
+                .addComponent(CatalogTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, catalogLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -806,7 +809,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         catalogLayout.setVerticalGroup(
             catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(catalogLayout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(38, Short.MAX_VALUE)
                 .addComponent(CatalogTitleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ChangeDriverCatalogLabel)
@@ -1056,15 +1059,34 @@ public class SponsorGUI extends javax.swing.JFrame {
 
         reporting.setBackground(new java.awt.Color(191, 192, 192));
 
+        driverReportTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        reportScrollPane.setViewportView(driverReportTable);
+
         javax.swing.GroupLayout reportingLayout = new javax.swing.GroupLayout(reporting);
         reporting.setLayout(reportingLayout);
         reportingLayout.setHorizontalGroup(
             reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1148, Short.MAX_VALUE)
+            .addGroup(reportingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(reportScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE)
+                .addContainerGap())
         );
         reportingLayout.setVerticalGroup(
             reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 541, Short.MAX_VALUE)
+            .addGroup(reportingLayout.createSequentialGroup()
+                .addGap(79, 79, 79)
+                .addComponent(reportScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(231, Short.MAX_VALUE))
         );
 
         layeredPane.add(reporting, "card6");
@@ -1123,7 +1145,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(driverPointsLayout.createSequentialGroup()
                         .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(driverListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1109, Short.MAX_VALUE)
+                            .addComponent(driverListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1116, Short.MAX_VALUE)
                             .addGroup(driverPointsLayout.createSequentialGroup()
                                 .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(driverPointsLayout.createSequentialGroup()
@@ -1198,7 +1220,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                         .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(driverUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11))
-                        .addGap(0, 12, Short.MAX_VALUE)))
+                        .addGap(0, 25, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(submitPtChBtn)
@@ -1250,7 +1272,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                         .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(CreateSponsorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 242, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1276,7 +1298,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                     .addComponent(jButton7)
                     .addComponent(jButton28)
                     .addComponent(CreateSponsorButton))
-                .addContainerGap(570, Short.MAX_VALUE))
+                .addContainerGap(574, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addContainerGap(81, Short.MAX_VALUE)
@@ -1306,6 +1328,78 @@ public class SponsorGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Class to store driver and point change information to use for table population
+    class Drivers{
+        private String name;
+        private String reason;
+        private int curPoints;
+        private Timestamp timestamp;
+        private int changeVal;
+        
+        public Drivers(String name, String reason, int curPoints, Timestamp timestamp, int changeVal){
+            this.name = name;
+            this.reason = reason;
+            this.curPoints = curPoints;
+            this.timestamp = timestamp;
+            this.changeVal = changeVal;
+        }
+        
+        public String getName(){
+            return this.name;
+        }
+        public String getReason(){
+            return this.reason;
+        }
+        public int getCurPoints(){
+            return this.curPoints;
+        }
+        public Timestamp getTimestamp(){
+            return this.timestamp;
+        }
+        public int getChangeVal(){
+            return this.changeVal;
+        }
+    }
+    
+    //Populate the driver table on reporting page with driver and point change information
+    private void populateDriverTable(){
+        DefaultTableModel model = (DefaultTableModel) driverReportTable.getModel();
+        ArrayList<Drivers> drivers = new ArrayList<Drivers>(); //this is where driver data will be stored
+        ArrayList<Integer> driverIDList = new ArrayList<>();
+        ArrayList<Integer> driverPointList = new ArrayList<>();
+        
+        //Querying db here to gather table information
+        try{
+            int compID = -1;
+            int driverID = -1;
+            
+            //Get current sponsor's company ID
+            PreparedStatement getUserPS = MyConnection.getConnection().prepareStatement("SELECT CompanyID FROM Sponsor WHERE UserID=?");
+            getUserPS.setInt(1, userID);
+            ResultSet sponsorRS = getUserPS.executeQuery();
+            while(sponsorRS.next()){
+                compID = sponsorRS.getInt("CompanyID");
+            }
+            
+            //Use company ID to query for driver IDs and driver points
+            PreparedStatement driversPS = MyConnection.getConnection().prepareStatement("SELECT DriverID, Points FROM DriverPoints WHERE CompanyID=?");
+            driversPS.setInt(1, compID);
+            ResultSet driversRS = driversPS.executeQuery();
+            while(driversRS.next()){
+                driverID = driversRS.getInt("DriverID");
+                driverIDList.add(driverID);
+                int driverPt = driversRS.getInt("Points");
+                driverPointList.add(driverPt);
+            }
+            
+            //Use company ID to query for point change information //FIXME figure out how to get data, how many point changes back
+            
+        } catch(Exception e) {
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+    }
+    
     //Populate the driver list on driver points panel
     private void populateDriverList(){
         ArrayList<String> listDataArrayList = new ArrayList<>();
@@ -3260,6 +3354,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane driverListScrollPane;
     private javax.swing.JPanel driverPoints;
     private javax.swing.JTextField driverPreferredNameField;
+    private javax.swing.JTable driverReportTable;
     private javax.swing.JTextField driverUsernameField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -3317,6 +3412,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JLabel reasonLabel;
     private javax.swing.JTextField reasonText;
     private javax.swing.JTextField reasonTextField;
+    private javax.swing.JScrollPane reportScrollPane;
     private javax.swing.JPanel reporting;
     private javax.swing.JButton submitPtChBtn;
     private javax.swing.JButton updateDriverInfoButton;
