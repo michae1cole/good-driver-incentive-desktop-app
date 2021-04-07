@@ -42,6 +42,7 @@ com\team2\gooddriverincentiveprogram\SponsorGUI.class
 com\team2\gooddriverincentiveprogram\AdminGUI$13.class
 com\team2\gooddriverincentiveprogram\DriverGUI$10.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$5.class
+com\team2\gooddriverincentiveprogram\SponsorGUI$43.class
 com\team2\gooddriverincentiveprogram\ForgotPasswordEmail$3.class
 com\team2\gooddriverincentiveprogram\MyConnection.class
 com\team2\gooddriverincentiveprogram\AdminGUI$8.class
@@ -49,6 +50,7 @@ com\team2\gooddriverincentiveprogram\DriverGUI$18.class
 com\team2\gooddriverincentiveprogram\DriverGUI$23.class
 com\team2\gooddriverincentiveprogram\DriverGUI$11.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$26.class
+com\team2\gooddriverincentiveprogram\SponsorGUI$42.class
 com\team2\gooddriverincentiveprogram\LoginGUI.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$31.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$37.class
@@ -61,6 +63,7 @@ com\team2\gooddriverincentiveprogram\LoginGUI$1.class
 com\team2\gooddriverincentiveprogram\DriverGUI$5.class
 com\team2\gooddriverincentiveprogram\CreateSponsorAccount.class
 com\team2\gooddriverincentiveprogram\CreateSponsorAccount$2.class
+com\team2\gooddriverincentiveprogram\SponsorGUI$41.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$CatalogItem.class
 com\team2\gooddriverincentiveprogram\LoginGUI$5.class
 com\team2\gooddriverincentiveprogram\AdminGUI$18.class
@@ -95,6 +98,7 @@ com\team2\gooddriverincentiveprogram\DriverGUI$27.class
 com\team2\gooddriverincentiveprogram\AdminGUI$16.class
 com\team2\gooddriverincentiveprogram\DriverGUI$9.class
 com\team2\gooddriverincentiveprogram\AdminGUI$23.class
+com\team2\gooddriverincentiveprogram\SponsorGUI$40.class
 com\team2\gooddriverincentiveprogram\DriverGUI$30.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$23.class
 com\team2\gooddriverincentiveprogram\SponsorGUI$33.class
