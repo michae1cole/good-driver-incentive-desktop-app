@@ -69,8 +69,9 @@
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jButton13" min="-2" pref="145" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="CreateCompanyButton" min="-2" pref="145" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jButton30" min="-2" pref="145" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -95,6 +96,7 @@
                       <Component id="jButton23" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton30" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="SwitchToViews" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="CreateCompanyButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="layeredPane" max="32767" attributes="0"/>
@@ -352,7 +354,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel8" pref="731" max="32767" attributes="0"/>
+                          <Component id="jLabel8" pref="1024" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -629,7 +631,7 @@
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jComboBox7" min="-2" pref="102" max="-2" attributes="0"/>
-                                  <EmptySpace pref="70" max="32767" attributes="0"/>
+                                  <EmptySpace pref="363" max="32767" attributes="0"/>
                                   <Component id="jComboBox6" min="-2" pref="102" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                   <Component id="jComboBox5" min="-2" pref="102" max="-2" attributes="0"/>
@@ -799,7 +801,7 @@
                               <Component id="jScrollPane2" min="-2" pref="634" max="-2" attributes="0"/>
                               <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="66" max="32767" attributes="0"/>
+                          <EmptySpace pref="359" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
@@ -930,6 +932,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SwitchToViewsActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="CreateCompanyButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Create Company"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateCompanyButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

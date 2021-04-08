@@ -101,6 +101,7 @@ public class AdminGUI extends javax.swing.JFrame {
         jButton30 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         SwitchToViews = new javax.swing.JButton();
+        CreateCompanyButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -356,7 +357,7 @@ public class AdminGUI extends javax.swing.JFrame {
             catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(catalogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(catalogLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
@@ -507,7 +508,7 @@ public class AdminGUI extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reportingLayout.createSequentialGroup()
                         .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 363, Short.MAX_VALUE)
                         .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -570,7 +571,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(359, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sponsorViewLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ViewDriverPage)
@@ -643,6 +644,13 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
+        CreateCompanyButton.setText("Create Company");
+        CreateCompanyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateCompanyButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -669,7 +677,8 @@ public class AdminGUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(CreateCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
@@ -686,7 +695,8 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton23)
                     .addComponent(jButton30)
-                    .addComponent(SwitchToViews))
+                    .addComponent(SwitchToViews)
+                    .addComponent(CreateCompanyButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(layeredPane)
                 .addContainerGap())
@@ -1006,6 +1016,13 @@ public class AdminGUI extends javax.swing.JFrame {
         selectedCompanyID = Integer.parseInt(tokens[0]);
     }//GEN-LAST:event_SponsorListValueChanged
 
+    private void CreateCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateCompanyButtonActionPerformed
+        CreateCompany createCompanyFrame = new CreateCompany();
+        createCompanyFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        createCompanyFrame.setTitle("Good Driver Incentive Program - Create Company");
+        createCompanyFrame.setVisible(true);
+    }//GEN-LAST:event_CreateCompanyButtonActionPerformed
+
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
         jTextField1.setText(name);
@@ -1094,6 +1111,7 @@ public class AdminGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CreateCompanyButton;
     private javax.swing.JList<String> SponsorList;
     private javax.swing.JButton SwitchToViews;
     private javax.swing.JButton ViewDriverPage;
