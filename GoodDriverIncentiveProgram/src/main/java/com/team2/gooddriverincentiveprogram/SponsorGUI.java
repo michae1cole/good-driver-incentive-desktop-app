@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.sql.Timestamp;
+import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -1082,10 +1083,7 @@ public class SponsorGUI extends javax.swing.JFrame {
 
         driverReportTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
@@ -1443,7 +1441,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                    userIDList.add(usrID);
                 }
             }
-            
+
             //Use sponsor IDs to fetch user IDs
             PreparedStatement sponsorsUserPS = MyConnection.getConnection().prepareStatement("SELECT UserID FROM Sponsor WHERE SponsorID=?");
             for(int ID : sponsorIDList){
@@ -1482,8 +1480,11 @@ public class SponsorGUI extends javax.swing.JFrame {
         
             //Populate drop down list
             driverFilterDD.addItem("All Drivers");
-            for(int x = 0; x < nameList.size(); ++x){
-                driverFilterDD.addItem(nameList.get(x));
+            Set<String> nameSet = new HashSet<String>(nameList);
+            Iterator<String> iterator = nameSet.iterator();
+            for(int x = 0; x < nameSet.size(); ++x){
+                String name = iterator.next();
+                driverFilterDD.addItem(name);
             }
             
             int numOfColumns = 6;
@@ -2729,17 +2730,23 @@ public class SponsorGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             String selectedDriver = driverList.getSelectedValue();
-            String[] tokens = selectedDriver.split(":");
-            int selectedDriverID = Integer.parseInt(tokens[0]);
-            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT Users.FirstName, Users.LastName, Users.PreferredName, Users.Username FROM Driver join Users on Users.UserID = Driver.UserID where Driver.DriverID=?");
-            sponsorPS.setInt(1, selectedDriverID);
-            ResultSet sponsorRS = sponsorPS.executeQuery();  
-            sponsorRS.next();
-            driverFirstNameField.setText(sponsorRS.getString("FirstName"));
-            driverLastNameField.setText(sponsorRS.getString("LastName"));
-            driverPreferredNameField.setText(sponsorRS.getString("PreferredName"));
-            driverUsernameField.setText(sponsorRS.getString("Username"));
-            
+            if(selectedDriver != null) {
+                String[] tokens = selectedDriver.split(":");
+                int selectedDriverID = Integer.parseInt(tokens[0]);
+                PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT Users.FirstName, Users.LastName, Users.PreferredName, Users.Username FROM Driver join Users on Users.UserID = Driver.UserID where Driver.DriverID=?");
+                sponsorPS.setInt(1, selectedDriverID);
+                ResultSet sponsorRS = sponsorPS.executeQuery();  
+                sponsorRS.next();
+                driverFirstNameField.setText(sponsorRS.getString("FirstName"));
+                driverLastNameField.setText(sponsorRS.getString("LastName"));
+                driverPreferredNameField.setText(sponsorRS.getString("PreferredName"));
+                driverUsernameField.setText(sponsorRS.getString("Username"));
+            } else {
+                driverFirstNameField.setText("");
+                driverLastNameField.setText("");
+                driverPreferredNameField.setText("");
+                driverUsernameField.setText("");
+            }
         } catch(Exception e) {
             Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -2838,7 +2845,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             sorter.setRowFilter(rf);
         }
     }//GEN-LAST:event_filterButtonActionPerformed
-//>>>>>>> Stashed changes
+
 
     public void setCurrentCatalogDriver(int driverID) {
         currentCatalogDriverSelected = driverID;

@@ -32,6 +32,7 @@ public class AdminGUI extends javax.swing.JFrame {
     }
     
     private int userID;
+    private int selectedCompanyID = -1;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -536,14 +537,15 @@ public class AdminGUI extends javax.swing.JFrame {
 
         layeredPane.add(reporting, "card4");
 
-        SponsorList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        SponsorList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        SponsorList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                SponsorListValueChanged(evt);
+            }
         });
         jScrollPane2.setViewportView(SponsorList);
 
-        jLabel17.setText("Select Sponsor Page to View");
+        jLabel17.setText("Select Company Page to View");
 
         ViewSponsorPage.setText("View Sponsor Page");
         ViewSponsorPage.addActionListener(new java.awt.event.ActionListener() {
@@ -963,8 +965,46 @@ public class AdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewSponsorPageActionPerformed
 
     private void ViewDriverPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewDriverPageActionPerformed
-        // TODO add your handling code here:
+        try {
+            if(selectedCompanyID != -1) {
+                PreparedStatement companyDriverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Users JOIN Company ON Company.CompanyTestDriverID=Users.UserID JOIN Driver ON Driver.UserID=Company.CompanyTestDriverID WHERE Company.CompanyID=?");
+                companyDriverPS.setInt(1, selectedCompanyID);
+                ResultSet companyDriverRS = companyDriverPS.executeQuery();
+                if(companyDriverRS.next()) {
+                    DriverGUI driverGUI = new DriverGUI();
+                    driverGUI.setLoggingIn(true);
+                    driverGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    driverGUI.setTitle("Good Driver Incentive Program - Test Driver");
+                    driverGUI.switchPanels(driverGUI.getProfilePanel());
+                    driverGUI.setUserID(companyDriverRS.getInt("UserID"));
+                    String fullName = companyDriverRS.getString("FirstName") + " " + companyDriverRS.getString("MiddleName") + " " + companyDriverRS.getString("LastName");
+                    driverGUI.setDriverName(fullName);
+                    driverGUI.setDriverUsername(companyDriverRS.getString("Username"));
+                    String preferredName = companyDriverRS.getString("PreferredName");
+                    driverGUI.setDriverPreferredName(preferredName);
+                    driverGUI.setDriverPassword("password");
+                    driverGUI.formatCartItemTable();
+                    driverGUI.setSponsorCatalogList(companyDriverRS.getInt("UserID"));
+                    driverGUI.setApplicationCompanyList(companyDriverRS.getInt("UserID"));
+                    driverGUI.setApplicationTable();
+                    driverGUI.setDriverAddress(companyDriverRS.getString("Address"));
+                    driverGUI.removeFunctionality();
+                    driverGUI.setLoggingIn(false);
+                    driverGUI.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please make a company selection.");
+            }
+        } catch(Exception e) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
     }//GEN-LAST:event_ViewDriverPageActionPerformed
+
+    private void SponsorListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_SponsorListValueChanged
+        String selectedCompany = SponsorList.getSelectedValue();
+        String[] tokens = selectedCompany.split(": ");
+        selectedCompanyID = Integer.parseInt(tokens[0]);
+    }//GEN-LAST:event_SponsorListValueChanged
 
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
@@ -1000,7 +1040,7 @@ public class AdminGUI extends javax.swing.JFrame {
 
         while (resultSet.next()) //go through each row that your query returns
         {
-            String ItemList = resultSet.getString("CompanyName"); //get the element in column "item_code"
+            String ItemList = resultSet.getInt("CompanyID") + ": " + resultSet.getString("CompanyName"); //get the element in column "item_code"
             model.addElement(ItemList); //add each item to the model
         }
         SponsorList.setModel(model);
@@ -1008,11 +1048,6 @@ public class AdminGUI extends javax.swing.JFrame {
         resultSet.close();
         statement.close();
     }
-    private void SponsorListValueChanged(javax.swing.event.ListSelectionEvent evt) {                                    
-        String selectedCompany = SponsorList.getSelectedValue();
-        String[] tokens = selectedCompany.split(":");
-        int selectedCompanyID = Integer.parseInt(tokens[0]);
-    } 
 
     /**
      * @param args the command line arguments

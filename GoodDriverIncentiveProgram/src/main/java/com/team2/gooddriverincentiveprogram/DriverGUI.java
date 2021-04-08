@@ -56,6 +56,7 @@ public class DriverGUI extends javax.swing.JFrame {
     private int currentCatalogSponsor;
     private Deque<CatalogItem> previousQueue;
     private Deque<CatalogItem> nextQueue;
+    private Boolean dummyDriver = false;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1309,7 +1310,11 @@ public class DriverGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_myAccountButtonActionPerformed
 
     private void myApplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myApplicationButtonActionPerformed
-        switchPanels(applicationPanel);
+        if(!dummyDriver) {
+            switchPanels(applicationPanel);
+        } else {
+            JOptionPane.showMessageDialog(null, "This page is not available in test driver view.");
+        }
     }//GEN-LAST:event_myApplicationButtonActionPerformed
 
     private void catalogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catalogButtonActionPerformed
@@ -1321,8 +1326,10 @@ public class DriverGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_catalogButtonActionPerformed
 
     private void purchasesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchasesButtonActionPerformed
-        if(hasSponsor()) {
+        if(hasSponsor() && !dummyDriver) {
             switchPanels(purchasesPanel);
+        } else if(hasSponsor() && dummyDriver) {
+            JOptionPane.showMessageDialog(null, "This page is not available in test driver view.");
         } else {
             JOptionPane.showMessageDialog(null, "You must be working for a sponsor to view your purchases.");
         }
@@ -1854,84 +1861,88 @@ public class DriverGUI extends javax.swing.JFrame {
 
     //Purchase Cart Items Button
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
-            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-            //Make sure there are items in the user's cart
-            if(model.getRowCount() > 0) {
-                Boolean itemProblem = false;
-                //Get driver's total number of points
-                PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
-                driverPS.setInt(1, userID);
-                ResultSet driverRS = driverPS.executeQuery();
-                if(driverRS.next()) {
-                    int driverID = driverRS.getInt("DriverID");
-                    PreparedStatement driverPointsPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverPoints WHERE DriverID=? AND CompanyID=?");
-                    driverPointsPS.setInt(1, driverID);
-                    driverPointsPS.setInt(2, getCurrentCartSponsor());
-                    ResultSet driverPointsRS = driverPointsPS.executeQuery();
-                    if(driverPointsRS.next()) {
-                        int pointAmount = driverPointsRS.getInt("Points");
-                        //For each item in the cart
-                        for(int i = 0; i < model.getRowCount() && !itemProblem; i++) {
-                            //Query Etsy to make sure listing is still active (not sold out)
-                            String etsyQuery = "https://openapi.etsy.com/v2/listings/" + model.getValueAt(i, 3) + "?api_key=pzm9kr33wye2gmv9fy2h4g64";
-                            //Send the request to etsy for listing results back
-                            HttpRequest request = HttpRequest.newBuilder()
-                            .uri(URI.create(etsyQuery))
-                            .method("GET", HttpRequest.BodyPublishers.noBody())
-                            .build();
-                            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-                            JSONObject jsonResponse = new JSONObject(response.body());
-                            //Tell user listing is not active and to remove item from cart based on Etsy results
-                            String listingState = jsonResponse.getJSONArray("results").getJSONObject(0).getString("state");
-                            if(listingState.equals("active")) {
-                                //Make sure user can afford item based on point total for company
-                                int itemCost = Integer.parseInt(model.getValueAt(i, 1).toString());
-                                if(pointAmount >= itemCost) {
-                                    pointAmount = pointAmount - itemCost;
+        if(!dummyDriver) {
+            try {
+                DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+                //Make sure there are items in the user's cart
+                if(model.getRowCount() > 0) {
+                    Boolean itemProblem = false;
+                    //Get driver's total number of points
+                    PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Driver WHERE UserID=?");
+                    driverPS.setInt(1, userID);
+                    ResultSet driverRS = driverPS.executeQuery();
+                    if(driverRS.next()) {
+                        int driverID = driverRS.getInt("DriverID");
+                        PreparedStatement driverPointsPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverPoints WHERE DriverID=? AND CompanyID=?");
+                        driverPointsPS.setInt(1, driverID);
+                        driverPointsPS.setInt(2, getCurrentCartSponsor());
+                        ResultSet driverPointsRS = driverPointsPS.executeQuery();
+                        if(driverPointsRS.next()) {
+                            int pointAmount = driverPointsRS.getInt("Points");
+                            //For each item in the cart
+                            for(int i = 0; i < model.getRowCount() && !itemProblem; i++) {
+                                //Query Etsy to make sure listing is still active (not sold out)
+                                String etsyQuery = "https://openapi.etsy.com/v2/listings/" + model.getValueAt(i, 3) + "?api_key=pzm9kr33wye2gmv9fy2h4g64";
+                                //Send the request to etsy for listing results back
+                                HttpRequest request = HttpRequest.newBuilder()
+                                .uri(URI.create(etsyQuery))
+                                .method("GET", HttpRequest.BodyPublishers.noBody())
+                                .build();
+                                HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+                                JSONObject jsonResponse = new JSONObject(response.body());
+                                //Tell user listing is not active and to remove item from cart based on Etsy results
+                                String listingState = jsonResponse.getJSONArray("results").getJSONObject(0).getString("state");
+                                if(listingState.equals("active")) {
+                                    //Make sure user can afford item based on point total for company
+                                    int itemCost = Integer.parseInt(model.getValueAt(i, 1).toString());
+                                    if(pointAmount >= itemCost) {
+                                        pointAmount = pointAmount - itemCost;
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Item: " + model.getValueAt(i, 0) + " puts your cart total price above your current total point amount. Please remove item from your cart to continue.");
+                                        itemProblem = true;
+                                    }
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Item: " + model.getValueAt(i, 0) + " puts your cart total price above your current total point amount. Please remove item from your cart to continue.");
+                                    JOptionPane.showMessageDialog(null, "Item: " + model.getValueAt(i, 0) + " is no longer an active listing. Please remove item from your cart to continue.");
                                     itemProblem = true;
                                 }
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Item: " + model.getValueAt(i, 0) + " is no longer an active listing. Please remove item from your cart to continue.");
-                                itemProblem = true;
                             }
-                        }
-                        if(!itemProblem) {
-                            PreparedStatement companyPTDRatioPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
-                            companyPTDRatioPS.setInt(1, getCurrentCartSponsor());
-                            ResultSet companyPTDRatioRS = companyPTDRatioPS.executeQuery();
-                            if(companyPTDRatioRS.next()) {
-                                int pointToDollarRatio = companyPTDRatioRS.getInt("PointToDollar");
-                                for(int i = model.getRowCount()-1; i >= 0; i--) {
-                                    //Add every item to CatalogPurchases table
-                                    PreparedStatement catalogPurchasePS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogPurchases (PointCost, MonetaryCost, DriverID, CompanyID, ItemID, PurchaseDate) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
-                                    int itemCost = Integer.parseInt(model.getValueAt(i, 1).toString());
-                                    catalogPurchasePS.setInt(1, itemCost);
-                                    double monetaryCost = Double.parseDouble(model.getValueAt(i, 1).toString()) / pointToDollarRatio;
-                                    catalogPurchasePS.setDouble(2, monetaryCost);
-                                    catalogPurchasePS.setInt(3, driverID);
-                                    catalogPurchasePS.setInt(4, getCurrentCartSponsor());
-                                    int itemID = Integer.parseInt(model.getValueAt(i, 2).toString());
-                                    catalogPurchasePS.setInt(5, itemID);
-                                    catalogPurchasePS.executeUpdate();
-                                    //Remove every item from the cart catalog
-                                    PreparedStatement cartItemRemovalPS = MyConnection.getConnection().prepareStatement("DELETE FROM CatalogCart WHERE CartID=?");
-                                    cartItemRemovalPS.setInt(1, Integer.parseInt(model.getValueAt(i, 4).toString()));
-                                    cartItemRemovalPS.executeUpdate();
-                                    //Remove every item from cart table
-                                    model.removeRow(i);
+                            if(!itemProblem) {
+                                PreparedStatement companyPTDRatioPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
+                                companyPTDRatioPS.setInt(1, getCurrentCartSponsor());
+                                ResultSet companyPTDRatioRS = companyPTDRatioPS.executeQuery();
+                                if(companyPTDRatioRS.next()) {
+                                    int pointToDollarRatio = companyPTDRatioRS.getInt("PointToDollar");
+                                    for(int i = model.getRowCount()-1; i >= 0; i--) {
+                                        //Add every item to CatalogPurchases table
+                                        PreparedStatement catalogPurchasePS = MyConnection.getConnection().prepareStatement("INSERT INTO CatalogPurchases (PointCost, MonetaryCost, DriverID, CompanyID, ItemID, PurchaseDate) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
+                                        int itemCost = Integer.parseInt(model.getValueAt(i, 1).toString());
+                                        catalogPurchasePS.setInt(1, itemCost);
+                                        double monetaryCost = Double.parseDouble(model.getValueAt(i, 1).toString()) / pointToDollarRatio;
+                                        catalogPurchasePS.setDouble(2, monetaryCost);
+                                        catalogPurchasePS.setInt(3, driverID);
+                                        catalogPurchasePS.setInt(4, getCurrentCartSponsor());
+                                        int itemID = Integer.parseInt(model.getValueAt(i, 2).toString());
+                                        catalogPurchasePS.setInt(5, itemID);
+                                        catalogPurchasePS.executeUpdate();
+                                        //Remove every item from the cart catalog
+                                        PreparedStatement cartItemRemovalPS = MyConnection.getConnection().prepareStatement("DELETE FROM CatalogCart WHERE CartID=?");
+                                        cartItemRemovalPS.setInt(1, Integer.parseInt(model.getValueAt(i, 4).toString()));
+                                        cartItemRemovalPS.executeUpdate();
+                                        //Remove every item from cart table
+                                        model.removeRow(i);
+                                    }
                                 }
                             }
                         }
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "You must have items in your cart to make a purchase.");
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "You must have items in your cart to make a purchase.");
+            } catch(Exception e) {
+                Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
             }
-        } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+        } else {
+            JOptionPane.showMessageDialog(null, "This functionality is not available in test driver view.");
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -2704,7 +2715,8 @@ public class DriverGUI extends javax.swing.JFrame {
     
     //Helper method for removing certain functionality from alternate user views of a driver
     public void removeFunctionality() {
-        //TODO Remove specific elements to prevent driver view switches from having full functionality
+        dummyDriver = true;
+        logOutButton.setVisible(false);
     }
     
     //Helper Class for catalog items
