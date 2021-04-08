@@ -2776,36 +2776,35 @@ public class SponsorGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_updateDriverInfoButtonActionPerformed
 
     private void SwitchtoDriverViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SwitchtoDriverViewActionPerformed
-//        try{
-//            int uid = this.getUserID();
-//            PreparedStatement switchPS;
-//            ResultSet switchRS;
-//            String loginQuery = "SELECT * FROM Company JOIN Sponsor ON Sponsor.CompanyID=Company.CompanyID WHERE Sponsor.UserID=?";
-//
-//            switchPS = MyConnection.getConnection().prepareStatement(loginQuery);
-//            switchPS.setInt(1,uid);
-//
-//            switchRS = switchPS.executeQuery();
-//            
-//            DriverGUI driverGUI = new DriverGUI();
-//            driverGUI.setLoggingIn(true);
-//            driverGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//            driverGUI.setTitle("Good Driver Incentive Program - Driver");
-//            driverGUI.switchPanels(driverGUI.getProfilePanel());
-//            driverGUI.setUserID(switchRS.getInt("UserID"));
-//            String fullName = switchRS.getString("FirstName") + " " + switchRS.getString("MiddleName") + " " + switchRS.getString("LastName");
-//            driverGUI.setDriverName(fullName);
-//            driverGUI.setDriverUsername(uname);
-//            String preferredName = switchRS.getString("PreferredName");
-//            driverGUI.setDriverPreferredName(preferredName);
-//            driverGUI.setDriverPassword(pass);
-//            driverGUI.formatCartItemTable();
-//            driverGUI.setSponsorCatalogList(switchRS.getInt("UserID"));
-//            driverGUI.setApplicationCompanyList(switchRS.getInt("UserID"));
-//            driverGUI.setApplicationTable();
-//        }catch(SQLException e) {
-//                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, e);
-//        }
+try {
+            PreparedStatement companyDriverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Users JOIN Company ON Company.CompanyTestDriverID=Users.UserID JOIN Sponsor ON Sponsor.CompanyID = Company.CompanyID JOIN Driver ON Driver.UserID=Company.CompanyTestDriverID WHERE Sponsor.UserID=?");
+            companyDriverPS.setInt(1,this.getUserID());            
+            ResultSet companyDriverRS = companyDriverPS.executeQuery();
+            
+            DriverGUI driverGUI = new DriverGUI();
+            driverGUI.setLoggingIn(true);
+            driverGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            driverGUI.setTitle("Good Driver Incentive Program - Test Driver");
+            driverGUI.switchPanels(driverGUI.getProfilePanel());
+            driverGUI.setUserID(companyDriverRS.getInt("UserID"));
+            String fullName = companyDriverRS.getString("FirstName") + " " + companyDriverRS.getString("MiddleName") + " " + companyDriverRS.getString("LastName");
+            driverGUI.setDriverName(fullName);
+            driverGUI.setDriverUsername(companyDriverRS.getString("Username"));
+            String preferredName = companyDriverRS.getString("PreferredName");
+            driverGUI.setDriverPreferredName(preferredName);
+            driverGUI.setDriverPassword("password");
+            driverGUI.formatCartItemTable();
+            driverGUI.setSponsorCatalogList(companyDriverRS.getInt("UserID"));
+            driverGUI.setApplicationCompanyList(companyDriverRS.getInt("UserID"));
+            driverGUI.setApplicationTable();
+            driverGUI.setDriverAddress(companyDriverRS.getString("Address"));
+            driverGUI.removeFunctionality();
+            driverGUI.setLoggingIn(false);
+            driverGUI.setVisible(true);
+
+        } catch(Exception e) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
     }//GEN-LAST:event_SwitchtoDriverViewActionPerformed
 
     private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
