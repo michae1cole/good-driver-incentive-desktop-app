@@ -8,10 +8,12 @@ package com.team2.gooddriverincentiveprogram;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -85,12 +87,19 @@ public class AdminGUI extends javax.swing.JFrame {
         jComboBox5 = new javax.swing.JComboBox<>();
         jComboBox6 = new javax.swing.JComboBox<>();
         jComboBox7 = new javax.swing.JComboBox<>();
+        sponsorView = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        SponsorList = new javax.swing.JList<>();
+        jLabel17 = new javax.swing.JLabel();
+        ViewSponsorPage = new javax.swing.JButton();
+        ViewDriverPage = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jButton23 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
         jButton29 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jButton30 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        SwitchToViews = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -422,7 +431,7 @@ public class AdminGUI extends javax.swing.JFrame {
                         .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(125, Short.MAX_VALUE))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
 
         layeredPane.add(catalog, "card4");
@@ -512,7 +521,7 @@ public class AdminGUI extends javax.swing.JFrame {
         reportingLayout.setVerticalGroup(
             reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(reportingLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(356, 356, 356)
                 .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -521,11 +530,67 @@ public class AdminGUI extends javax.swing.JFrame {
                     .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         layeredPane.add(reporting, "card4");
+
+        SponsorList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(SponsorList);
+
+        jLabel17.setText("Select Sponsor Page to View");
+
+        ViewSponsorPage.setText("View Sponsor Page");
+        ViewSponsorPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewSponsorPageActionPerformed(evt);
+            }
+        });
+
+        ViewDriverPage.setText("View Driver Page");
+        ViewDriverPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewDriverPageActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout sponsorViewLayout = new javax.swing.GroupLayout(sponsorView);
+        sponsorView.setLayout(sponsorViewLayout);
+        sponsorViewLayout.setHorizontalGroup(
+            sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sponsorViewLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addGroup(sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17))
+                .addContainerGap(66, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sponsorViewLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ViewDriverPage)
+                .addGap(18, 18, 18)
+                .addComponent(ViewSponsorPage)
+                .addGap(77, 77, 77))
+        );
+        sponsorViewLayout.setVerticalGroup(
+            sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sponsorViewLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ViewSponsorPage)
+                    .addComponent(ViewDriverPage))
+                .addContainerGap(196, Short.MAX_VALUE))
+        );
+
+        layeredPane.add(sponsorView, "card5");
 
         jButton10.setText("My Application");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -538,13 +603,6 @@ public class AdminGUI extends javax.swing.JFrame {
         jButton23.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton23ActionPerformed(evt);
-            }
-        });
-
-        jButton11.setText("Catalog");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
             }
         });
 
@@ -569,6 +627,20 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
+        jButton12.setText("Catalog");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        SwitchToViews.setText("Switch View");
+        SwitchToViews.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SwitchToViewsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -578,13 +650,17 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(layeredPane)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(SwitchToViews, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -600,14 +676,15 @@ public class AdminGUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton11)
                     .addComponent(jButton10)
                     .addComponent(jButton13)
-                    .addComponent(jButton29))
+                    .addComponent(jButton29)
+                    .addComponent(jButton12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton23)
-                    .addComponent(jButton30))
+                    .addComponent(jButton30)
+                    .addComponent(SwitchToViews))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(layeredPane)
                 .addContainerGap())
@@ -626,7 +703,7 @@ public class AdminGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
@@ -719,11 +796,6 @@ public class AdminGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         switchPanels(myAccount);
     }//GEN-LAST:event_jButton23ActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-        switchPanels(catalog);
-    }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
         // TODO add your handling code here:
@@ -878,6 +950,22 @@ public class AdminGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void SwitchToViewsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SwitchToViewsActionPerformed
+        switchPanels(sponsorView);
+    }//GEN-LAST:event_SwitchToViewsActionPerformed
+
+    private void ViewSponsorPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewSponsorPageActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ViewSponsorPageActionPerformed
+
+    private void ViewDriverPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewDriverPageActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ViewDriverPageActionPerformed
+
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
         jTextField1.setText(name);
@@ -903,6 +991,29 @@ public class AdminGUI extends javax.swing.JFrame {
         return userID;
     }
     
+    //Helper method to populate the sponsoring company list for catalog
+    public void setSponsorViewList() throws SQLException {
+        DefaultListModel model = new DefaultListModel(); //create a new list model
+
+        PreparedStatement statement = MyConnection.getConnection().prepareStatement("Select * From Company");
+        ResultSet resultSet = statement.executeQuery(); //run your query
+
+        while (resultSet.next()) //go through each row that your query returns
+        {
+            String ItemList = resultSet.getString("CompanyName"); //get the element in column "item_code"
+            model.addElement(ItemList); //add each item to the model
+        }
+        SponsorList.setModel(model);
+
+        resultSet.close();
+        statement.close();
+    }
+    private void SponsorListValueChanged(javax.swing.event.ListSelectionEvent evt) {                                    
+        String selectedCompany = SponsorList.getSelectedValue();
+        String[] tokens = selectedCompany.split(":");
+        int selectedCompanyID = Integer.parseInt(tokens[0]);
+    } 
+
     /**
      * @param args the command line arguments
      */
@@ -948,10 +1059,14 @@ public class AdminGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> SponsorList;
+    private javax.swing.JButton SwitchToViews;
+    private javax.swing.JButton ViewDriverPage;
+    private javax.swing.JButton ViewSponsorPage;
     private javax.swing.JPanel catalog;
     private javax.swing.JTable insertDBValsHere;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
@@ -978,6 +1093,7 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -993,11 +1109,13 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLayeredPane layeredPane;
     private javax.swing.JPanel myAccount;
     private javax.swing.JPanel reporting;
+    private javax.swing.JPanel sponsorView;
     // End of variables declaration//GEN-END:variables
 }

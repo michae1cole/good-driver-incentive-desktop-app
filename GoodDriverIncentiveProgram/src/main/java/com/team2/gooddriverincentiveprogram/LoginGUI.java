@@ -307,7 +307,7 @@ public class LoginGUI extends javax.swing.JFrame {
                             //Default ratio
                             int pointToDollarRatio = 100;
                             //Query database for company's point to dollar conversion ratio
-                            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
+                            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT Name FROM Sponsor");
                             sponsorPS.setInt(1, loginRS.getInt("UserID"));
                             ResultSet sponsorRS = sponsorPS.executeQuery();
                             if(sponsorRS.next()) {
@@ -338,6 +338,7 @@ public class LoginGUI extends javax.swing.JFrame {
                             String preferredName = loginRS.getString("PreferredName");
                             adminGUI.setAdminPreferredName(preferredName);
                             adminGUI.setAdminPassword(pass);
+                            adminGUI.setSponsorViewList();
                             adminGUI.setVisible(true);
                         }
                         this.dispose();

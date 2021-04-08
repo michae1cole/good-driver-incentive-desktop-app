@@ -77,6 +77,8 @@ public class SponsorGUI extends javax.swing.JFrame {
         jButton28 = new javax.swing.JButton();
         reportingPanelBtn = new javax.swing.JButton();
         CreateDriverButton = new javax.swing.JButton();
+        CreateSponsorButton = new javax.swing.JButton();
+        SwitchtoDriverView = new javax.swing.JButton();
         layeredPane = new javax.swing.JLayeredPane();
         myAccount = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -182,8 +184,6 @@ public class SponsorGUI extends javax.swing.JFrame {
         driverPreferredNameField = new javax.swing.JTextField();
         driverUsernameField = new javax.swing.JTextField();
         updateDriverInfoButton = new javax.swing.JButton();
-        CreateSponsorButton = new javax.swing.JButton();
-        SwitchtoDriverView = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -242,6 +242,21 @@ public class SponsorGUI extends javax.swing.JFrame {
         CreateDriverButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CreateDriverButtonActionPerformed(evt);
+            }
+        });
+
+        CreateSponsorButton.setText("Create Sponsor");
+        CreateSponsorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateSponsorButtonActionPerformed(evt);
+            }
+        });
+
+        SwitchtoDriverView.setText("Switch to Driver View");
+        SwitchtoDriverView.setActionCommand("SwitchtoDriverView");
+        SwitchtoDriverView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SwitchtoDriverViewActionPerformed(evt);
             }
         });
 
@@ -1264,21 +1279,6 @@ public class SponsorGUI extends javax.swing.JFrame {
         );
 
         layeredPane.add(driverPoints, "card8");
-
-        CreateSponsorButton.setText("Create Sponsor");
-        CreateSponsorButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CreateSponsorButtonActionPerformed(evt);
-            }
-        });
-
-        SwitchtoDriverView.setText("Switch to Driver View");
-        SwitchtoDriverView.setActionCommand("SwitchtoDriverView");
-        SwitchtoDriverView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SwitchtoDriverViewActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

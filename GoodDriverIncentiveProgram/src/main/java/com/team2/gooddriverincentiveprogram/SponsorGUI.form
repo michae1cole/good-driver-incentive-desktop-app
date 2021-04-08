@@ -189,6 +189,26 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateDriverButtonActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JButton" name="CreateSponsorButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Create Sponsor"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateSponsorButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="SwitchtoDriverView">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Switch to Driver View"/>
+            <Property name="actionCommand" type="java.lang.String" value="SwitchtoDriverView"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="SwitchtoDriverView"/>
+          </AccessibilityProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SwitchtoDriverViewActionPerformed"/>
+          </Events>
+        </Component>
         <Container class="javax.swing.JLayeredPane" name="layeredPane">
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
@@ -1837,26 +1857,6 @@
             </Container>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="CreateSponsorButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Create Sponsor"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateSponsorButtonActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="SwitchtoDriverView">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Switch to Driver View"/>
-            <Property name="actionCommand" type="java.lang.String" value="SwitchtoDriverView"/>
-          </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="SwitchtoDriverView"/>
-          </AccessibilityProperties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SwitchtoDriverViewActionPerformed"/>
-          </Events>
-        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
