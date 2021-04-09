@@ -971,7 +971,53 @@ public class AdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_SwitchToViewsActionPerformed
 
     private void ViewSponsorPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewSponsorPageActionPerformed
-        // TODO add your handling code here:
+            try {
+            if(selectedCompanyID != -1) {
+                PreparedStatement companyDriverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Users JOIN Company ON Company.CompanyTestSponsorID=Users.UserID JOIN Sponsor ON Sponsor.UserID=Company.CompanyTestSponsorID WHERE Company.CompanyID=?");
+                companyDriverPS.setInt(1, selectedCompanyID);
+                ResultSet companyDriverRS = companyDriverPS.executeQuery();
+                if(companyDriverRS.next()) {
+                   SponsorGUI sponsorGUI = new SponsorGUI();
+                    sponsorGUI.setLoggingIn(true);
+                    sponsorGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    sponsorGUI.setTitle("Good Driver Incentive Program - Test Driver");
+                    sponsorGUI.setUserID(companyDriverRS.getInt("UserID"));
+                    String fullName = companyDriverRS.getString("FirstName") + " " + companyDriverRS.getString("MiddleName") + " " + companyDriverRS.getString("LastName");
+                    sponsorGUI.setSponsorName(fullName);
+                    sponsorGUI.setSponsorUsername(companyDriverRS.getString("Username"));
+                    String preferredName = companyDriverRS.getString("PreferredName");
+                    sponsorGUI.setSponsorPreferredName(preferredName);
+                    sponsorGUI.setSponsorPassword("password");
+                    
+                    int pointToDollarRatio = 100;
+                    //Query database for company's point to dollar conversion ratio
+                    PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
+                    sponsorPS.setInt(1, companyDriverRS.getInt("UserID"));
+                    ResultSet sponsorRS = sponsorPS.executeQuery();
+                    if(sponsorRS.next()) {
+                        int companyID = sponsorRS.getInt("CompanyID");
+                        PreparedStatement pointToDollarConversionPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
+                        pointToDollarConversionPS.setInt(1, companyID);
+                        ResultSet pointToDollarConversionRS = pointToDollarConversionPS.executeQuery();
+                        if(pointToDollarConversionRS.next()) {
+                            pointToDollarRatio = pointToDollarConversionRS.getInt("PointToDollar");
+                        }
+                        sponsorGUI.showCatalogItems(companyID);
+                    }
+                    
+                    sponsorGUI.setCompanyPointToDollarRatio(String.valueOf(pointToDollarRatio));
+                    sponsorGUI.formatCatalogItemTables();
+                    sponsorGUI.updateCatalogItemTable();
+                    sponsorGUI.setCompanyDriverList(companyDriverRS.getInt("UserID"));
+                    sponsorGUI.setLoggingIn(false);
+                    sponsorGUI.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please make a company selection.");
+            }
+        } catch(Exception e) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+        } 
     }//GEN-LAST:event_ViewSponsorPageActionPerformed
 
     private void ViewDriverPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewDriverPageActionPerformed
