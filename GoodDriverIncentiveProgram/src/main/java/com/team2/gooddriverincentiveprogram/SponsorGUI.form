@@ -472,18 +472,20 @@
                                   <EmptySpace min="-2" pref="368" max="-2" attributes="0"/>
                                   <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="reasonTextField" min="-2" pref="350" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="approveApplicationButton" min="-2" pref="96" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                          <Component id="declineApplicationButton" min="-2" pref="96" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                                          <Component id="revokeApplicationButton" min="-2" pref="96" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="reasonTextField" min="-2" pref="350" max="-2" attributes="0"/>
+                                  </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="approveApplicationButton" min="-2" pref="96" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="declineApplicationButton" min="-2" pref="96" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="478" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
@@ -499,7 +501,7 @@
                           <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jScrollPane5" min="-2" pref="280" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" pref="37" max="32767" attributes="0"/>
+                          <EmptySpace type="separate" pref="57" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel24" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="reasonTextField" alignment="3" pref="32" max="32767" attributes="0"/>
@@ -508,6 +510,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="declineApplicationButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="approveApplicationButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="revokeApplicationButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                       </Group>
@@ -620,6 +623,14 @@
                     <Property name="text" type="java.lang.String" value="Reason:"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JButton" name="revokeApplicationButton">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Revoke"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="revokeApplicationButtonActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="catalog">
@@ -663,7 +674,7 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace pref="40" max="32767" attributes="0"/>
+                          <EmptySpace pref="52" max="32767" attributes="0"/>
                           <Component id="CatalogTitleLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="ChangeDriverCatalogLabel" min="-2" max="-2" attributes="0"/>
@@ -1570,7 +1581,7 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="reportScrollPane" min="-2" pref="231" max="-2" attributes="0"/>
-                          <EmptySpace pref="231" max="32767" attributes="0"/>
+                          <EmptySpace pref="251" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1667,41 +1678,7 @@
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="driverListScrollPane" alignment="0" pref="1116" max="32767" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="submitPtChBtn" min="-2" pref="145" max="-2" attributes="0"/>
-                                                      <Component id="driverListLabel" alignment="0" min="-2" pref="136" max="-2" attributes="0"/>
-                                                      <Component id="reasonText" alignment="0" min="-2" pref="370" max="-2" attributes="0"/>
-                                                      <Component id="reasonLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace min="-2" pref="236" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                              <Component id="pointChangeVal" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="driverFirstNameField" min="-2" pref="191" max="-2" attributes="0"/>
-                                              <Component id="driverLastNameField" min="-2" pref="191" max="-2" attributes="0"/>
-                                              <Component id="driverPreferredNameField" min="-2" pref="191" max="-2" attributes="0"/>
-                                              <Component id="driverUsernameField" min="-2" pref="191" max="-2" attributes="0"/>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                                                  <Component id="updateDriverInfoButton" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <Component id="driverListScrollPane" pref="1116" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -1709,6 +1686,45 @@
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jLabel6" min="-2" pref="167" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="224" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="submitPtChBtn" min="-2" pref="145" max="-2" attributes="0"/>
+                                              <Component id="driverListLabel" alignment="0" min="-2" pref="136" max="-2" attributes="0"/>
+                                              <Component id="reasonText" alignment="0" min="-2" pref="370" max="-2" attributes="0"/>
+                                              <Component id="reasonLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="236" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Component id="pointChangeVal" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="driverFirstNameField" pref="191" max="32767" attributes="0"/>
+                                              <Component id="driverLastNameField" pref="191" max="32767" attributes="0"/>
+                                              <Component id="driverPreferredNameField" pref="191" max="32767" attributes="0"/>
+                                              <Component id="driverUsernameField" pref="191" max="32767" attributes="0"/>
+                                              <Component id="driverPasswordField" alignment="0" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="updateDriverInfoButton" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="293" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -1767,13 +1783,18 @@
                                       <Component id="driverUsernameField" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="27" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="driverPasswordField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="0" pref="17" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="submitPtChBtn" min="-2" max="-2" attributes="0"/>
-                              <Component id="updateDriverInfoButton" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="submitPtChBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="updateDriverInfoButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
@@ -1879,6 +1900,13 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateDriverInfoButtonActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel12">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Password:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JPasswordField" name="driverPasswordField">
                 </Component>
               </SubComponents>
             </Container>
