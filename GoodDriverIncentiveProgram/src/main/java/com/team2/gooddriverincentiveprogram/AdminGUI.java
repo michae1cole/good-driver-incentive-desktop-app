@@ -971,13 +971,13 @@ public class AdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_SwitchToViewsActionPerformed
 
     private void ViewSponsorPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewSponsorPageActionPerformed
-            try {
+        try {
             if(selectedCompanyID != -1) {
                 PreparedStatement companyDriverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Users JOIN Company ON Company.CompanyTestSponsorID=Users.UserID JOIN Sponsor ON Sponsor.UserID=Company.CompanyTestSponsorID WHERE Company.CompanyID=?");
                 companyDriverPS.setInt(1, selectedCompanyID);
                 ResultSet companyDriverRS = companyDriverPS.executeQuery();
                 if(companyDriverRS.next()) {
-                   SponsorGUI sponsorGUI = new SponsorGUI();
+                    SponsorGUI sponsorGUI = new SponsorGUI();
                     sponsorGUI.setLoggingIn(true);
                     sponsorGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     sponsorGUI.setTitle("Good Driver Incentive Program - Test Driver");
@@ -988,7 +988,7 @@ public class AdminGUI extends javax.swing.JFrame {
                     String preferredName = companyDriverRS.getString("PreferredName");
                     sponsorGUI.setSponsorPreferredName(preferredName);
                     sponsorGUI.setSponsorPassword("password");
-                    
+
                     int pointToDollarRatio = 100;
                     //Query database for company's point to dollar conversion ratio
                     PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
@@ -1004,7 +1004,6 @@ public class AdminGUI extends javax.swing.JFrame {
                         }
                         sponsorGUI.showCatalogItems(companyID);
                     }
-                    
                     sponsorGUI.setCompanyPointToDollarRatio(String.valueOf(pointToDollarRatio));
                     sponsorGUI.formatCatalogItemTables();
                     sponsorGUI.updateCatalogItemTable();

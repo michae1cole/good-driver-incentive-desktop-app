@@ -2776,11 +2776,11 @@ public class SponsorGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_updateDriverInfoButtonActionPerformed
 
     private void SwitchtoDriverViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SwitchtoDriverViewActionPerformed
-try {
+        try {
             PreparedStatement companyDriverPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Users JOIN Company ON Company.CompanyTestDriverID=Users.UserID JOIN Sponsor ON Sponsor.CompanyID = Company.CompanyID JOIN Driver ON Driver.UserID=Company.CompanyTestDriverID WHERE Sponsor.UserID=?");
             companyDriverPS.setInt(1,this.getUserID());            
             ResultSet companyDriverRS = companyDriverPS.executeQuery();
-            
+            companyDriverRS.next();
             DriverGUI driverGUI = new DriverGUI();
             driverGUI.setLoggingIn(true);
             driverGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -2801,7 +2801,6 @@ try {
             driverGUI.removeFunctionality();
             driverGUI.setLoggingIn(false);
             driverGUI.setVisible(true);
-
         } catch(Exception e) {
             Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
         }
