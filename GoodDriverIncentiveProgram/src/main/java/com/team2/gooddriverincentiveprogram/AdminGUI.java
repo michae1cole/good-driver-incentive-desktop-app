@@ -1080,20 +1080,20 @@ public class AdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_CreateCompanyButtonActionPerformed
 
     private void CreateDriverButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateDriverButton1ActionPerformed
-        AddDriver createDriverFrame = new AddDriver();
-        createDriverFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        createDriverFrame.setTitle("Good Driver Incentive Program - Add Driver");
+        AddDriver addDriverFrame = new AddDriver();
+        addDriverFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        addDriverFrame.setTitle("Good Driver Incentive Program - Add Driver");
         try {
-            createDriverFrame.setCompanyList();
+            addDriverFrame.setCompanyList();
         } catch (SQLException ex) {
             Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            createDriverFrame.setDriverList();
+            addDriverFrame.setDriverList();
         } catch (SQLException ex) {
             Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        createDriverFrame.setVisible(true);
+        addDriverFrame.setVisible(true);
     }//GEN-LAST:event_CreateDriverButton1ActionPerformed
 
      //Helper Methods for getting and setting user information in the profile

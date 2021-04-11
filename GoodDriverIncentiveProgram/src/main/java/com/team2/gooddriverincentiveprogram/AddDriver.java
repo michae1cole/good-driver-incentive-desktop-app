@@ -223,7 +223,7 @@ public class AddDriver extends javax.swing.JFrame {
 
                 //Check to see if this driver already works for the company
                 if(companyDriverRS.next()) {
-                    JOptionPane.showMessageDialog(null, "Selected driver already works for selected Company.", "Please try again",2);
+                    JOptionPane.showMessageDialog(null, "Selected driver already works for selected company.", "Please try again", 2);
                 }else{//insert the driver into the DriverPoints table
                     PreparedStatement DriverCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO DriverPoints (DriverID, CompanyID, Points) VALUES (?, ?, ?)");
                     //DriverCreationPS.setInt(1, selectedDriverID);
@@ -231,6 +231,21 @@ public class AddDriver extends javax.swing.JFrame {
                     DriverCreationPS.setInt(2, selectedCompID);
                     DriverCreationPS.setInt(3, 0);
                     DriverCreationPS.executeUpdate();
+                    //Check to see if they have a pending application with the company they were just added to
+                    PreparedStatement applicationCheckPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverApplications WHERE DriverID=? AND CompanyID=?");
+                    applicationCheckPS.setInt(1, DID);
+                    applicationCheckPS.setInt(2, selectedCompID);
+                    ResultSet applicationCheckRS = applicationCheckPS.executeQuery();
+                    while(applicationCheckRS.next()) {
+                        String status = applicationCheckRS.getString("ApplicationStatus");
+                        if(status.equals("Pending")) {
+                            PreparedStatement applicationUpdatePS = MyConnection.getConnection().prepareStatement("UPDATE DriverApplications SET ApplicationStatus=?, Reason=? WHERE DriverApplicationID=?");
+                            applicationUpdatePS.setString(1, "Approved");
+                            applicationUpdatePS.setString(2, "Approved by Admin");
+                            applicationUpdatePS.setInt(3, applicationCheckRS.getInt("DriverApplicationID"));
+                            applicationUpdatePS.executeUpdate();
+                        }
+                    }
                     this.dispose();
                 }
             } else {
