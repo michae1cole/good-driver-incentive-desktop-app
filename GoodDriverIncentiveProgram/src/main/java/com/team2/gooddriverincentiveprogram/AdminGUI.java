@@ -1080,7 +1080,7 @@ public class AdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_CreateCompanyButtonActionPerformed
 
     private void CreateDriverButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateDriverButton1ActionPerformed
-        CreateDriver createDriverFrame = new CreateDriver();
+        AddDriver createDriverFrame = new AddDriver();
         createDriverFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         createDriverFrame.setTitle("Good Driver Incentive Program - Add Driver");
         try {

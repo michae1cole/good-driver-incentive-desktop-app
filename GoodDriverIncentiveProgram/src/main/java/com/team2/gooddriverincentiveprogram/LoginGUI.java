@@ -285,7 +285,7 @@ public class LoginGUI extends javax.swing.JFrame {
                                     driverGUI.setDriverAddress(address);
                                 }
                             } catch (SQLException e) {
-                                Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+                                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, e);
                             }
                             driverGUI.setLoggingIn(false);
                             driverGUI.setVisible(true);

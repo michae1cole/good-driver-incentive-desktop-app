@@ -1976,7 +1976,7 @@ public class DriverGUI extends javax.swing.JFrame {
                 cartItemClicked = false;
                 updateCartItems(getCurrentCartSponsor());
             } catch(SQLException e) {
-                Logger.getLogger(CatalogInformation.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
             }
         } else {
             JOptionPane.showMessageDialog(null, "You must select an item to remove.");
@@ -2111,7 +2111,7 @@ public class DriverGUI extends javax.swing.JFrame {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }

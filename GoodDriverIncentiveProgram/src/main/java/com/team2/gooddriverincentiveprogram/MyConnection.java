@@ -25,14 +25,14 @@ public class MyConnection {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, e);
             return con;
         }
 
         try {
             con = DriverManager.getConnection("jdbc:mysql://team-2-database-4910.cd0dbvuyb2fe.us-east-1.rds.amazonaws.com:3306/application_db?user=admin&password=Team2rules");
         } catch (Exception e) {
-            Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, e);
         }
         
         return con;

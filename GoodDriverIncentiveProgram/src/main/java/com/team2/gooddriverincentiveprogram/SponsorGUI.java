@@ -1535,7 +1535,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             }
             
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
         
     }
@@ -1598,7 +1598,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             String[] listData = listDataArrayList.toArray(new String[listDataArrayList.size()]);
             driverList.setListData(listData);
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
@@ -1846,7 +1846,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                     updateCatalogItemTable();
                 }
             } catch(SQLException e) {
-                Logger.getLogger(CatalogInformation.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
             }
         } else {
             JOptionPane.showMessageDialog(null, "You cannot remove an item that isn't already in your catalog.");
@@ -1887,7 +1887,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                     updateCatalogItemTable();
                 }
             } catch(SQLException e) {
-                Logger.getLogger(CatalogInformation.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
             }
         } else {
             JOptionPane.showMessageDialog(null, "You cannot add an item that isn't from the search table.");
@@ -2268,7 +2268,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_FirstItemBuyButtonActionPerformed
 
@@ -2331,7 +2331,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_SecondItemBuyButtonActionPerformed
 
@@ -2394,7 +2394,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_ThirdItemBuyButtonActionPerformed
 
@@ -2457,7 +2457,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please select a driver to make a purchase.");
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_FourthItemBuyButtonActionPerformed
 
@@ -2588,7 +2588,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 PreviousCatalogButton.setVisible(false);
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_PreviousCatalogButtonActionPerformed
 
@@ -2727,7 +2727,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 NextCatalogButton.setVisible(false);
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_NextCatalogButtonActionPerformed
 
@@ -2772,7 +2772,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 driverPasswordField.setText("");
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_driverListValueChanged
 
@@ -2844,7 +2844,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 passwordChangePS.executeUpdate();
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_updateDriverInfoButtonActionPerformed
 
@@ -2875,7 +2875,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             driverGUI.setLoggingIn(false);
             driverGUI.setVisible(true);
         } catch(Exception e) {
-            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_SwitchtoDriverViewActionPerformed
 
@@ -3335,7 +3335,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 }
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
@@ -3361,7 +3361,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 DriverUserCatalogList.setListData(listData);
             }
         } catch(Exception e) {
-            Logger.getLogger(DriverGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
