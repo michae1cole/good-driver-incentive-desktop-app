@@ -66,6 +66,8 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="jButton29" min="-2" pref="145" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="CreateDriverButton1" min="-2" pref="157" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jButton13" min="-2" pref="145" max="-2" attributes="0"/>
                               </Group>
@@ -90,6 +92,7 @@
                       <Component id="jButton13" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton29" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton12" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="CreateDriverButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -940,6 +943,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateCompanyButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="CreateDriverButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Add Driver To Company"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateDriverButton1ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

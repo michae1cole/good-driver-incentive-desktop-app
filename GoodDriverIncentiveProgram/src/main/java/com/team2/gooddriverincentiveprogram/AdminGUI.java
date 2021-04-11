@@ -102,6 +102,7 @@ public class AdminGUI extends javax.swing.JFrame {
         jButton12 = new javax.swing.JButton();
         SwitchToViews = new javax.swing.JButton();
         CreateCompanyButton = new javax.swing.JButton();
+        CreateDriverButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -651,6 +652,13 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
+        CreateDriverButton1.setText("Add Driver To Company");
+        CreateDriverButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateDriverButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -674,6 +682,8 @@ public class AdminGUI extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(CreateDriverButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -690,7 +700,8 @@ public class AdminGUI extends javax.swing.JFrame {
                     .addComponent(jButton10)
                     .addComponent(jButton13)
                     .addComponent(jButton29)
-                    .addComponent(jButton12))
+                    .addComponent(jButton12)
+                    .addComponent(CreateDriverButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton23)
@@ -1068,6 +1079,23 @@ public class AdminGUI extends javax.swing.JFrame {
         createCompanyFrame.setVisible(true);
     }//GEN-LAST:event_CreateCompanyButtonActionPerformed
 
+    private void CreateDriverButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateDriverButton1ActionPerformed
+        CreateDriver createDriverFrame = new CreateDriver();
+        createDriverFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        createDriverFrame.setTitle("Good Driver Incentive Program - Add Driver");
+        try {
+            createDriverFrame.setCompanyList();
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            createDriverFrame.setDriverList();
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        createDriverFrame.setVisible(true);
+    }//GEN-LAST:event_CreateDriverButton1ActionPerformed
+
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
         jTextField1.setText(name);
@@ -1157,6 +1185,7 @@ public class AdminGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CreateCompanyButton;
+    private javax.swing.JButton CreateDriverButton1;
     private javax.swing.JList<String> SponsorList;
     private javax.swing.JButton SwitchToViews;
     private javax.swing.JButton ViewDriverPage;
