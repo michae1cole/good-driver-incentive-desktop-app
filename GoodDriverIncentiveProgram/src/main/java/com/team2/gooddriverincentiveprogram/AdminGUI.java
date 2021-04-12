@@ -560,7 +560,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Company Name", "Total From Drivers", "Admin Fee Due"
+                "Company Name", "Total From Drivers ($)", "Admin Fee Due ($)"
             }
         ) {
             Class[] types = new Class [] {
@@ -684,7 +684,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Date", "Company", "Driver", "Status", "Reason"
+                "Date", "Company", "Driver", "Application Status", "Reason"
             }
         ) {
             Class[] types = new Class [] {
@@ -703,10 +703,6 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
         jScrollPane3.setViewportView(driverApplicationsReportTable);
-        if (driverApplicationsReportTable.getColumnModel().getColumnCount() > 0) {
-            driverApplicationsReportTable.getColumnModel().getColumn(3).setHeaderValue("Number of Points");
-            driverApplicationsReportTable.getColumnModel().getColumn(4).setHeaderValue("Reason");
-        }
 
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel21.setText("From (YYYY-MM-DD)");
@@ -1841,7 +1837,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 ResultSet driverApplicationRS = driverApplicationPS.executeQuery();
                 //If applications were made in the timeframe
                 while(driverApplicationRS.next()) {
-                    Object[] rowData = {driverApplicationRS.getString("ApplicationDate"), driverApplicationRS.getString("CompanyName"), driverApplicationRS.getString("FirstName") + " " + driverApplicationRS.getString("LastName"), driverApplicationRS.getString("ApplicationStatus"), driverApplicationRS.getString("Reason")};
+                    Object[] rowData = {driverApplicationRS.getString("ApplicationDate").split(" ")[0], driverApplicationRS.getString("CompanyName"), driverApplicationRS.getString("FirstName") + " " + driverApplicationRS.getString("LastName"), driverApplicationRS.getString("ApplicationStatus"), driverApplicationRS.getString("Reason")};
                     model.addRow(rowData);
                 }
             //If a to date was specified but no from date
@@ -1851,7 +1847,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 ResultSet driverApplicationRS = driverApplicationPS.executeQuery();
                 //If applications were made in the timeframe
                 while(driverApplicationRS.next()) {
-                    Object[] rowData = {driverApplicationRS.getString("ApplicationDate"), driverApplicationRS.getString("CompanyName"), driverApplicationRS.getString("FirstName") + " " + driverApplicationRS.getString("LastName"), driverApplicationRS.getString("ApplicationStatus"), driverApplicationRS.getString("Reason")};
+                    Object[] rowData = {driverApplicationRS.getString("ApplicationDate").split(" ")[0], driverApplicationRS.getString("CompanyName"), driverApplicationRS.getString("FirstName") + " " + driverApplicationRS.getString("LastName"), driverApplicationRS.getString("ApplicationStatus"), driverApplicationRS.getString("Reason")};
                     model.addRow(rowData);
                 }
             //If both dates were specified
@@ -1862,7 +1858,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 ResultSet driverApplicationRS = driverApplicationPS.executeQuery();
                 //If applications were made in the timeframe
                 while(driverApplicationRS.next()) {
-                    Object[] rowData = {driverApplicationRS.getString("ApplicationDate"), driverApplicationRS.getString("CompanyName"), driverApplicationRS.getString("FirstName") + " " + driverApplicationRS.getString("LastName"), driverApplicationRS.getString("ApplicationStatus"), driverApplicationRS.getString("Reason")};
+                    Object[] rowData = {driverApplicationRS.getString("ApplicationDate").split(" ")[0], driverApplicationRS.getString("CompanyName"), driverApplicationRS.getString("FirstName") + " " + driverApplicationRS.getString("LastName"), driverApplicationRS.getString("ApplicationStatus"), driverApplicationRS.getString("Reason")};
                     model.addRow(rowData);
                 }
             }

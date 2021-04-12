@@ -824,8 +824,8 @@
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                   <Table columnCount="3" rowCount="4">
                                     <Column editable="false" title="Company Name" type="java.lang.String"/>
-                                    <Column editable="false" title="Total From Drivers" type="java.lang.Double"/>
-                                    <Column editable="false" title="Admin Fee Due" type="java.lang.Double"/>
+                                    <Column editable="false" title="Total From Drivers ($)" type="java.lang.Double"/>
+                                    <Column editable="false" title="Admin Fee Due ($)" type="java.lang.Double"/>
                                   </Table>
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -1059,7 +1059,7 @@
                                             <Column editable="false" title="Date" type="java.lang.String"/>
                                             <Column editable="false" title="Company" type="java.lang.String"/>
                                             <Column editable="false" title="Driver" type="java.lang.String"/>
-                                            <Column editable="false" title="Status" type="java.lang.String"/>
+                                            <Column editable="false" title="Application Status" type="java.lang.String"/>
                                             <Column editable="false" title="Reason" type="java.lang.String"/>
                                           </Table>
                                         </Property>
@@ -1081,12 +1081,12 @@
                                               <Renderer/>
                                             </Column>
                                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                              <Title value="Number of Points"/>
+                                              <Title/>
                                               <Editor/>
                                               <Renderer/>
                                             </Column>
                                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                              <Title value="Reason"/>
+                                              <Title/>
                                               <Editor/>
                                               <Renderer/>
                                             </Column>
