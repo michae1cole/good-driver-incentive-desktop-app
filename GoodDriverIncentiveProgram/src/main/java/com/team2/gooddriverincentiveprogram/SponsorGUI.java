@@ -5,7 +5,15 @@
  */
 package com.team2.gooddriverincentiveprogram;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Image;
+import java.io.FileOutputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -175,6 +183,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         beforeDateLabel = new javax.swing.JLabel();
         afterDateLabel = new javax.swing.JLabel();
         formatLabel = new javax.swing.JLabel();
+        sponsorReportCreatePDFButton = new javax.swing.JButton();
         driverPoints = new javax.swing.JPanel();
         driverListScrollPane = new javax.swing.JScrollPane();
         driverList = new javax.swing.JList<>();
@@ -382,7 +391,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                                 .addComponent(jButton25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jButton27))))
-                .addContainerGap(516, Short.MAX_VALUE))
+                .addContainerGap(523, Short.MAX_VALUE))
         );
         myAccountLayout.setVerticalGroup(
             myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -522,7 +531,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 57, Short.MAX_VALUE)
+                .addGap(18, 72, Short.MAX_VALUE)
                 .addGroup(myApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
                     .addComponent(reasonTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
@@ -851,7 +860,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         catalogLayout.setVerticalGroup(
             catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(catalogLayout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
+                .addContainerGap(67, Short.MAX_VALUE)
                 .addComponent(CatalogTitleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ChangeDriverCatalogLabel)
@@ -1113,7 +1122,7 @@ public class SponsorGUI extends javax.swing.JFrame {
 
         afterThisDateText.setToolTipText("Filter results by after this date");
 
-        filterLabel.setText("Choose from drop down list, or add BOTH after and before date filters then hit \"Filter Results\"");
+        filterLabel.setText("Choose from drop down list or add after or before date filters then hit \"Filter Results\"");
 
         filterBtn.setText("Filter Results");
         filterBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -1131,11 +1140,20 @@ public class SponsorGUI extends javax.swing.JFrame {
 
         beforeThisDateText.setToolTipText("Filter results by before this date");
 
+        beforeDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         beforeDateLabel.setText("Before this date");
 
+        afterDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         afterDateLabel.setText("After this date");
 
         formatLabel.setText("Format: yyyy-mm-dd");
+
+        sponsorReportCreatePDFButton.setText("Create PDF from Table");
+        sponsorReportCreatePDFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sponsorReportCreatePDFButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout reportingLayout = new javax.swing.GroupLayout(reporting);
         reporting.setLayout(reportingLayout);
@@ -1144,33 +1162,32 @@ public class SponsorGUI extends javax.swing.JFrame {
             .addGroup(reportingLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(reportScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE)
                     .addGroup(reportingLayout.createSequentialGroup()
                         .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(reportScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE)
+                            .addComponent(filterLabel)
                             .addGroup(reportingLayout.createSequentialGroup()
-                                .addComponent(filterLabel)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(reportingLayout.createSequentialGroup()
-                        .addComponent(driverFilterDD, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(afterThisDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(beforeDateLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(reportingLayout.createSequentialGroup()
-                                .addComponent(beforeThisDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(reportingLayout.createSequentialGroup()
+                                        .addComponent(driverFilterDD, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(39, 39, 39)
+                                        .addComponent(afterThisDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(afterDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(formatLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(clearFilterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(filterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(184, 184, 184))
-                            .addGroup(reportingLayout.createSequentialGroup()
-                                .addComponent(afterDateLabel)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(reportingLayout.createSequentialGroup()
+                                        .addComponent(beforeThisDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(formatLabel)
+                                        .addGap(92, 92, 92)
+                                        .addComponent(clearFilterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(filterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(sponsorReportCreatePDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(beforeDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         reportingLayout.setVerticalGroup(
             reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1184,14 +1201,15 @@ public class SponsorGUI extends javax.swing.JFrame {
                     .addComponent(driverFilterDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(clearFilterBtn)
                     .addComponent(beforeThisDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formatLabel))
+                    .addComponent(formatLabel)
+                    .addComponent(sponsorReportCreatePDFButton))
                 .addGap(1, 1, 1)
                 .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(beforeDateLabel)
                     .addComponent(afterDateLabel))
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(reportScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(251, Short.MAX_VALUE))
+                .addContainerGap(258, Short.MAX_VALUE))
         );
 
         layeredPane.add(reporting, "card6");
@@ -1335,7 +1353,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                         .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(driverPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12))
-                        .addGap(0, 22, Short.MAX_VALUE)))
+                        .addGap(0, 32, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitPtChBtn)
@@ -2925,75 +2943,64 @@ public class SponsorGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_SwitchtoDriverViewActionPerformed
 
     private void filterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterBtnActionPerformed
-        
         DefaultTableModel model = (DefaultTableModel) driverReportTable.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
         driverReportTable.setRowSorter(sorter);
         
         RowFilter<DefaultTableModel, Object> rf = null;
+        ArrayList<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>();
         
-        if(!(afterThisDateText.getText().equals("")) || !(beforeThisDateText.getText().equals(""))){
-            
+        if(!afterThisDateText.getText().equals("")) {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             Date afterDate = null;
-            Date beforeDate = null;
-
+            
             String afterDateString = afterThisDateText.getText();
-            if(!afterDateString.equals("")){
-                try{afterDate = formatter.parse(afterDateString);}
-                catch(Exception e){
-                    Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
-                    JOptionPane.showMessageDialog(null, "Please make sure 1st date is format yyyy-MM-dd, year-month-day.");
+            try {
+                afterDate = formatter.parse(afterDateString);
+                if(afterDate != null){
+                    filters.add(RowFilter.dateFilter(ComparisonType.AFTER, afterDate, 3));
                 }
             }
+            catch(Exception e){
+                Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+                JOptionPane.showMessageDialog(null, "Please make sure after date is format yyyy-MM-dd, year-month-day.");
+            }
+        }
+        if(!beforeThisDateText.getText().equals("")) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date beforeDate = null;
             
             String beforeDateString = beforeThisDateText.getText();
-            if(!beforeDateString.equals("")){
-                try{beforeDate = formatter.parse(beforeDateString);}
-                catch(Exception e){
-                    Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
-                    JOptionPane.showMessageDialog(null, "Please make sure 2nd date is format yyyy-MM-dd, year-month-day.");
+            try {
+                beforeDate = formatter.parse(beforeDateString);
+                if(beforeDate != null){
+                    filters.add(RowFilter.dateFilter(ComparisonType.BEFORE, beforeDate, 3));
                 }
             }
-            
-            ArrayList<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(2);
-            if(afterDate != null){
-                filters.add( RowFilter.dateFilter(ComparisonType.AFTER, afterDate, 3) );
+            catch(Exception e){
+                Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+                JOptionPane.showMessageDialog(null, "Please make sure after date is format yyyy-MM-dd, year-month-day.");
             }
-            if(beforeDate != null){
-                filters.add( RowFilter.dateFilter(ComparisonType.BEFORE, beforeDate, 3) );
-            }
-            
-            if(beforeDate == null || afterDate == null){
-                JOptionPane.showMessageDialog(null, "Please add both an after date and a before date filter!");
-            }
-            else{
-                rf = RowFilter.andFilter(filters);
-                sorter.setRowFilter(rf);
-            }
-            
         }
-        
-        else if(driverFilterDD.getSelectedItem().toString().equals("All Drivers")){
-            try {
-                rf = RowFilter.regexFilter(" ",0);
-            } catch (java.util.regex.PatternSyntaxException e){
-                return;
-            }
-            sorter.setRowFilter(rf);
-        }
-        
-        else if(!(driverFilterDD.getSelectedItem() == null)){
+        if(driverFilterDD.getSelectedIndex() != -1) {
             String selectedVal = driverFilterDD.getSelectedItem().toString();
             try {
-                rf = RowFilter.regexFilter(selectedVal,0);
+                if(selectedVal.equals("All Drivers")) {
+                    filters.add(RowFilter.regexFilter(" ",0));
+                } else {
+                    filters.add(RowFilter.regexFilter(selectedVal,0));
+                }
             } catch (java.util.regex.PatternSyntaxException e) {
                 return;
             }
-            sorter.setRowFilter(rf);
         }
-        else{
+        if(filters.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No filters selected!");
+        } else if(filters.size() > 0 && filters.size() < 2) {
+            sorter.setRowFilter(filters.get(0));
+        } else {
+            rf = RowFilter.andFilter(filters);
+            sorter.setRowFilter(rf);
         }
     }//GEN-LAST:event_filterBtnActionPerformed
 
@@ -3052,6 +3059,56 @@ public class SponsorGUI extends javax.swing.JFrame {
         beforeThisDateText.setText("");
         driverFilterDD.setSelectedItem(null);
     }//GEN-LAST:event_clearFilterBtnActionPerformed
+
+    private void sponsorReportCreatePDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sponsorReportCreatePDFButtonActionPerformed
+        try {
+            Document report = new Document();
+            PdfWriter writer = PdfWriter.getInstance(report, new FileOutputStream("DriverPointTrackingReport.pdf"));
+            report.open();
+            Paragraph title = new Paragraph();
+            title.add(new Paragraph("Driver Point Tracking Report"));
+            title.add(new Paragraph(" "));
+            //Driver constraints
+            if(driverFilterDD.getSelectedIndex() != -1) {
+                title.add(new Paragraph("Driver(s) Selected: " + driverFilterDD.getSelectedItem().toString()));
+                title.add(new Paragraph(" "));
+            }
+            //Time constraints
+            String constraints = "";
+            if(!afterThisDateText.getText().equals("")) {
+                constraints += "From: ";
+                constraints += afterThisDateText.getText();
+                constraints += " ";
+            }
+            if(!beforeThisDateText.getText().equals("")) {
+                constraints += "To: ";
+                constraints += beforeThisDateText.getText();
+                constraints += " ";
+            }
+            if(!constraints.equals("")) {
+                title.add(new Paragraph(constraints));
+                title.add(new Paragraph(" "));
+            }
+            report.add(title);
+            PdfPTable reportTable = new PdfPTable(driverReportTable.getModel().getColumnCount());
+            for(int i = 0; i < driverReportTable.getModel().getColumnCount(); i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(driverReportTable.getModel().getColumnName(i)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+            }
+            for(int i = 0; i < driverReportTable.getRowCount(); i++) {
+                for(int j = 0; j < driverReportTable.getModel().getColumnCount(); j++) {
+                    PdfPCell cell = new PdfPCell(new Phrase(driverReportTable.getModel().getValueAt(driverReportTable.convertRowIndexToModel(i), j).toString()));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    reportTable.addCell(cell);
+                }
+            }
+            report.add(reportTable);
+            report.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_sponsorReportCreatePDFButtonActionPerformed
 
 
     public void setCurrentCatalogDriver(int driverID) {
@@ -3799,6 +3856,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JPanel reporting;
     private javax.swing.JButton reportingPanelBtn;
     private javax.swing.JButton revokeApplicationButton;
+    private javax.swing.JButton sponsorReportCreatePDFButton;
     private javax.swing.JButton submitPtChBtn;
     private javax.swing.JButton updateDriverInfoButton;
     // End of variables declaration//GEN-END:variables
