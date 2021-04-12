@@ -113,6 +113,7 @@ public class AdminGUI extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         invoiceGenerateButton = new javax.swing.JButton();
+        invoiceCreatePDFButton = new javax.swing.JButton();
         auditLogPanel = new javax.swing.JPanel();
         driverApplicationsReportButton = new javax.swing.JButton();
         pointChangesReportButton = new javax.swing.JButton();
@@ -609,6 +610,13 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
+        invoiceCreatePDFButton.setText("Create PDF from Table");
+        invoiceCreatePDFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                invoiceCreatePDFButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout invoicePanelLayout = new javax.swing.GroupLayout(invoicePanel);
         invoicePanel.setLayout(invoicePanelLayout);
         invoicePanelLayout.setHorizontalGroup(
@@ -618,23 +626,24 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(invoicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(invoicePanelLayout.createSequentialGroup()
+                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(companyDD, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(invoicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(invoicePanelLayout.createSequentialGroup()
-                                .addGap(366, 366, 366)
                                 .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(invoicePanelLayout.createSequentialGroup()
-                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(companyDD, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
                                 .addComponent(fromDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(toDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(60, 60, 60)
-                                .addComponent(invoiceGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 51, Short.MAX_VALUE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(invoiceGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(invoiceCreatePDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 2, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         invoicePanelLayout.setVerticalGroup(
@@ -650,7 +659,8 @@ public class AdminGUI extends javax.swing.JFrame {
                     .addComponent(companyDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fromDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(toDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(invoiceGenerateButton))
+                    .addComponent(invoiceGenerateButton)
+                    .addComponent(invoiceCreatePDFButton))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
                 .addContainerGap())
@@ -2299,6 +2309,156 @@ public class AdminGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_loginAttemptsCreatePDFButtonActionPerformed
 
+    private void invoiceCreatePDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceCreatePDFButtonActionPerformed
+        try {
+            ArrayList<String> companySelectedList = new ArrayList();
+            String companySelected = companyDD.getSelectedItem().toString();
+            if(companySelected.split(": ")[0].equals("0")) {
+                PreparedStatement companyPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company");
+                ResultSet companyRS = companyPS.executeQuery();
+                while(companyRS.next()) {
+                    companySelectedList.add("" + companyRS.getInt("CompanyID") + ": " + companyRS.getString("CompanyName"));
+                }
+            } else {
+                companySelectedList.add(companySelected);
+            }
+            for(int m = 0; m < companySelectedList.size(); m++) {
+                Document report = new Document();
+                String fileName = companySelectedList.get(m).split(": ")[1];
+                fileName = fileName.replace(" ", "_");
+                PdfWriter writer = PdfWriter.getInstance(report, new FileOutputStream(fileName + "_Invoice_Report.pdf"));
+                report.open();
+                Paragraph title = new Paragraph();
+                title.add(new Paragraph(companySelectedList.get(m).split(": ")[1] + " Invoice Report"));
+                title.add(new Paragraph(" "));
+                String constraints = "";
+                if(!fromDateText.getText().equals("")) {
+                    constraints += "From: ";
+                    constraints += fromDateText.getText();
+                    constraints += " ";
+                }
+                if(!toDateText.getText().equals("")) {
+                    constraints += "To: ";
+                    constraints += toDateText.getText();
+                    constraints += " ";
+                }
+                if(!constraints.equals("")) {
+                    title.add(new Paragraph(constraints));
+                    title.add(new Paragraph(" "));
+                }
+                title.add(new Paragraph(invoiceTable.getModel().getValueAt(m, 0).toString() + " Total Amount Spent by Drivers: $" + String.format("%.2f", invoiceTable.getModel().getValueAt(m, 1))));
+                title.add(new Paragraph(" "));
+                title.add(new Paragraph(invoiceTable.getModel().getValueAt(m, 0).toString() + " Total Fee Due: $" + String.format("%.2f", invoiceTable.getModel().getValueAt(m, 2))));
+                title.add(new Paragraph(" "));
+                title.add(new Paragraph("Itemized"));
+                title.add(new Paragraph(" "));
+                report.add(title);
+                PdfPTable reportTable = new PdfPTable(4);
+                PdfPCell cell = new PdfPCell(new Phrase("Date"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Driver"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Purchase Amount"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Fee Amount"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                if(fromDateText.getText().equals("") && toDateText.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID WHERE CompanyID=?");
+                    purchaseInfoPS.setInt(1, Integer.parseInt(companySelectedList.get(m).split(": ")[0]));
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        double cost = purchaseInfoRS.getDouble("MonetaryCost");
+                        double fee = cost * 0.01;
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", fee)));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(!fromDateText.getText().equals("") && toDateText.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID WHERE CompanyID=? AND PurchaseDate >= ?");
+                    purchaseInfoPS.setInt(1, Integer.parseInt(companySelectedList.get(m).split(": ")[0]));
+                    purchaseInfoPS.setString(2, fromDateText.getText());
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        double cost = purchaseInfoRS.getDouble("MonetaryCost");
+                        double fee = cost * 0.01;
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", fee)));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(fromDateText.getText().equals("") && !toDateText.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID WHERE CompanyID=? AND PurchaseDate <= ?");
+                    purchaseInfoPS.setInt(1, Integer.parseInt(companySelectedList.get(m).split(": ")[0]));
+                    purchaseInfoPS.setString(2, toDateText.getText());
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        double cost = purchaseInfoRS.getDouble("MonetaryCost");
+                        double fee = cost * 0.01;
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", fee)));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(!fromDateText.getText().equals("") && !toDateText.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID WHERE CompanyID=? AND PurchaseDate >= ? AND PurchaseDate <= ?");
+                    purchaseInfoPS.setInt(1, Integer.parseInt(companySelectedList.get(m).split(": ")[0]));
+                    purchaseInfoPS.setString(2, fromDateText.getText());
+                    purchaseInfoPS.setString(3, toDateText.getText());
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        double cost = purchaseInfoRS.getDouble("MonetaryCost");
+                        double fee = cost * 0.01;
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", fee)));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                }
+                report.add(reportTable);
+                report.close();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_invoiceCreatePDFButtonActionPerformed
+
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
         jTextField1.setText(name);
@@ -2423,6 +2583,7 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextField fromDateTextPC;
     private javax.swing.JTextField fromDateTextPass;
     private javax.swing.JButton invoiceButton;
+    private javax.swing.JButton invoiceCreatePDFButton;
     private javax.swing.JButton invoiceGenerateButton;
     private javax.swing.JPanel invoicePanel;
     private javax.swing.JTable invoiceTable;
