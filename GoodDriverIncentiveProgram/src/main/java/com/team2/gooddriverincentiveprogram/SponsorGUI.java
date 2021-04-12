@@ -172,6 +172,9 @@ public class SponsorGUI extends javax.swing.JFrame {
         driverFilterDD = new javax.swing.JComboBox<>();
         clearFilterBtn = new javax.swing.JButton();
         beforeThisDateText = new javax.swing.JTextField();
+        beforeDateLabel = new javax.swing.JLabel();
+        afterDateLabel = new javax.swing.JLabel();
+        formatLabel = new javax.swing.JLabel();
         driverPoints = new javax.swing.JPanel();
         driverListScrollPane = new javax.swing.JScrollPane();
         driverList = new javax.swing.JList<>();
@@ -848,7 +851,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         catalogLayout.setVerticalGroup(
             catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(catalogLayout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
+                .addContainerGap(60, Short.MAX_VALUE)
                 .addComponent(CatalogTitleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ChangeDriverCatalogLabel)
@@ -1110,7 +1113,7 @@ public class SponsorGUI extends javax.swing.JFrame {
 
         afterThisDateText.setToolTipText("Filter results by after this date");
 
-        filterLabel.setText("Add text to filter results or choose from dropdown list, then hit \"Filter Results\"");
+        filterLabel.setText("Choose from drop down list, or add BOTH after and before date filters then hit \"Filter Results\"");
 
         filterBtn.setText("Filter Results");
         filterBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -1127,6 +1130,12 @@ public class SponsorGUI extends javax.swing.JFrame {
         });
 
         beforeThisDateText.setToolTipText("Filter results by before this date");
+
+        beforeDateLabel.setText("Before this date");
+
+        afterDateLabel.setText("After this date");
+
+        formatLabel.setText("Format: yyyy-mm-dd");
 
         javax.swing.GroupLayout reportingLayout = new javax.swing.GroupLayout(reporting);
         reporting.setLayout(reportingLayout);
@@ -1145,14 +1154,23 @@ public class SponsorGUI extends javax.swing.JFrame {
                     .addGroup(reportingLayout.createSequentialGroup()
                         .addComponent(driverFilterDD, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(39, 39, 39)
-                        .addComponent(afterThisDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(afterThisDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(beforeDateLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(beforeThisDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(clearFilterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(filterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(184, 184, 184))))
+                        .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(reportingLayout.createSequentialGroup()
+                                .addComponent(beforeThisDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(formatLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(clearFilterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(filterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(184, 184, 184))
+                            .addGroup(reportingLayout.createSequentialGroup()
+                                .addComponent(afterDateLabel)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         reportingLayout.setVerticalGroup(
             reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1165,8 +1183,13 @@ public class SponsorGUI extends javax.swing.JFrame {
                     .addComponent(filterBtn)
                     .addComponent(driverFilterDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(clearFilterBtn)
-                    .addComponent(beforeThisDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(beforeThisDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatLabel))
+                .addGap(1, 1, 1)
+                .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(beforeDateLabel)
+                    .addComponent(afterDateLabel))
+                .addGap(4, 4, 4)
                 .addComponent(reportScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(251, Short.MAX_VALUE))
         );
@@ -1312,7 +1335,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                         .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(driverPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12))
-                        .addGap(0, 17, Short.MAX_VALUE)))
+                        .addGap(0, 22, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(driverPointsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitPtChBtn)
@@ -2911,7 +2934,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         
         if(!(afterThisDateText.getText().equals("")) || !(beforeThisDateText.getText().equals(""))){
             
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             Date afterDate = null;
             Date beforeDate = null;
 
@@ -2920,6 +2943,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 try{afterDate = formatter.parse(afterDateString);}
                 catch(Exception e){
                     Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+                    JOptionPane.showMessageDialog(null, "Please make sure 1st date is format yyyy-MM-dd, year-month-day.");
                 }
             }
             
@@ -2928,18 +2952,25 @@ public class SponsorGUI extends javax.swing.JFrame {
                 try{beforeDate = formatter.parse(beforeDateString);}
                 catch(Exception e){
                     Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+                    JOptionPane.showMessageDialog(null, "Please make sure 2nd date is format yyyy-MM-dd, year-month-day.");
                 }
             }
             
             ArrayList<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(2);
             if(afterDate != null){
-                filters.add( RowFilter.dateFilter(ComparisonType.AFTER, afterDate) );
+                filters.add( RowFilter.dateFilter(ComparisonType.AFTER, afterDate, 3) );
             }
             if(beforeDate != null){
-                filters.add( RowFilter.dateFilter(ComparisonType.BEFORE, beforeDate) );
+                filters.add( RowFilter.dateFilter(ComparisonType.BEFORE, beforeDate, 3) );
             }
-            rf = RowFilter.andFilter(filters);
-            sorter.setRowFilter(rf);
+            
+            if(beforeDate == null || afterDate == null){
+                JOptionPane.showMessageDialog(null, "Please add both an after date and a before date filter!");
+            }
+            else{
+                rf = RowFilter.andFilter(filters);
+                sorter.setRowFilter(rf);
+            }
             
         }
         
@@ -2952,7 +2983,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             sorter.setRowFilter(rf);
         }
         
-        else{
+        else if(!(driverFilterDD.getSelectedItem() == null)){
             String selectedVal = driverFilterDD.getSelectedItem().toString();
             try {
                 rf = RowFilter.regexFilter(selectedVal,0);
@@ -2960,6 +2991,9 @@ public class SponsorGUI extends javax.swing.JFrame {
                 return;
             }
             sorter.setRowFilter(rf);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "No filters selected!");
         }
     }//GEN-LAST:event_filterBtnActionPerformed
 
@@ -3681,9 +3715,11 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JLabel ThirdItemPointCostLabel;
     private javax.swing.JScrollPane ThirdItemTitleScrollPane;
     private javax.swing.JTextArea ThirdItemTitleTextArea;
+    private javax.swing.JLabel afterDateLabel;
     private javax.swing.JTextField afterThisDateText;
     private javax.swing.JTable applicationTable;
     private javax.swing.JButton approveApplicationButton;
+    private javax.swing.JLabel beforeDateLabel;
     private javax.swing.JTextField beforeThisDateText;
     private javax.swing.JPanel catalog;
     private javax.swing.JPanel catalogEditor;
@@ -3702,6 +3738,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JTextField driverUsernameField;
     private javax.swing.JButton filterBtn;
     private javax.swing.JLabel filterLabel;
+    private javax.swing.JLabel formatLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton23;
