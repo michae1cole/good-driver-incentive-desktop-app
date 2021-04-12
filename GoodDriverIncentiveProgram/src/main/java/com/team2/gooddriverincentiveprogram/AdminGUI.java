@@ -5,6 +5,15 @@
  */
 package com.team2.gooddriverincentiveprogram;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.FileOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -118,6 +127,7 @@ public class AdminGUI extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         toDateTextDA = new javax.swing.JTextField();
         driverApplicationsGenerateButton = new javax.swing.JButton();
+        driverApplicationsCreatePDFButton = new javax.swing.JButton();
         pointChangesReportPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         pointChangesReportTable = new javax.swing.JTable();
@@ -126,6 +136,7 @@ public class AdminGUI extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         toDateTextPC = new javax.swing.JTextField();
         pointChangesGenerateButton = new javax.swing.JButton();
+        pointChangesCreatePDFButton = new javax.swing.JButton();
         passwordChangesReportPanel = new javax.swing.JPanel();
         fromDateTextPass = new javax.swing.JTextField();
         jLabel25 = new javax.swing.JLabel();
@@ -134,6 +145,7 @@ public class AdminGUI extends javax.swing.JFrame {
         passwordChangesGenerateButton = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         passwordChangesReportTable = new javax.swing.JTable();
+        passwordChangesCreatePDFButton = new javax.swing.JButton();
         loginAttemptsReportPanel = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         loginAttemptsReportTable = new javax.swing.JTable();
@@ -142,6 +154,7 @@ public class AdminGUI extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         toDateTextLA = new javax.swing.JTextField();
         loginAttemptsGenerateButton = new javax.swing.JButton();
+        loginAttemptsCreatePDFButton = new javax.swing.JButton();
         sponsorView = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         SponsorList = new javax.swing.JList<>();
@@ -717,6 +730,13 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
+        driverApplicationsCreatePDFButton.setText("Create PDF from Table");
+        driverApplicationsCreatePDFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                driverApplicationsCreatePDFButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout driverApplicationsReportPanelLayout = new javax.swing.GroupLayout(driverApplicationsReportPanel);
         driverApplicationsReportPanel.setLayout(driverApplicationsReportPanelLayout);
         driverApplicationsReportPanelLayout.setHorizontalGroup(
@@ -732,9 +752,11 @@ public class AdminGUI extends javax.swing.JFrame {
                         .addComponent(fromDateTextDA, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(toDateTextDA, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(driverApplicationsGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(187, 187, 187))
+                        .addGap(18, 18, 18)
+                        .addComponent(driverApplicationsGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(driverApplicationsCreatePDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(36, 36, 36))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, driverApplicationsReportPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane3)
@@ -751,7 +773,8 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(driverApplicationsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fromDateTextDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(toDateTextDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(driverApplicationsGenerateButton))
+                    .addComponent(driverApplicationsGenerateButton)
+                    .addComponent(driverApplicationsCreatePDFButton))
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -804,6 +827,13 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
+        pointChangesCreatePDFButton.setText("Create PDF from Table");
+        pointChangesCreatePDFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pointChangesCreatePDFButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pointChangesReportPanelLayout = new javax.swing.GroupLayout(pointChangesReportPanel);
         pointChangesReportPanel.setLayout(pointChangesReportPanelLayout);
         pointChangesReportPanelLayout.setHorizontalGroup(
@@ -819,9 +849,11 @@ public class AdminGUI extends javax.swing.JFrame {
                         .addComponent(fromDateTextPC, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(toDateTextPC, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(pointChangesGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(187, 187, 187))
+                        .addGap(18, 18, 18)
+                        .addComponent(pointChangesGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(pointChangesCreatePDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(36, 36, 36))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pointChangesReportPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane4)
@@ -838,7 +870,8 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(pointChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fromDateTextPC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(toDateTextPC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pointChangesGenerateButton))
+                    .addComponent(pointChangesGenerateButton)
+                    .addComponent(pointChangesCreatePDFButton))
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -887,6 +920,13 @@ public class AdminGUI extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(passwordChangesReportTable);
 
+        passwordChangesCreatePDFButton.setText("Create PDF from Table");
+        passwordChangesCreatePDFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordChangesCreatePDFButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout passwordChangesReportPanelLayout = new javax.swing.GroupLayout(passwordChangesReportPanel);
         passwordChangesReportPanel.setLayout(passwordChangesReportPanelLayout);
         passwordChangesReportPanelLayout.setHorizontalGroup(
@@ -902,9 +942,11 @@ public class AdminGUI extends javax.swing.JFrame {
                         .addComponent(fromDateTextPass, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(toDateTextPass, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(passwordChangesGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(187, 187, 187))
+                        .addGap(18, 18, 18)
+                        .addComponent(passwordChangesGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(passwordChangesCreatePDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(36, 36, 36))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, passwordChangesReportPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane5)
@@ -921,7 +963,8 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(passwordChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fromDateTextPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(toDateTextPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordChangesGenerateButton))
+                    .addComponent(passwordChangesGenerateButton)
+                    .addComponent(passwordChangesCreatePDFButton))
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -970,6 +1013,13 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
+        loginAttemptsCreatePDFButton.setText("Create PDF from Table");
+        loginAttemptsCreatePDFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginAttemptsCreatePDFButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout loginAttemptsReportPanelLayout = new javax.swing.GroupLayout(loginAttemptsReportPanel);
         loginAttemptsReportPanel.setLayout(loginAttemptsReportPanelLayout);
         loginAttemptsReportPanelLayout.setHorizontalGroup(
@@ -985,9 +1035,11 @@ public class AdminGUI extends javax.swing.JFrame {
                         .addComponent(fromDateTextLA, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(toDateTextLA, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(loginAttemptsGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(187, 187, 187))
+                        .addGap(18, 18, 18)
+                        .addComponent(loginAttemptsGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(loginAttemptsCreatePDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(36, 36, 36))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginAttemptsReportPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane6)
@@ -1004,7 +1056,8 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(loginAttemptsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fromDateTextLA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(toDateTextLA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loginAttemptsGenerateButton))
+                    .addComponent(loginAttemptsGenerateButton)
+                    .addComponent(loginAttemptsCreatePDFButton))
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -2070,6 +2123,182 @@ public class AdminGUI extends javax.swing.JFrame {
         switchAuditLogPanels(loginAttemptsReportPanel);
     }//GEN-LAST:event_loginAttemptsReportButtonActionPerformed
 
+    private void driverApplicationsCreatePDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_driverApplicationsCreatePDFButtonActionPerformed
+        try {
+            Document report = new Document();
+            PdfWriter writer = PdfWriter.getInstance(report, new FileOutputStream("DriverApplicationsAuditLogReport.pdf"));
+            report.open();
+            Paragraph title = new Paragraph();
+            title.add(new Paragraph("Driver Application Audit Log Report"));
+            title.add(new Paragraph(" "));
+            String constraints = "";
+            if(!fromDateTextDA.getText().equals("")) {
+                constraints += "From: ";
+                constraints += fromDateTextDA.getText();
+                constraints += " ";
+            }
+            if(!toDateTextDA.getText().equals("")) {
+                constraints += "To: ";
+                constraints += toDateTextDA.getText();
+                constraints += " ";
+            }
+            if(!constraints.equals("")) {
+                title.add(new Paragraph(constraints));
+                title.add(new Paragraph(" "));
+            }
+            report.add(title);
+            PdfPTable reportTable = new PdfPTable(driverApplicationsReportTable.getModel().getColumnCount());
+            for(int i = 0; i < driverApplicationsReportTable.getModel().getColumnCount(); i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(driverApplicationsReportTable.getModel().getColumnName(i)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+            }
+            for(int i = 0; i < driverApplicationsReportTable.getModel().getRowCount(); i++) {
+                for(int j = 0; j < driverApplicationsReportTable.getModel().getColumnCount(); j++) {
+                    PdfPCell cell = new PdfPCell(new Phrase(driverApplicationsReportTable.getModel().getValueAt(i, j).toString()));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    reportTable.addCell(cell);
+                }
+            }
+            report.add(reportTable);
+            report.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_driverApplicationsCreatePDFButtonActionPerformed
+
+    private void pointChangesCreatePDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pointChangesCreatePDFButtonActionPerformed
+        try {
+            Document report = new Document();
+            PdfWriter writer = PdfWriter.getInstance(report, new FileOutputStream("PointChangesAuditLogReport.pdf"));
+            report.open();
+            Paragraph title = new Paragraph();
+            title.add(new Paragraph("Point Changes Audit Log Report"));
+            title.add(new Paragraph(" "));
+            String constraints = "";
+            if(!fromDateTextPC.getText().equals("")) {
+                constraints += "From: ";
+                constraints += fromDateTextPC.getText();
+                constraints += " ";
+            }
+            if(!toDateTextPC.getText().equals("")) {
+                constraints += "To: ";
+                constraints += toDateTextPC.getText();
+                constraints += " ";
+            }
+            if(!constraints.equals("")) {
+                title.add(new Paragraph(constraints));
+                title.add(new Paragraph(" "));
+            }
+            report.add(title);
+            PdfPTable reportTable = new PdfPTable(pointChangesReportTable.getModel().getColumnCount());
+            for(int i = 0; i < pointChangesReportTable.getModel().getColumnCount(); i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(pointChangesReportTable.getModel().getColumnName(i)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+            }
+            for(int i = 0; i < pointChangesReportTable.getModel().getRowCount(); i++) {
+                for(int j = 0; j < pointChangesReportTable.getModel().getColumnCount(); j++) {
+                    PdfPCell cell = new PdfPCell(new Phrase(pointChangesReportTable.getModel().getValueAt(i, j).toString()));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    reportTable.addCell(cell);
+                }
+            }
+            report.add(reportTable);
+            report.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_pointChangesCreatePDFButtonActionPerformed
+
+    private void passwordChangesCreatePDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordChangesCreatePDFButtonActionPerformed
+        try {
+            Document report = new Document();
+            PdfWriter writer = PdfWriter.getInstance(report, new FileOutputStream("PasswordChangesAuditLogReport.pdf"));
+            report.open();
+            Paragraph title = new Paragraph();
+            title.add(new Paragraph("Password Changes Audit Log Report"));
+            title.add(new Paragraph(" "));
+            String constraints = "";
+            if(!fromDateTextPass.getText().equals("")) {
+                constraints += "From: ";
+                constraints += fromDateTextPass.getText();
+                constraints += " ";
+            }
+            if(!toDateTextPass.getText().equals("")) {
+                constraints += "To: ";
+                constraints += toDateTextPass.getText();
+                constraints += " ";
+            }
+            if(!constraints.equals("")) {
+                title.add(new Paragraph(constraints));
+                title.add(new Paragraph(" "));
+            }
+            report.add(title);
+            PdfPTable reportTable = new PdfPTable(passwordChangesReportTable.getModel().getColumnCount());
+            for(int i = 0; i < passwordChangesReportTable.getModel().getColumnCount(); i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(passwordChangesReportTable.getModel().getColumnName(i)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+            }
+            for(int i = 0; i < passwordChangesReportTable.getModel().getRowCount(); i++) {
+                for(int j = 0; j < passwordChangesReportTable.getModel().getColumnCount(); j++) {
+                    PdfPCell cell = new PdfPCell(new Phrase(passwordChangesReportTable.getModel().getValueAt(i, j).toString()));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    reportTable.addCell(cell);
+                }
+            }
+            report.add(reportTable);
+            report.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_passwordChangesCreatePDFButtonActionPerformed
+
+    private void loginAttemptsCreatePDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginAttemptsCreatePDFButtonActionPerformed
+        try {
+            Document report = new Document();
+            PdfWriter writer = PdfWriter.getInstance(report, new FileOutputStream("LoginAttemptsAuditLogReport.pdf"));
+            report.open();
+            Paragraph title = new Paragraph();
+            title.add(new Paragraph("Login Attempts Audit Log Report"));
+            title.add(new Paragraph(" "));
+            String constraints = "";
+            if(!fromDateTextLA.getText().equals("")) {
+                constraints += "From: ";
+                constraints += fromDateTextLA.getText();
+                constraints += " ";
+            }
+            if(!toDateTextLA.getText().equals("")) {
+                constraints += "To: ";
+                constraints += toDateTextLA.getText();
+                constraints += " ";
+            }
+            if(!constraints.equals("")) {
+                title.add(new Paragraph(constraints));
+                title.add(new Paragraph(" "));
+            }
+            report.add(title);
+            PdfPTable reportTable = new PdfPTable(loginAttemptsReportTable.getModel().getColumnCount());
+            for(int i = 0; i < loginAttemptsReportTable.getModel().getColumnCount(); i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(loginAttemptsReportTable.getModel().getColumnName(i)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+            }
+            for(int i = 0; i < loginAttemptsReportTable.getModel().getRowCount(); i++) {
+                for(int j = 0; j < loginAttemptsReportTable.getModel().getColumnCount(); j++) {
+                    PdfPCell cell = new PdfPCell(new Phrase(loginAttemptsReportTable.getModel().getValueAt(i, j).toString()));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    reportTable.addCell(cell);
+                }
+            }
+            report.add(reportTable);
+            report.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_loginAttemptsCreatePDFButtonActionPerformed
+
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
         jTextField1.setText(name);
@@ -2183,6 +2412,7 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JPanel auditLogPanel;
     private javax.swing.JPanel catalog;
     private javax.swing.JComboBox<String> companyDD;
+    private javax.swing.JButton driverApplicationsCreatePDFButton;
     private javax.swing.JButton driverApplicationsGenerateButton;
     private javax.swing.JButton driverApplicationsReportButton;
     private javax.swing.JPanel driverApplicationsReportPanel;
@@ -2254,15 +2484,18 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLayeredPane layeredPane;
+    private javax.swing.JButton loginAttemptsCreatePDFButton;
     private javax.swing.JButton loginAttemptsGenerateButton;
     private javax.swing.JButton loginAttemptsReportButton;
     private javax.swing.JPanel loginAttemptsReportPanel;
     private javax.swing.JTable loginAttemptsReportTable;
     private javax.swing.JPanel myAccount;
+    private javax.swing.JButton passwordChangesCreatePDFButton;
     private javax.swing.JButton passwordChangesGenerateButton;
     private javax.swing.JButton passwordChangesReportButton;
     private javax.swing.JPanel passwordChangesReportPanel;
     private javax.swing.JTable passwordChangesReportTable;
+    private javax.swing.JButton pointChangesCreatePDFButton;
     private javax.swing.JButton pointChangesGenerateButton;
     private javax.swing.JButton pointChangesReportButton;
     private javax.swing.JPanel pointChangesReportPanel;
