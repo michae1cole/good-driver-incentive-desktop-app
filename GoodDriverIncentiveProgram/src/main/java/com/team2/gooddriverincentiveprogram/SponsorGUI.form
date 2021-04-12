@@ -1557,9 +1557,11 @@
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="filterText" min="-2" pref="126" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="driverFilterDD" min="-2" pref="129" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                                  <Component id="afterThisDateText" min="-2" pref="126" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="beforeThisDateText" min="-2" pref="126" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="clearFilterBtn" min="-2" pref="120" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -1577,10 +1579,11 @@
                           <Component id="filterLabel" min="-2" pref="17" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="filterText" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="afterThisDateText" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="filterBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="driverFilterDD" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="clearFilterBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="beforeThisDateText" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="reportScrollPane" min="-2" pref="231" max="-2" attributes="0"/>
@@ -1635,7 +1638,10 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JTextField" name="filterText">
+                <Component class="javax.swing.JTextField" name="afterThisDateText">
+                  <Properties>
+                    <Property name="toolTipText" type="java.lang.String" value="Filter results by after this date"/>
+                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="filterLabel">
                   <Properties>
@@ -1667,6 +1673,11 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearFilterBtnActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JTextField" name="beforeThisDateText">
+                  <Properties>
+                    <Property name="toolTipText" type="java.lang.String" value="Filter results by before this date"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
