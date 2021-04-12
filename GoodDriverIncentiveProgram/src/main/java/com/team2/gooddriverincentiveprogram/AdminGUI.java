@@ -8,7 +8,11 @@ package com.team2.gooddriverincentiveprogram;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -16,6 +20,9 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
@@ -80,14 +87,61 @@ public class AdminGUI extends javax.swing.JFrame {
         jButton17 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         reporting = new javax.swing.JPanel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        salesBySponsorButton = new javax.swing.JButton();
+        salesByDriverButton = new javax.swing.JButton();
+        invoiceButton = new javax.swing.JButton();
+        auditLogButton = new javax.swing.JButton();
+        reportingLayeredPane = new javax.swing.JLayeredPane();
+        salesBySponsorPanel = new javax.swing.JPanel();
+        salesByDriverPanel = new javax.swing.JPanel();
+        invoicePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        insertDBValsHere = new javax.swing.JTable();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jComboBox7 = new javax.swing.JComboBox<>();
+        invoiceTable = new javax.swing.JTable();
+        companyDD = new javax.swing.JComboBox<>();
+        jLabel18 = new javax.swing.JLabel();
+        fromDateText = new javax.swing.JTextField();
+        toDateText = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        invoiceGenerateButton = new javax.swing.JButton();
+        auditLogPanel = new javax.swing.JPanel();
+        driverApplicationsReportButton = new javax.swing.JButton();
+        pointChangesReportButton = new javax.swing.JButton();
+        passwordChangesReportButton = new javax.swing.JButton();
+        loginAttemptsReportButton = new javax.swing.JButton();
+        auditLogLayeredPanel = new javax.swing.JLayeredPane();
+        driverApplicationsReportPanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        driverApplicationsReportTable = new javax.swing.JTable();
+        fromDateTextDA = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        toDateTextDA = new javax.swing.JTextField();
+        driverApplicationsGenerateButton = new javax.swing.JButton();
+        pointChangesReportPanel = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        pointChangesReportTable = new javax.swing.JTable();
+        fromDateTextPC = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        toDateTextPC = new javax.swing.JTextField();
+        pointChangesGenerateButton = new javax.swing.JButton();
+        passwordChangesReportPanel = new javax.swing.JPanel();
+        fromDateTextPass = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        toDateTextPass = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        passwordChangesGenerateButton = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        passwordChangesReportTable = new javax.swing.JTable();
+        loginAttemptsReportPanel = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        loginAttemptsReportTable = new javax.swing.JTable();
+        fromDateTextLA = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        toDateTextLA = new javax.swing.JTextField();
+        loginAttemptsGenerateButton = new javax.swing.JButton();
         sponsorView = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         SponsorList = new javax.swing.JList<>();
@@ -358,7 +412,7 @@ public class AdminGUI extends javax.swing.JFrame {
             catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(catalogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 1076, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(catalogLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
@@ -434,106 +488,601 @@ public class AdminGUI extends javax.swing.JFrame {
                         .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(390, Short.MAX_VALUE))
         );
 
         layeredPane.add(catalog, "card4");
 
         reporting.setBackground(new java.awt.Color(191, 192, 192));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Driver Name1", "Driver Name2", "Driver Name3" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        salesBySponsorButton.setText("Sales by Sponsor");
+        salesBySponsorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                salesBySponsorButtonActionPerformed(evt);
             }
         });
 
-        insertDBValsHere.setModel(new javax.swing.table.DefaultTableModel(
+        salesByDriverButton.setText("Sales by Driver");
+        salesByDriverButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salesByDriverButtonActionPerformed(evt);
+            }
+        });
+
+        invoiceButton.setText("Invoice");
+        invoiceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                invoiceButtonActionPerformed(evt);
+            }
+        });
+
+        auditLogButton.setText("Audit Log");
+        auditLogButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                auditLogButtonActionPerformed(evt);
+            }
+        });
+
+        reportingLayeredPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        reportingLayeredPane.setLayout(new java.awt.CardLayout());
+
+        javax.swing.GroupLayout salesBySponsorPanelLayout = new javax.swing.GroupLayout(salesBySponsorPanel);
+        salesBySponsorPanel.setLayout(salesBySponsorPanelLayout);
+        salesBySponsorPanelLayout.setHorizontalGroup(
+            salesBySponsorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1030, Short.MAX_VALUE)
+        );
+        salesBySponsorPanelLayout.setVerticalGroup(
+            salesBySponsorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 548, Short.MAX_VALUE)
+        );
+
+        reportingLayeredPane.add(salesBySponsorPanel, "card2");
+
+        javax.swing.GroupLayout salesByDriverPanelLayout = new javax.swing.GroupLayout(salesByDriverPanel);
+        salesByDriverPanel.setLayout(salesByDriverPanelLayout);
+        salesByDriverPanelLayout.setHorizontalGroup(
+            salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1030, Short.MAX_VALUE)
+        );
+        salesByDriverPanelLayout.setVerticalGroup(
+            salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 548, Short.MAX_VALUE)
+        );
+
+        reportingLayeredPane.add(salesByDriverPanel, "card3");
+
+        invoiceTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Company Name", "Total From Drivers", "Admin Fee Due"
             }
-        ));
-        insertDBValsHere.setName("importDBHere"); // NOI18N
-        jScrollPane1.setViewportView(insertDBValsHere);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SponsorName1", "SponsorName2", "SponsorName3", "SponsorName4" }));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(invoiceTable);
+
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setText("Select a Company");
+
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("From (YYYY-MM-DD)");
+
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("To (YYYY-MM-DD)");
+
+        invoiceGenerateButton.setText("Generate");
+        invoiceGenerateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                invoiceGenerateButtonActionPerformed(evt);
             }
         });
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Detail or Summary" }));
-        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
+        javax.swing.GroupLayout invoicePanelLayout = new javax.swing.GroupLayout(invoicePanel);
+        invoicePanel.setLayout(invoicePanelLayout);
+        invoicePanelLayout.setHorizontalGroup(
+            invoicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(invoicePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(invoicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(invoicePanelLayout.createSequentialGroup()
+                        .addGroup(invoicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(invoicePanelLayout.createSequentialGroup()
+                                .addGap(366, 366, 366)
+                                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(invoicePanelLayout.createSequentialGroup()
+                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(companyDD, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(fromDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(toDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(60, 60, 60)
+                                .addComponent(invoiceGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 51, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        invoicePanelLayout.setVerticalGroup(
+            invoicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, invoicePanelLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(invoicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(invoicePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(companyDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fromDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(invoiceGenerateButton))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportingLayeredPane.add(invoicePanel, "card4");
+
+        driverApplicationsReportButton.setText("Driver Applications");
+        driverApplicationsReportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox4ActionPerformed(evt);
+                driverApplicationsReportButtonActionPerformed(evt);
             }
         });
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Date End" }));
-        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
+        pointChangesReportButton.setText("Point Changes");
+        pointChangesReportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox5ActionPerformed(evt);
+                pointChangesReportButtonActionPerformed(evt);
             }
         });
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Date Begin" }));
-        jComboBox6.addActionListener(new java.awt.event.ActionListener() {
+        passwordChangesReportButton.setText("Password Changes");
+        passwordChangesReportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox6ActionPerformed(evt);
+                passwordChangesReportButtonActionPerformed(evt);
             }
         });
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Report Type0", "Report Type1", "Report Type2" }));
-        jComboBox7.addActionListener(new java.awt.event.ActionListener() {
+        loginAttemptsReportButton.setText("Login Attempts");
+        loginAttemptsReportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox7ActionPerformed(evt);
+                loginAttemptsReportButtonActionPerformed(evt);
             }
         });
+
+        auditLogLayeredPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        auditLogLayeredPanel.setLayout(new java.awt.CardLayout());
+
+        driverApplicationsReportTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Date", "Company", "Driver", "Status", "Reason"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(driverApplicationsReportTable);
+        if (driverApplicationsReportTable.getColumnModel().getColumnCount() > 0) {
+            driverApplicationsReportTable.getColumnModel().getColumn(3).setHeaderValue("Number of Points");
+            driverApplicationsReportTable.getColumnModel().getColumn(4).setHeaderValue("Reason");
+        }
+
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setText("From (YYYY-MM-DD)");
+
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("To (YYYY-MM-DD)");
+
+        driverApplicationsGenerateButton.setText("Generate");
+        driverApplicationsGenerateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                driverApplicationsGenerateButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout driverApplicationsReportPanelLayout = new javax.swing.GroupLayout(driverApplicationsReportPanel);
+        driverApplicationsReportPanel.setLayout(driverApplicationsReportPanelLayout);
+        driverApplicationsReportPanelLayout.setHorizontalGroup(
+            driverApplicationsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, driverApplicationsReportPanelLayout.createSequentialGroup()
+                .addContainerGap(192, Short.MAX_VALUE)
+                .addGroup(driverApplicationsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(driverApplicationsReportPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(driverApplicationsReportPanelLayout.createSequentialGroup()
+                        .addComponent(fromDateTextDA, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(toDateTextDA, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(driverApplicationsGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(187, 187, 187))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, driverApplicationsReportPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
+        );
+        driverApplicationsReportPanelLayout.setVerticalGroup(
+            driverApplicationsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, driverApplicationsReportPanelLayout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addGroup(driverApplicationsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel22))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(driverApplicationsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fromDateTextDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toDateTextDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(driverApplicationsGenerateButton))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        auditLogLayeredPanel.add(driverApplicationsReportPanel, "card2");
+
+        pointChangesReportTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Date", "Company", "Driver", "Number of Points", "Reason"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(pointChangesReportTable);
+        if (pointChangesReportTable.getColumnModel().getColumnCount() > 0) {
+            pointChangesReportTable.getColumnModel().getColumn(3).setHeaderValue("Number of Points");
+            pointChangesReportTable.getColumnModel().getColumn(4).setHeaderValue("Reason");
+        }
+
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setText("From (YYYY-MM-DD)");
+
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setText("To (YYYY-MM-DD)");
+
+        pointChangesGenerateButton.setText("Generate");
+        pointChangesGenerateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pointChangesGenerateButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pointChangesReportPanelLayout = new javax.swing.GroupLayout(pointChangesReportPanel);
+        pointChangesReportPanel.setLayout(pointChangesReportPanelLayout);
+        pointChangesReportPanelLayout.setHorizontalGroup(
+            pointChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pointChangesReportPanelLayout.createSequentialGroup()
+                .addContainerGap(192, Short.MAX_VALUE)
+                .addGroup(pointChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pointChangesReportPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pointChangesReportPanelLayout.createSequentialGroup()
+                        .addComponent(fromDateTextPC, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(toDateTextPC, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(pointChangesGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(187, 187, 187))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pointChangesReportPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4)
+                .addContainerGap())
+        );
+        pointChangesReportPanelLayout.setVerticalGroup(
+            pointChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pointChangesReportPanelLayout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addGroup(pointChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel23)
+                    .addComponent(jLabel24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pointChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fromDateTextPC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toDateTextPC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pointChangesGenerateButton))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        auditLogLayeredPanel.add(pointChangesReportPanel, "card3");
+
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel25.setText("From (YYYY-MM-DD)");
+
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel26.setText("To (YYYY-MM-DD)");
+
+        passwordChangesGenerateButton.setText("Generate");
+        passwordChangesGenerateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordChangesGenerateButtonActionPerformed(evt);
+            }
+        });
+
+        passwordChangesReportTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Date", "User", "Type of Change"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(passwordChangesReportTable);
+
+        javax.swing.GroupLayout passwordChangesReportPanelLayout = new javax.swing.GroupLayout(passwordChangesReportPanel);
+        passwordChangesReportPanel.setLayout(passwordChangesReportPanelLayout);
+        passwordChangesReportPanelLayout.setHorizontalGroup(
+            passwordChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, passwordChangesReportPanelLayout.createSequentialGroup()
+                .addContainerGap(192, Short.MAX_VALUE)
+                .addGroup(passwordChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(passwordChangesReportPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(passwordChangesReportPanelLayout.createSequentialGroup()
+                        .addComponent(fromDateTextPass, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(toDateTextPass, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(passwordChangesGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(187, 187, 187))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, passwordChangesReportPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5)
+                .addContainerGap())
+        );
+        passwordChangesReportPanelLayout.setVerticalGroup(
+            passwordChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, passwordChangesReportPanelLayout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addGroup(passwordChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel26))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(passwordChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fromDateTextPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toDateTextPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordChangesGenerateButton))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        auditLogLayeredPanel.add(passwordChangesReportPanel, "card4");
+
+        loginAttemptsReportTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Date", "Username", "Success/Failure"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(loginAttemptsReportTable);
+
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel27.setText("From (YYYY-MM-DD)");
+
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("To (YYYY-MM-DD)");
+
+        loginAttemptsGenerateButton.setText("Generate");
+        loginAttemptsGenerateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginAttemptsGenerateButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout loginAttemptsReportPanelLayout = new javax.swing.GroupLayout(loginAttemptsReportPanel);
+        loginAttemptsReportPanel.setLayout(loginAttemptsReportPanelLayout);
+        loginAttemptsReportPanelLayout.setHorizontalGroup(
+            loginAttemptsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginAttemptsReportPanelLayout.createSequentialGroup()
+                .addContainerGap(192, Short.MAX_VALUE)
+                .addGroup(loginAttemptsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loginAttemptsReportPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(loginAttemptsReportPanelLayout.createSequentialGroup()
+                        .addComponent(fromDateTextLA, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(toDateTextLA, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(loginAttemptsGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(187, 187, 187))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginAttemptsReportPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6)
+                .addContainerGap())
+        );
+        loginAttemptsReportPanelLayout.setVerticalGroup(
+            loginAttemptsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginAttemptsReportPanelLayout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addGroup(loginAttemptsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27)
+                    .addComponent(jLabel28))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(loginAttemptsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fromDateTextLA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toDateTextLA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loginAttemptsGenerateButton))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        auditLogLayeredPanel.add(loginAttemptsReportPanel, "card5");
+
+        javax.swing.GroupLayout auditLogPanelLayout = new javax.swing.GroupLayout(auditLogPanel);
+        auditLogPanel.setLayout(auditLogPanelLayout);
+        auditLogPanelLayout.setHorizontalGroup(
+            auditLogPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(auditLogPanelLayout.createSequentialGroup()
+                .addGroup(auditLogPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(auditLogPanelLayout.createSequentialGroup()
+                        .addGap(243, 243, 243)
+                        .addComponent(driverApplicationsReportButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(pointChangesReportButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(passwordChangesReportButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(loginAttemptsReportButton))
+                    .addGroup(auditLogPanelLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(auditLogLayeredPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 974, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+        auditLogPanelLayout.setVerticalGroup(
+            auditLogPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(auditLogPanelLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(auditLogPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(driverApplicationsReportButton)
+                    .addComponent(pointChangesReportButton)
+                    .addComponent(passwordChangesReportButton)
+                    .addComponent(loginAttemptsReportButton))
+                .addGap(18, 18, 18)
+                .addComponent(auditLogLayeredPanel)
+                .addContainerGap())
+        );
+
+        reportingLayeredPane.add(auditLogPanel, "card5");
 
         javax.swing.GroupLayout reportingLayout = new javax.swing.GroupLayout(reporting);
         reporting.setLayout(reportingLayout);
         reportingLayout.setHorizontalGroup(
             reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(reportingLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(reportingLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reportingLayout.createSequentialGroup()
-                        .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 363, Short.MAX_VALUE)
-                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(300, 300, 300)
+                        .addComponent(salesBySponsorButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11))))
+                        .addComponent(salesByDriverButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(invoiceButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(auditLogButton))
+                    .addGroup(reportingLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(reportingLayeredPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         reportingLayout.setVerticalGroup(
             reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(reportingLayout.createSequentialGroup()
-                .addGap(356, 356, 356)
+                .addGap(26, 26, 26)
                 .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                    .addComponent(salesBySponsorButton)
+                    .addComponent(salesByDriverButton)
+                    .addComponent(invoiceButton)
+                    .addComponent(auditLogButton))
+                .addGap(18, 18, 18)
+                .addComponent(reportingLayeredPane)
                 .addContainerGap())
         );
 
@@ -572,7 +1121,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17))
-                .addContainerGap(359, Short.MAX_VALUE))
+                .addContainerGap(411, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sponsorViewLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ViewDriverPage)
@@ -591,7 +1140,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ViewSponsorPage)
                     .addComponent(ViewDriverPage))
-                .addContainerGap(196, Short.MAX_VALUE))
+                .addContainerGap(392, Short.MAX_VALUE))
         );
 
         layeredPane.add(sponsorView, "card5");
@@ -855,30 +1404,6 @@ public class AdminGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton17ActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
-
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
-
-    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox4ActionPerformed
-
-    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox5ActionPerformed
-
-    private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox6ActionPerformed
-
-    private void jComboBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox7ActionPerformed
-
     //Name Update Button
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         String newName = jTextField1.getText();
@@ -1096,6 +1621,459 @@ public class AdminGUI extends javax.swing.JFrame {
         addDriverFrame.setVisible(true);
     }//GEN-LAST:event_CreateDriverButton1ActionPerformed
 
+    private void salesBySponsorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesBySponsorButtonActionPerformed
+        switchReportPanels(salesBySponsorPanel);
+    }//GEN-LAST:event_salesBySponsorButtonActionPerformed
+
+    private void salesByDriverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesByDriverButtonActionPerformed
+        switchReportPanels(salesByDriverPanel);
+    }//GEN-LAST:event_salesByDriverButtonActionPerformed
+
+    private void invoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceButtonActionPerformed
+        switchReportPanels(invoicePanel);
+         try {
+            companyDD.addItem("0: All Companies");
+            PreparedStatement companiesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company");
+            ResultSet companiesRS = companiesPS.executeQuery();
+            while(companiesRS.next()) {
+                String company = companiesRS.getInt("CompanyID") + ": " + companiesRS.getString("CompanyName");
+                companyDD.addItem(company);
+            }
+         } catch(Exception e) {
+             Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+         }
+    }//GEN-LAST:event_invoiceButtonActionPerformed
+
+    private void auditLogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_auditLogButtonActionPerformed
+        switchReportPanels(auditLogPanel);
+    }//GEN-LAST:event_auditLogButtonActionPerformed
+
+    
+    private void invoiceGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceGenerateButtonActionPerformed
+        //Make sure a company is selected
+        if(companyDD.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(null, "Please make a company selection.");
+        } else {
+            DefaultTableModel model = (DefaultTableModel) invoiceTable.getModel();
+            //Remove existing rows
+            if(model.getRowCount() > 0) {
+                for(int i = model.getRowCount()-1; i >= 0; i--) {
+                    model.removeRow(i);
+                }
+            }
+            try{
+                String selectedCompany = companyDD.getSelectedItem().toString();
+                String[] tokens = selectedCompany.split(": ");
+                //Get information for all companies
+                if(tokens[0].equals("0")) {
+                    ArrayList<String> companyNameList = new ArrayList<>();
+                    ArrayList<Double> totalDriverCostList = new ArrayList<>();
+                    ArrayList<Double> adminFeeList = new ArrayList<>();
+                    //Get information from all companies
+                    PreparedStatement companiesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company");
+                    ResultSet companiesRS = companiesPS.executeQuery();
+                    while(companiesRS.next()) {
+                        companyNameList.add(companiesRS.getString("CompanyName"));
+                        int companyID = companiesRS.getInt("CompanyID");
+                        String fromDate = fromDateText.getText();
+                        String toDate = toDateText.getText();
+                        //If no dates were specified
+                        if(fromDate.equals("") && toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=?");
+                            purchasesPS.setInt(1, companyID);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                double adminFee = totalDriverCost * 0.01;
+                                totalDriverCostList.add(totalDriverCost);
+                                adminFeeList.add(adminFee);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                                adminFeeList.add(0.0);
+                            }
+                        //If a from date was specified but no to date
+                        } else if(!fromDate.equals("") && toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate >= ?");
+                            purchasesPS.setInt(1, companyID);
+                            purchasesPS.setString(2, fromDate);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                double adminFee = totalDriverCost * 0.01;
+                                totalDriverCostList.add(totalDriverCost);
+                                adminFeeList.add(adminFee);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                                adminFeeList.add(0.0);
+                            }
+                        //If a to date was specified but no from date
+                        } else if(fromDate.equals("") && !toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate <= ?");
+                            purchasesPS.setInt(1, companyID);
+                            purchasesPS.setString(2, toDate);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                double adminFee = totalDriverCost * 0.01;
+                                totalDriverCostList.add(totalDriverCost);
+                                adminFeeList.add(adminFee);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                                adminFeeList.add(0.0);
+                            }
+                        //If both dates were specified
+                        } else if(!fromDate.equals("") && !toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate <= ? AND PurchaseDate >= ?");
+                            purchasesPS.setInt(1, companyID);
+                            purchasesPS.setString(2, toDate);
+                            purchasesPS.setString(3, fromDate);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                double adminFee = totalDriverCost * 0.01;
+                                totalDriverCostList.add(totalDriverCost);
+                                adminFeeList.add(adminFee);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                                adminFeeList.add(0.0);
+                            }
+                        }
+                    }
+                    //Add all company data to table
+                    for(int i = 0; i < companyNameList.size(); i++) {
+                        Object[] rowData = {companyNameList.get(i), totalDriverCostList.get(i), adminFeeList.get(i)};
+                        model.addRow(rowData);
+                    }
+                //Get information for specific company selected
+                } else {
+                    int companyID = Integer.parseInt(tokens[0]);
+                    String companyName = tokens[1];
+                    double totalDriverCost = 0.0;
+                    double adminFee = 0.0;
+                    String fromDate = fromDateText.getText();
+                    String toDate = toDateText.getText();
+                    //If no dates were specified
+                    if(fromDate.equals("") && toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=?");
+                        purchasesPS.setInt(1, companyID);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                            adminFee = totalDriverCost * 0.01;
+                        }
+                    //If a from date was specified but no to date
+                    } else if(!fromDate.equals("") && toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate >= ?");
+                        purchasesPS.setInt(1, companyID);
+                        purchasesPS.setString(2, fromDate);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                            adminFee = totalDriverCost * 0.01;
+                        }
+                    //If a to date was specified but no from date
+                    } else if(fromDate.equals("") && !toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate <= ?");
+                        purchasesPS.setInt(1, companyID);
+                        purchasesPS.setString(2, toDate);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                            adminFee = totalDriverCost * 0.01;
+                        }
+                    //If both dates were specified
+                    } else if(!fromDate.equals("") && !toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate <= ? AND PurchaseDate >= ?");
+                        purchasesPS.setInt(1, companyID);
+                        purchasesPS.setString(2, toDate);
+                        purchasesPS.setString(3, fromDate);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                            adminFee = totalDriverCost * 0.01;
+                        }
+                    }
+                    Object[] rowData = {companyName, totalDriverCost, adminFee};
+                    model.addRow(rowData);
+                }
+            } catch(Exception e) {
+                Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+    }//GEN-LAST:event_invoiceGenerateButtonActionPerformed
+
+    private void driverApplicationsGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_driverApplicationsGenerateButtonActionPerformed
+        DefaultTableModel model = (DefaultTableModel) driverApplicationsReportTable.getModel();
+        //Remove existing rows
+        if(model.getRowCount() > 0) {
+            for(int i = model.getRowCount()-1; i >= 0; i--) {
+                model.removeRow(i);
+            }
+        }
+        try{
+            String fromDate = fromDateTextDA.getText();
+            String toDate = toDateTextDA.getText();
+            //If no dates were specified
+            if(fromDate.equals("") && toDate.equals("")) {
+                PreparedStatement driverApplicationPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverApplications JOIN Company ON DriverApplications.CompanyID=Company.CompanyID JOIN Driver ON DriverApplications.DriverID=Driver.DriverID JOIN Users ON Driver.UserID=Users.UserID");
+                ResultSet driverApplicationRS = driverApplicationPS.executeQuery();
+                //If applications were made in the timeframe
+                while(driverApplicationRS.next()) {
+                    Object[] rowData = {driverApplicationRS.getString("ApplicationDate").split(" ")[0], driverApplicationRS.getString("CompanyName"), driverApplicationRS.getString("FirstName") + " " + driverApplicationRS.getString("LastName"), driverApplicationRS.getString("ApplicationStatus"), driverApplicationRS.getString("Reason")};
+                    model.addRow(rowData);
+                }
+            //If a from date was specified but no to date
+            } else if(!fromDate.equals("") && toDate.equals("")) {
+                PreparedStatement driverApplicationPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverApplications JOIN Company ON DriverApplications.CompanyID=Company.CompanyID JOIN Driver ON DriverApplications.DriverID=Driver.DriverID JOIN Users ON Driver.UserID=Users.UserID WHERE ApplicationDate >= ?");
+                driverApplicationPS.setString(1, fromDate);
+                ResultSet driverApplicationRS = driverApplicationPS.executeQuery();
+                //If applications were made in the timeframe
+                while(driverApplicationRS.next()) {
+                    Object[] rowData = {driverApplicationRS.getString("ApplicationDate"), driverApplicationRS.getString("CompanyName"), driverApplicationRS.getString("FirstName") + " " + driverApplicationRS.getString("LastName"), driverApplicationRS.getString("ApplicationStatus"), driverApplicationRS.getString("Reason")};
+                    model.addRow(rowData);
+                }
+            //If a to date was specified but no from date
+            } else if(fromDate.equals("") && !toDate.equals("")) {
+                PreparedStatement driverApplicationPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverApplications JOIN Company ON DriverApplications.CompanyID=Company.CompanyID JOIN Driver ON DriverApplications.DriverID=Driver.DriverID JOIN Users ON Driver.UserID=Users.UserID WHERE ApplicationDate <= ?");
+                driverApplicationPS.setString(1, toDate);
+                ResultSet driverApplicationRS = driverApplicationPS.executeQuery();
+                //If applications were made in the timeframe
+                while(driverApplicationRS.next()) {
+                    Object[] rowData = {driverApplicationRS.getString("ApplicationDate"), driverApplicationRS.getString("CompanyName"), driverApplicationRS.getString("FirstName") + " " + driverApplicationRS.getString("LastName"), driverApplicationRS.getString("ApplicationStatus"), driverApplicationRS.getString("Reason")};
+                    model.addRow(rowData);
+                }
+            //If both dates were specified
+            } else if(!fromDate.equals("") && !toDate.equals("")) {
+                PreparedStatement driverApplicationPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverApplications JOIN Company ON DriverApplications.CompanyID=Company.CompanyID JOIN Driver ON DriverApplications.DriverID=Driver.DriverID JOIN Users ON Driver.UserID=Users.UserID WHERE ApplicationDate >= ? AND ApplicationDate <= ?");
+                driverApplicationPS.setString(1, fromDate);
+                driverApplicationPS.setString(2, toDate);
+                ResultSet driverApplicationRS = driverApplicationPS.executeQuery();
+                //If applications were made in the timeframe
+                while(driverApplicationRS.next()) {
+                    Object[] rowData = {driverApplicationRS.getString("ApplicationDate"), driverApplicationRS.getString("CompanyName"), driverApplicationRS.getString("FirstName") + " " + driverApplicationRS.getString("LastName"), driverApplicationRS.getString("ApplicationStatus"), driverApplicationRS.getString("Reason")};
+                    model.addRow(rowData);
+                }
+            }
+        } catch(Exception e) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_driverApplicationsGenerateButtonActionPerformed
+
+    private void driverApplicationsReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_driverApplicationsReportButtonActionPerformed
+        switchAuditLogPanels(driverApplicationsReportPanel);
+    }//GEN-LAST:event_driverApplicationsReportButtonActionPerformed
+
+    private void pointChangesReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pointChangesReportButtonActionPerformed
+        switchAuditLogPanels(pointChangesReportPanel);
+    }//GEN-LAST:event_pointChangesReportButtonActionPerformed
+
+    private void pointChangesGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pointChangesGenerateButtonActionPerformed
+        DefaultTableModel model = (DefaultTableModel) pointChangesReportTable.getModel();
+        //Remove existing rows
+        if(model.getRowCount() > 0) {
+            for(int i = model.getRowCount()-1; i >= 0; i--) {
+                model.removeRow(i);
+            }
+        }
+        try{
+            String fromDate = fromDateTextPC.getText();
+            String toDate = toDateTextPC.getText();
+            //If no dates were specified
+            if(fromDate.equals("") && toDate.equals("")) {
+                PreparedStatement pointChangesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM PointChanges JOIN Company ON PointChanges.CompanyID=Company.CompanyID JOIN Driver ON PointChanges.DriverID=Driver.DriverID JOIN Users ON Driver.UserID = Users.UserID");
+                ResultSet pointChangesRS = pointChangesPS.executeQuery();
+                //If points were changed in the timeframe
+                while(pointChangesRS.next()) {
+                    Object[] rowData = {pointChangesRS.getString("PointChangeDate").split(" ")[0], pointChangesRS.getString("CompanyName"), pointChangesRS.getString("FirstName") + " " + pointChangesRS.getString("LastName"), pointChangesRS.getInt("PointChange"), pointChangesRS.getString("Reason")};
+                    model.addRow(rowData);
+                }
+            //If a from date was specified but no to date
+            } else if(!fromDate.equals("") && toDate.equals("")) {
+                PreparedStatement pointChangesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM PointChanges JOIN Company ON PointChanges.CompanyID=Company.CompanyID JOIN Driver ON PointChanges.DriverID=Driver.DriverID JOIN Users ON Driver.UserID = Users.UserID WHERE PointChangeDate >= ?");
+                pointChangesPS.setString(1, fromDate);
+                ResultSet pointChangesRS = pointChangesPS.executeQuery();
+                //If points were changed in the timeframe
+                while(pointChangesRS.next()) {
+                    Object[] rowData = {pointChangesRS.getString("PointChangeDate").split(" ")[0], pointChangesRS.getString("CompanyName"), pointChangesRS.getString("FirstName") + " " + pointChangesRS.getString("LastName"), pointChangesRS.getInt("PointChange"), pointChangesRS.getString("Reason")};
+                    model.addRow(rowData);
+                }
+            //If a to date was specified but no from date
+            } else if(fromDate.equals("") && !toDate.equals("")) {
+                PreparedStatement pointChangesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM PointChanges JOIN Company ON PointChanges.CompanyID=Company.CompanyID JOIN Driver ON PointChanges.DriverID=Driver.DriverID JOIN Users ON Driver.UserID = Users.UserID WHERE PointChangeDate <= ?");
+                pointChangesPS.setString(1, toDate);
+                ResultSet pointChangesRS = pointChangesPS.executeQuery();
+                //If points were changed in the timeframe
+                while(pointChangesRS.next()) {
+                    Object[] rowData = {pointChangesRS.getString("PointChangeDate").split(" ")[0], pointChangesRS.getString("CompanyName"), pointChangesRS.getString("FirstName") + " " + pointChangesRS.getString("LastName"), pointChangesRS.getInt("PointChange"), pointChangesRS.getString("Reason")};
+                    model.addRow(rowData);
+                }
+            //If both dates were specified
+            } else if(!fromDate.equals("") && !toDate.equals("")) {
+                PreparedStatement pointChangesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM PointChanges JOIN Company ON PointChanges.CompanyID=Company.CompanyID JOIN Driver ON PointChanges.DriverID=Driver.DriverID JOIN Users ON Driver.UserID = Users.UserID WHERE PointChangeDate >= ? AND PointChangeDate <= ?");
+                pointChangesPS.setString(1, fromDate);
+                pointChangesPS.setString(2, toDate);
+                ResultSet pointChangesRS = pointChangesPS.executeQuery();
+                //If points were changed in the timeframe
+                while(pointChangesRS.next()) {
+                    Object[] rowData = {pointChangesRS.getString("PointChangeDate").split(" ")[0], pointChangesRS.getString("CompanyName"), pointChangesRS.getString("FirstName") + " " + pointChangesRS.getString("LastName"), pointChangesRS.getInt("PointChange"), pointChangesRS.getString("Reason")};
+                    model.addRow(rowData);
+                }
+            }
+        } catch(Exception e) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_pointChangesGenerateButtonActionPerformed
+
+    private void passwordChangesReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordChangesReportButtonActionPerformed
+        switchAuditLogPanels(passwordChangesReportPanel);
+    }//GEN-LAST:event_passwordChangesReportButtonActionPerformed
+
+    private void passwordChangesGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordChangesGenerateButtonActionPerformed
+        DefaultTableModel model = (DefaultTableModel) passwordChangesReportTable.getModel();
+        //Remove existing rows
+        if(model.getRowCount() > 0) {
+            for(int i = model.getRowCount()-1; i >= 0; i--) {
+                model.removeRow(i);
+            }
+        }
+        try{
+            String fromDate = fromDateTextPass.getText();
+            String toDate = toDateTextPass.getText();
+            //If no dates were specified
+            if(fromDate.equals("") && toDate.equals("")) {
+                PreparedStatement passwordChangesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM PasswordChange JOIN Users ON PasswordChange.UserChangedID=Users.UserID");
+                ResultSet passwordChangesRS = passwordChangesPS.executeQuery();
+                //If passwords were changed in the timeframe
+                while(passwordChangesRS.next()) {
+                    Object[] rowData = {passwordChangesRS.getString("PasswordChangeDate").split(" ")[0], passwordChangesRS.getString("FirstName") + " " + passwordChangesRS.getString("LastName"), passwordChangesRS.getString("PasswordChangeType")};
+                    model.addRow(rowData);
+                }
+            //If a from date was specified but no to date
+            } else if(!fromDate.equals("") && toDate.equals("")) {
+                PreparedStatement passwordChangesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM PasswordChange JOIN Users ON PasswordChange.UserChangedID=Users.UserID WHERE PasswordChangeDate >= ?");
+                passwordChangesPS.setString(1, fromDate);
+                ResultSet passwordChangesRS = passwordChangesPS.executeQuery();
+                //If passwords were changed in the timeframe
+                while(passwordChangesRS.next()) {
+                    Object[] rowData = {passwordChangesRS.getString("PasswordChangeDate").split(" ")[0], passwordChangesRS.getString("FirstName") + " " + passwordChangesRS.getString("LastName"), passwordChangesRS.getString("PasswordChangeType")};
+                    model.addRow(rowData);
+                }
+            //If a to date was specified but no from date
+            } else if(fromDate.equals("") && !toDate.equals("")) {
+                PreparedStatement passwordChangesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM PasswordChange JOIN Users ON PasswordChange.UserChangedID=Users.UserID WHERE PasswordChangeDate <= ?");
+                passwordChangesPS.setString(1, toDate);
+                ResultSet passwordChangesRS = passwordChangesPS.executeQuery();
+                //If passwords were changed in the timeframe
+                while(passwordChangesRS.next()) {
+                    Object[] rowData = {passwordChangesRS.getString("PasswordChangeDate").split(" ")[0], passwordChangesRS.getString("FirstName") + " " + passwordChangesRS.getString("LastName"), passwordChangesRS.getString("PasswordChangeType")};
+                    model.addRow(rowData);
+                }
+            //If both dates were specified
+            } else if(!fromDate.equals("") && !toDate.equals("")) {
+                PreparedStatement passwordChangesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM PasswordChange JOIN Users ON PasswordChange.UserChangedID=Users.UserID WHERE PasswordChangeDate >= ? AND PasswordChangeDate <= ?");
+                passwordChangesPS.setString(1, fromDate);
+                passwordChangesPS.setString(2, toDate);
+                ResultSet passwordChangesRS = passwordChangesPS.executeQuery();
+                //If passwords were changed in the timeframe
+                while(passwordChangesRS.next()) {
+                    Object[] rowData = {passwordChangesRS.getString("PasswordChangeDate").split(" ")[0], passwordChangesRS.getString("FirstName") + " " + passwordChangesRS.getString("LastName"), passwordChangesRS.getString("PasswordChangeType")};
+                    model.addRow(rowData);
+                }
+            }
+        } catch(Exception e) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_passwordChangesGenerateButtonActionPerformed
+
+    private void loginAttemptsGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginAttemptsGenerateButtonActionPerformed
+        DefaultTableModel model = (DefaultTableModel) loginAttemptsReportTable.getModel();
+        //Remove existing rows
+        if(model.getRowCount() > 0) {
+            for(int i = model.getRowCount()-1; i >= 0; i--) {
+                model.removeRow(i);
+            }
+        }
+        try{
+            String fromDate = fromDateTextLA.getText();
+            String toDate = toDateTextLA.getText();
+            //If no dates were specified
+            if(fromDate.equals("") && toDate.equals("")) {
+                PreparedStatement loginAttemptsPS = MyConnection.getConnection().prepareStatement("SELECT * FROM LoginAttempts");
+                ResultSet loginAttemptsRS = loginAttemptsPS.executeQuery();
+                //If logins occurred in the timeframe
+                while(loginAttemptsRS.next()) {
+                    String condition = "Failure";
+                    if(loginAttemptsRS.getInt("Success") == 1) {
+                        condition = "Success";
+                    }
+                    Object[] rowData = {loginAttemptsRS.getString("LoginAttemptsDate").split(" ")[0], loginAttemptsRS.getString("Username"), condition};
+                    model.addRow(rowData);
+                }
+            //If a from date was specified but no to date
+            } else if(!fromDate.equals("") && toDate.equals("")) {
+                PreparedStatement loginAttemptsPS = MyConnection.getConnection().prepareStatement("SELECT * FROM LoginAttempts WHERE LoginAttemptsDate >= ?");
+                loginAttemptsPS.setString(1, fromDate);
+                ResultSet loginAttemptsRS = loginAttemptsPS.executeQuery();
+                //If logins occurred in the timeframe
+                while(loginAttemptsRS.next()) {
+                    String condition = "Failure";
+                    if(loginAttemptsRS.getInt("Success") == 1) {
+                        condition = "Success";
+                    }
+                    Object[] rowData = {loginAttemptsRS.getString("LoginAttemptsDate").split(" ")[0], loginAttemptsRS.getString("Username"), condition};
+                    model.addRow(rowData);
+                }
+            //If a to date was specified but no from date
+            } else if(fromDate.equals("") && !toDate.equals("")) {
+                PreparedStatement loginAttemptsPS = MyConnection.getConnection().prepareStatement("SELECT * FROM LoginAttempts WHERE LoginAttemptsDate <= ?");
+                loginAttemptsPS.setString(1, toDate);
+                ResultSet loginAttemptsRS = loginAttemptsPS.executeQuery();
+                //If logins occurred in the timeframe
+                while(loginAttemptsRS.next()) {
+                    String condition = "Failure";
+                    if(loginAttemptsRS.getInt("Success") == 1) {
+                        condition = "Success";
+                    }
+                    Object[] rowData = {loginAttemptsRS.getString("LoginAttemptsDate").split(" ")[0], loginAttemptsRS.getString("Username"), condition};
+                    model.addRow(rowData);
+                }
+            //If both dates were specified
+            } else if(!fromDate.equals("") && !toDate.equals("")) {
+                PreparedStatement loginAttemptsPS = MyConnection.getConnection().prepareStatement("SELECT * FROM LoginAttempts WHERE LoginAttemptsDate >= ? AND LoginAttemptsDate <= ?");
+                loginAttemptsPS.setString(1, fromDate);
+                loginAttemptsPS.setString(2, toDate);
+                ResultSet loginAttemptsRS = loginAttemptsPS.executeQuery();
+                //If logins occurred in the timeframe
+                while(loginAttemptsRS.next()) {
+                    String condition = "Failure";
+                    if(loginAttemptsRS.getInt("Success") == 1) {
+                        condition = "Success";
+                    }
+                    Object[] rowData = {loginAttemptsRS.getString("LoginAttemptsDate").split(" ")[0], loginAttemptsRS.getString("Username"), condition};
+                    model.addRow(rowData);
+                }
+            }
+        } catch(Exception e) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_loginAttemptsGenerateButtonActionPerformed
+
+    private void loginAttemptsReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginAttemptsReportButtonActionPerformed
+        switchAuditLogPanels(loginAttemptsReportPanel);
+    }//GEN-LAST:event_loginAttemptsReportButtonActionPerformed
+
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
         jTextField1.setText(name);
@@ -1182,6 +2160,20 @@ public class AdminGUI extends javax.swing.JFrame {
         layeredPane.repaint();
         layeredPane.revalidate();
     }
+    
+    public void switchReportPanels(javax.swing.JPanel panel) {
+        reportingLayeredPane.removeAll();
+        reportingLayeredPane.add(panel);
+        reportingLayeredPane.repaint();
+        reportingLayeredPane.revalidate();
+    }
+    
+    public void switchAuditLogPanels(javax.swing.JPanel panel) {
+        auditLogLayeredPanel.removeAll();
+        auditLogLayeredPanel.add(panel);
+        auditLogLayeredPanel.repaint();
+        auditLogLayeredPanel.revalidate();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CreateCompanyButton;
@@ -1190,8 +2182,24 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JButton SwitchToViews;
     private javax.swing.JButton ViewDriverPage;
     private javax.swing.JButton ViewSponsorPage;
+    private javax.swing.JButton auditLogButton;
+    private javax.swing.JLayeredPane auditLogLayeredPanel;
+    private javax.swing.JPanel auditLogPanel;
     private javax.swing.JPanel catalog;
-    private javax.swing.JTable insertDBValsHere;
+    private javax.swing.JComboBox<String> companyDD;
+    private javax.swing.JButton driverApplicationsGenerateButton;
+    private javax.swing.JButton driverApplicationsReportButton;
+    private javax.swing.JPanel driverApplicationsReportPanel;
+    private javax.swing.JTable driverApplicationsReportTable;
+    private javax.swing.JTextField fromDateText;
+    private javax.swing.JTextField fromDateTextDA;
+    private javax.swing.JTextField fromDateTextLA;
+    private javax.swing.JTextField fromDateTextPC;
+    private javax.swing.JTextField fromDateTextPass;
+    private javax.swing.JButton invoiceButton;
+    private javax.swing.JButton invoiceGenerateButton;
+    private javax.swing.JPanel invoicePanel;
+    private javax.swing.JTable invoiceTable;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
@@ -1206,12 +2214,6 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JComboBox<String> jComboBox7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1221,7 +2223,18 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1237,12 +2250,38 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLayeredPane layeredPane;
+    private javax.swing.JButton loginAttemptsGenerateButton;
+    private javax.swing.JButton loginAttemptsReportButton;
+    private javax.swing.JPanel loginAttemptsReportPanel;
+    private javax.swing.JTable loginAttemptsReportTable;
     private javax.swing.JPanel myAccount;
+    private javax.swing.JButton passwordChangesGenerateButton;
+    private javax.swing.JButton passwordChangesReportButton;
+    private javax.swing.JPanel passwordChangesReportPanel;
+    private javax.swing.JTable passwordChangesReportTable;
+    private javax.swing.JButton pointChangesGenerateButton;
+    private javax.swing.JButton pointChangesReportButton;
+    private javax.swing.JPanel pointChangesReportPanel;
+    private javax.swing.JTable pointChangesReportTable;
     private javax.swing.JPanel reporting;
+    private javax.swing.JLayeredPane reportingLayeredPane;
+    private javax.swing.JButton salesByDriverButton;
+    private javax.swing.JPanel salesByDriverPanel;
+    private javax.swing.JButton salesBySponsorButton;
+    private javax.swing.JPanel salesBySponsorPanel;
     private javax.swing.JPanel sponsorView;
+    private javax.swing.JTextField toDateText;
+    private javax.swing.JTextField toDateTextDA;
+    private javax.swing.JTextField toDateTextLA;
+    private javax.swing.JTextField toDateTextPC;
+    private javax.swing.JTextField toDateTextPass;
     // End of variables declaration//GEN-END:variables
 }
