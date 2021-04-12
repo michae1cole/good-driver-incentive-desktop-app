@@ -1561,7 +1561,9 @@
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="driverFilterDD" min="-2" pref="129" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="filterButton" min="-2" pref="110" max="-2" attributes="0"/>
+                                  <Component id="clearFilterBtn" min="-2" pref="120" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="filterBtn" min="-2" pref="110" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="184" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -1576,8 +1578,9 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="filterText" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="filterButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="filterBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="driverFilterDD" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="clearFilterBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="reportScrollPane" min="-2" pref="231" max="-2" attributes="0"/>
@@ -1639,12 +1642,12 @@
                     <Property name="text" type="java.lang.String" value="Add text to filter results or choose from dropdown list, then hit &quot;Filter Results&quot;"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="filterButton">
+                <Component class="javax.swing.JButton" name="filterBtn">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Filter Results"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="filterButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="filterBtnActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="driverFilterDD">
@@ -1656,6 +1659,14 @@
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
+                </Component>
+                <Component class="javax.swing.JButton" name="clearFilterBtn">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Clear Filters"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearFilterBtnActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

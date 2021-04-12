@@ -165,8 +165,9 @@ public class SponsorGUI extends javax.swing.JFrame {
         driverReportTable = new javax.swing.JTable();
         filterText = new javax.swing.JTextField();
         filterLabel = new javax.swing.JLabel();
-        filterButton = new javax.swing.JButton();
+        filterBtn = new javax.swing.JButton();
         driverFilterDD = new javax.swing.JComboBox<>();
+        clearFilterBtn = new javax.swing.JButton();
         driverPoints = new javax.swing.JPanel();
         driverListScrollPane = new javax.swing.JScrollPane();
         driverList = new javax.swing.JList<>();
@@ -1105,10 +1106,17 @@ public class SponsorGUI extends javax.swing.JFrame {
 
         filterLabel.setText("Add text to filter results or choose from dropdown list, then hit \"Filter Results\"");
 
-        filterButton.setText("Filter Results");
-        filterButton.addActionListener(new java.awt.event.ActionListener() {
+        filterBtn.setText("Filter Results");
+        filterBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filterButtonActionPerformed(evt);
+                filterBtnActionPerformed(evt);
+            }
+        });
+
+        clearFilterBtn.setText("Clear Filters");
+        clearFilterBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearFilterBtnActionPerformed(evt);
             }
         });
 
@@ -1131,7 +1139,9 @@ public class SponsorGUI extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(driverFilterDD, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(clearFilterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(filterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(184, 184, 184))))
         );
         reportingLayout.setVerticalGroup(
@@ -1142,8 +1152,9 @@ public class SponsorGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(reportingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(filterText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filterButton)
-                    .addComponent(driverFilterDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(filterBtn)
+                    .addComponent(driverFilterDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clearFilterBtn))
                 .addGap(18, 18, 18)
                 .addComponent(reportScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(251, Short.MAX_VALUE))
@@ -2879,7 +2890,7 @@ public class SponsorGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_SwitchtoDriverViewActionPerformed
 
-    private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
+    private void filterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterBtnActionPerformed
         
         DefaultTableModel model = (DefaultTableModel) driverReportTable.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
@@ -2915,7 +2926,7 @@ public class SponsorGUI extends javax.swing.JFrame {
             }
             sorter.setRowFilter(rf);
         }
-    }//GEN-LAST:event_filterButtonActionPerformed
+    }//GEN-LAST:event_filterBtnActionPerformed
 
     private void revokeApplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revokeApplicationButtonActionPerformed
         try {
@@ -2952,6 +2963,22 @@ public class SponsorGUI extends javax.swing.JFrame {
             Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_revokeApplicationButtonActionPerformed
+
+    private void clearFilterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFilterBtnActionPerformed
+        
+        DefaultTableModel model = (DefaultTableModel) driverReportTable.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
+        driverReportTable.setRowSorter(sorter);
+        
+        RowFilter<DefaultTableModel, Object> rf = null;
+        
+        try {
+                rf = RowFilter.regexFilter(" ",0);
+            } catch (java.util.regex.PatternSyntaxException e){
+                return;
+            }
+            sorter.setRowFilter(rf);
+    }//GEN-LAST:event_clearFilterBtnActionPerformed
 
 
     public void setCurrentCatalogDriver(int driverID) {
@@ -3619,6 +3646,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JButton approveApplicationButton;
     private javax.swing.JPanel catalog;
     private javax.swing.JPanel catalogEditor;
+    private javax.swing.JButton clearFilterBtn;
     private javax.swing.JButton declineApplicationButton;
     private javax.swing.JComboBox<String> driverFilterDD;
     private javax.swing.JTextField driverFirstNameField;
@@ -3631,7 +3659,7 @@ public class SponsorGUI extends javax.swing.JFrame {
     private javax.swing.JTextField driverPreferredNameField;
     private javax.swing.JTable driverReportTable;
     private javax.swing.JTextField driverUsernameField;
-    private javax.swing.JButton filterButton;
+    private javax.swing.JButton filterBtn;
     private javax.swing.JLabel filterLabel;
     private javax.swing.JTextField filterText;
     private javax.swing.JButton jButton1;
