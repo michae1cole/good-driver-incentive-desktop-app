@@ -169,6 +169,9 @@ public class AdminGUI extends javax.swing.JFrame {
         SwitchToViews = new javax.swing.JButton();
         CreateCompanyButton = new javax.swing.JButton();
         CreateDriverButton1 = new javax.swing.JButton();
+        CreateSponsorButton = new javax.swing.JButton();
+        CreateAdminButton = new javax.swing.JButton();
+        CreateDriverButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -535,7 +538,7 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
-        reportingLayeredPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        reportingLayeredPane.setBorder(javax.swing.BorderFactory.createLineBorder(null));
         reportingLayeredPane.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout salesBySponsorPanelLayout = new javax.swing.GroupLayout(salesBySponsorPanel);
@@ -694,7 +697,7 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
-        auditLogLayeredPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        auditLogLayeredPanel.setBorder(javax.swing.BorderFactory.createLineBorder(null));
         auditLogLayeredPanel.setLayout(new java.awt.CardLayout());
 
         driverApplicationsReportTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -1251,6 +1254,27 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
+        CreateSponsorButton.setText("Create Sponsor");
+        CreateSponsorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateSponsorButtonActionPerformed(evt);
+            }
+        });
+
+        CreateAdminButton.setText("Create Admin");
+        CreateAdminButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateAdminButtonActionPerformed(evt);
+            }
+        });
+
+        CreateDriverButton.setText("Create Driver");
+        CreateDriverButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateDriverButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1265,18 +1289,24 @@ public class AdminGUI extends javax.swing.JFrame {
                                 .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(10, 10, 10)
                                 .addComponent(SwitchToViews, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(14, 14, 14)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(CreateSponsorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(CreateAdminButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(CreateDriverButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(CreateCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CreateDriverButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(CreateDriverButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton30, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -1285,7 +1315,10 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton13)
-                    .addComponent(jButton29))
+                    .addComponent(jButton29)
+                    .addComponent(CreateSponsorButton)
+                    .addComponent(CreateAdminButton)
+                    .addComponent(CreateDriverButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton23)
@@ -2427,6 +2460,27 @@ public class AdminGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_invoiceCreatePDFButtonActionPerformed
 
+    private void CreateSponsorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateSponsorButtonActionPerformed
+        AdminCreateSponsorAccount createAccountFrame = new AdminCreateSponsorAccount();
+        createAccountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        createAccountFrame.setTitle("Good Driver Incentive Program - Create Sponsor Account");
+        createAccountFrame.setVisible(true);
+    }//GEN-LAST:event_CreateSponsorButtonActionPerformed
+
+    private void CreateAdminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateAdminButtonActionPerformed
+        CreateAdminAccount createAccountFrame = new CreateAdminAccount();
+        createAccountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        createAccountFrame.setTitle("Good Driver Incentive Program - Create Admin Account");
+        createAccountFrame.setVisible(true);
+    }//GEN-LAST:event_CreateAdminButtonActionPerformed
+
+    private void CreateDriverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateDriverButtonActionPerformed
+        CreateAccount createAccountFrame = new CreateAccount();
+        createAccountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        createAccountFrame.setTitle("Good Driver Incentive Program - Create Driver Account");
+        createAccountFrame.setVisible(true);
+    }//GEN-LAST:event_CreateDriverButtonActionPerformed
+
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
         jTextField1.setText(name);
@@ -2529,8 +2583,11 @@ public class AdminGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CreateAdminButton;
     private javax.swing.JButton CreateCompanyButton;
+    private javax.swing.JButton CreateDriverButton;
     private javax.swing.JButton CreateDriverButton1;
+    private javax.swing.JButton CreateSponsorButton;
     private javax.swing.JList<String> SponsorList;
     private javax.swing.JButton SwitchToViews;
     private javax.swing.JButton ViewDriverPage;

@@ -54,21 +54,29 @@
                                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                   <Component id="SwitchToViews" min="-2" pref="145" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jButton29" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jButton29" min="-2" pref="145" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="CreateSponsorButton" min="-2" pref="145" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="jButton13" min="-2" pref="145" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="CreateAdminButton" min="-2" pref="145" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="CreateDriverButton" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="CreateCompanyButton" min="-2" pref="145" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="CreateDriverButton1" min="-2" pref="157" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jButton30" min="-2" pref="145" max="-2" attributes="0"/>
                               </Group>
+                          </Group>
+                          <EmptySpace min="325" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jButton30" alignment="1" min="-2" pref="145" max="-2" attributes="0"/>
+                              <Component id="jButton13" alignment="1" min="-2" pref="145" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -83,6 +91,9 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jButton13" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton29" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="CreateSponsorButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="CreateAdminButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="CreateDriverButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -1712,6 +1723,30 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateDriverButton1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="CreateSponsorButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Create Sponsor"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateSponsorButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="CreateAdminButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Create Admin"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateAdminButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="CreateDriverButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Create Driver"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateDriverButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
