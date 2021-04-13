@@ -246,109 +246,113 @@ public class LoginGUI extends javax.swing.JFrame {
 
                 //If a user was found
                 if(loginRS.next()) {
-                    //Check that password matches
-                    String oldPassword = loginRS.getString("UserPassword");
-                    if(BCrypt.checkpw(pass, oldPassword)) {
-                        //Record login attempt
-                        loginRecordingPreparedStatement.setBoolean(1, true);
-                        loginRecordingPreparedStatement.setString(2, uname);
-                        loginRecordingPreparedStatement.executeUpdate();
-                        //Find type of user (driver, sponsor, or admin)
-                        String userType = loginRS.getString("UserType");
-                        //User is a driver
-                        if(userType.equals("D")) {
-                            DriverGUI driverGUI = new DriverGUI();
-                            driverGUI.setLoggingIn(true);
-                            driverGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            driverGUI.setTitle("Good Driver Incentive Program - Driver");
-                            driverGUI.switchPanels(driverGUI.getProfilePanel());
-                            driverGUI.setUserID(loginRS.getInt("UserID"));
-                            String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
-                            driverGUI.setDriverName(fullName);
-                            driverGUI.setDriverUsername(uname);
-                            String preferredName = loginRS.getString("PreferredName");
-                            driverGUI.setDriverPreferredName(preferredName);
-                            driverGUI.setDriverPassword(pass);
-                            driverGUI.formatCartItemTable();
-                            driverGUI.setSponsorCatalogList(loginRS.getInt("UserID"));
-                            driverGUI.setApplicationCompanyList(loginRS.getInt("UserID"));
-                            driverGUI.setApplicationTable();
-                            try {
-                                PreparedStatement driverSelectPS;
-                                ResultSet driverSelectRS;
-                                String driverSelectQuery = "SELECT * FROM Driver WHERE UserID=?";
-                                driverSelectPS = MyConnection.getConnection().prepareStatement(driverSelectQuery);
-                                driverSelectPS.setInt(1, loginRS.getInt("UserID"));
-                                driverSelectRS = driverSelectPS.executeQuery();
-                                if (driverSelectRS.next()) {
-                                    String address = driverSelectRS.getString("Address");
-                                    driverGUI.setDriverAddress(address);
+                    if(loginRS.getBoolean("ActiveAccount")) {
+                        //Check that password matches
+                        String oldPassword = loginRS.getString("UserPassword");
+                        if(BCrypt.checkpw(pass, oldPassword)) {
+                            //Record login attempt
+                            loginRecordingPreparedStatement.setBoolean(1, true);
+                            loginRecordingPreparedStatement.setString(2, uname);
+                            loginRecordingPreparedStatement.executeUpdate();
+                            //Find type of user (driver, sponsor, or admin)
+                            String userType = loginRS.getString("UserType");
+                            //User is a driver
+                            if(userType.equals("D")) {
+                                DriverGUI driverGUI = new DriverGUI();
+                                driverGUI.setLoggingIn(true);
+                                driverGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                driverGUI.setTitle("Good Driver Incentive Program - Driver");
+                                driverGUI.switchPanels(driverGUI.getProfilePanel());
+                                driverGUI.setUserID(loginRS.getInt("UserID"));
+                                String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
+                                driverGUI.setDriverName(fullName);
+                                driverGUI.setDriverUsername(uname);
+                                String preferredName = loginRS.getString("PreferredName");
+                                driverGUI.setDriverPreferredName(preferredName);
+                                driverGUI.setDriverPassword(pass);
+                                driverGUI.formatCartItemTable();
+                                driverGUI.setSponsorCatalogList(loginRS.getInt("UserID"));
+                                driverGUI.setApplicationCompanyList(loginRS.getInt("UserID"));
+                                driverGUI.setApplicationTable();
+                                try {
+                                    PreparedStatement driverSelectPS;
+                                    ResultSet driverSelectRS;
+                                    String driverSelectQuery = "SELECT * FROM Driver WHERE UserID=?";
+                                    driverSelectPS = MyConnection.getConnection().prepareStatement(driverSelectQuery);
+                                    driverSelectPS.setInt(1, loginRS.getInt("UserID"));
+                                    driverSelectRS = driverSelectPS.executeQuery();
+                                    if (driverSelectRS.next()) {
+                                        String address = driverSelectRS.getString("Address");
+                                        driverGUI.setDriverAddress(address);
+                                    }
+                                } catch (SQLException e) {
+                                    Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, e);
                                 }
-                            } catch (SQLException e) {
-                                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, e);
-                            }
-                            driverGUI.setLoggingIn(false);
-                            driverGUI.setVisible(true);
-                        //User is a sponsor
-                        } else if(userType.equals("S")) {
-                            SponsorGUI sponsorGUI = new SponsorGUI();
-                            sponsorGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            sponsorGUI.setTitle("Good Driver Incentive Program - Sponsor");
-                            sponsorGUI.setLoggingIn(true);
-                            sponsorGUI.setUserID(loginRS.getInt("UserID"));
-                            String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
-                            sponsorGUI.setSponsorName(fullName);
-                            sponsorGUI.setSponsorUsername(uname);
-                            String preferredName = loginRS.getString("PreferredName");
-                            sponsorGUI.setSponsorPreferredName(preferredName);
-                            sponsorGUI.setSponsorPassword(pass);
-                            sponsorGUI.formatApplicationTable();
-                            sponsorGUI.setDriverApplicationTable();
-                            //Default ratio
-                            int pointToDollarRatio = 100;
-                            //Query database for company's point to dollar conversion ratio
-                            PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
-                            sponsorPS.setInt(1, loginRS.getInt("UserID"));
-                            ResultSet sponsorRS = sponsorPS.executeQuery();
-                            if(sponsorRS.next()) {
-                                int companyID = sponsorRS.getInt("CompanyID");
-                                PreparedStatement pointToDollarConversionPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
-                                pointToDollarConversionPS.setInt(1, companyID);
-                                ResultSet pointToDollarConversionRS = pointToDollarConversionPS.executeQuery();
-                                if(pointToDollarConversionRS.next()) {
-                                    pointToDollarRatio = pointToDollarConversionRS.getInt("PointToDollar");
+                                driverGUI.setLoggingIn(false);
+                                driverGUI.setVisible(true);
+                            //User is a sponsor
+                            } else if(userType.equals("S")) {
+                                SponsorGUI sponsorGUI = new SponsorGUI();
+                                sponsorGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                sponsorGUI.setTitle("Good Driver Incentive Program - Sponsor");
+                                sponsorGUI.setLoggingIn(true);
+                                sponsorGUI.setUserID(loginRS.getInt("UserID"));
+                                String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
+                                sponsorGUI.setSponsorName(fullName);
+                                sponsorGUI.setSponsorUsername(uname);
+                                String preferredName = loginRS.getString("PreferredName");
+                                sponsorGUI.setSponsorPreferredName(preferredName);
+                                sponsorGUI.setSponsorPassword(pass);
+                                sponsorGUI.formatApplicationTable();
+                                sponsorGUI.setDriverApplicationTable();
+                                //Default ratio
+                                int pointToDollarRatio = 100;
+                                //Query database for company's point to dollar conversion ratio
+                                PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");
+                                sponsorPS.setInt(1, loginRS.getInt("UserID"));
+                                ResultSet sponsorRS = sponsorPS.executeQuery();
+                                if(sponsorRS.next()) {
+                                    int companyID = sponsorRS.getInt("CompanyID");
+                                    PreparedStatement pointToDollarConversionPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyID=?");
+                                    pointToDollarConversionPS.setInt(1, companyID);
+                                    ResultSet pointToDollarConversionRS = pointToDollarConversionPS.executeQuery();
+                                    if(pointToDollarConversionRS.next()) {
+                                        pointToDollarRatio = pointToDollarConversionRS.getInt("PointToDollar");
+                                    }
+                                    sponsorGUI.showCatalogItems(companyID);
                                 }
-                                sponsorGUI.showCatalogItems(companyID);
+                                sponsorGUI.setCompanyPointToDollarRatio(String.valueOf(pointToDollarRatio));
+                                sponsorGUI.formatCatalogItemTables();
+                                sponsorGUI.updateCatalogItemTable();
+                                sponsorGUI.setCompanyDriverList(loginRS.getInt("UserID"));
+                                sponsorGUI.setLoggingIn(false);
+                                sponsorGUI.setVisible(true);
+                            //User is an admin
+                            } else if(userType.equals("A")) {
+                                AdminGUI adminGUI = new AdminGUI();
+                                adminGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                adminGUI.setTitle("Good Driver Incentive Program - Admin");
+                                adminGUI.setUserID(loginRS.getInt("UserID"));
+                                String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
+                                adminGUI.setAdminName(fullName);
+                                adminGUI.setAdminUsername(uname);
+                                String preferredName = loginRS.getString("PreferredName");
+                                adminGUI.setAdminPreferredName(preferredName);
+                                adminGUI.setAdminPassword(pass);
+                                adminGUI.setSponsorViewList();
+                                adminGUI.setVisible(true);
                             }
-                            sponsorGUI.setCompanyPointToDollarRatio(String.valueOf(pointToDollarRatio));
-                            sponsorGUI.formatCatalogItemTables();
-                            sponsorGUI.updateCatalogItemTable();
-                            sponsorGUI.setCompanyDriverList(loginRS.getInt("UserID"));
-                            sponsorGUI.setLoggingIn(false);
-                            sponsorGUI.setVisible(true);
-                        //User is an admin
-                        } else if(userType.equals("A")) {
-                            AdminGUI adminGUI = new AdminGUI();
-                            adminGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            adminGUI.setTitle("Good Driver Incentive Program - Admin");
-                            adminGUI.setUserID(loginRS.getInt("UserID"));
-                            String fullName = loginRS.getString("FirstName") + " " + loginRS.getString("MiddleName") + " " + loginRS.getString("LastName");
-                            adminGUI.setAdminName(fullName);
-                            adminGUI.setAdminUsername(uname);
-                            String preferredName = loginRS.getString("PreferredName");
-                            adminGUI.setAdminPreferredName(preferredName);
-                            adminGUI.setAdminPassword(pass);
-                            adminGUI.setSponsorViewList();
-                            adminGUI.setVisible(true);
+                            this.dispose();
+                        } else {
+                            //Record login attempt
+                            loginRecordingPreparedStatement.setBoolean(1, false);
+                            loginRecordingPreparedStatement.setString(2, uname);
+                            loginRecordingPreparedStatement.executeUpdate();
+                            //Inform user that password was incorrect
+                            JOptionPane.showMessageDialog(null, "Incorrect Password.", "Login Failed", 2);
                         }
-                        this.dispose();
                     } else {
-                        //Record login attempt
-                        loginRecordingPreparedStatement.setBoolean(1, false);
-                        loginRecordingPreparedStatement.setString(2, uname);
-                        loginRecordingPreparedStatement.executeUpdate();
-                        //Inform user that password was incorrect
-                        JOptionPane.showMessageDialog(null, "Incorrect Password.", "Login Failed", 2);
+                        JOptionPane.showMessageDialog(null, "This account is inactive.");
                     }
                 } else {
                     //Record login attempt

@@ -239,7 +239,7 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
             //Create new account in database
             try {
                 //Update User table
-                PreparedStatement driverUserCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword) VALUES ('S', ?, ?, ?, ?, ?, ?)");
+                PreparedStatement driverUserCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword, ActiveAccount) VALUES ('S', ?, ?, ?, ?, ?, ?, ?)");
                 driverUserCreationPS.setString(1, uname);
                 driverUserCreationPS.setString(2, firstName);
                 driverUserCreationPS.setString(3, middleName);
@@ -248,6 +248,7 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
                 //Encrypt password
                 String pw_hash = BCrypt.hashpw(firstPassword, BCrypt.gensalt());
                 driverUserCreationPS.setString(6, pw_hash);
+                driverUserCreationPS.setBoolean(7, true);
                 driverUserCreationPS.executeUpdate();
                 //Update Driver table
                 PreparedStatement identificationPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Users WHERE Username=?");
