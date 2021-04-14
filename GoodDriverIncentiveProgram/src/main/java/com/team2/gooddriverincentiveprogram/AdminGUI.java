@@ -49,6 +49,7 @@ public class AdminGUI extends javax.swing.JFrame {
     
     private int userID;
     private int selectedCompanyID = -1;
+    private Boolean hasUsers;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -77,6 +78,20 @@ public class AdminGUI extends javax.swing.JFrame {
         jButton9 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
+        jLabel29 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        userAccountList = new javax.swing.JList<>();
+        updateDriverInfoButton = new javax.swing.JButton();
+        jLabel30 = new javax.swing.JLabel();
+        userPasswordField = new javax.swing.JPasswordField();
+        jLabel31 = new javax.swing.JLabel();
+        userUsernameField = new javax.swing.JTextField();
+        userPreferredNameField = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        userLastNameField = new javax.swing.JTextField();
+        userFirstNameField = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
         catalog = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -253,37 +268,96 @@ public class AdminGUI extends javax.swing.JFrame {
 
         jPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
+        jLabel29.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel29.setText("All User Accounts");
+
+        userAccountList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        userAccountList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                userAccountListValueChanged(evt);
+            }
+        });
+        jScrollPane7.setViewportView(userAccountList);
+
+        updateDriverInfoButton.setText("Update");
+        updateDriverInfoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateDriverInfoButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel30.setText("Password:");
+
+        jLabel31.setText("Username:");
+
+        jLabel32.setText("Preferred Name:");
+
+        jLabel33.setText("Last Name:");
+
+        jLabel34.setText("First Name:");
+
         javax.swing.GroupLayout myAccountLayout = new javax.swing.GroupLayout(myAccount);
         myAccount.setLayout(myAccountLayout);
         myAccountLayout.setHorizontalGroup(
             myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(myAccountLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
                 .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(27, 27, 27)
-                .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField3)
-                    .addComponent(jPasswordField1))
-                .addGap(18, 18, 18)
-                .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButton9))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(myAccountLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(myAccountLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(myAccountLayout.createSequentialGroup()
+                        .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(myAccountLayout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6))
+                                .addGap(27, 27, 27)
+                                .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                                    .addComponent(jTextField2)
+                                    .addComponent(jTextField3)
+                                    .addComponent(jPasswordField1))
+                                .addGap(18, 18, 18)
+                                .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jButton9)))
+                            .addGroup(myAccountLayout.createSequentialGroup()
+                                .addGap(65, 65, 65)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(65, 65, 65)
+                                .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel33)
+                                    .addComponent(jLabel32)
+                                    .addComponent(jLabel31)
+                                    .addComponent(jLabel34)
+                                    .addComponent(jLabel30))
+                                .addGap(18, 18, 18)
+                                .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(userFirstNameField)
+                                    .addComponent(userLastNameField)
+                                    .addComponent(userPreferredNameField)
+                                    .addComponent(userUsernameField)
+                                    .addComponent(userPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 351, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(myAccountLayout.createSequentialGroup()
+                .addGap(478, 478, 478)
+                .addComponent(updateDriverInfoButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         myAccountLayout.setVerticalGroup(
             myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,7 +388,34 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
-                .addGap(60, 60, 60))
+                .addGap(55, 55, 55)
+                .addComponent(jLabel29)
+                .addGap(18, 18, 18)
+                .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(myAccountLayout.createSequentialGroup()
+                        .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel34)
+                            .addComponent(userFirstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
+                        .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel33)
+                            .addComponent(userLastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel32)
+                            .addComponent(userPreferredNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(userUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel31))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(userPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel30)))
+                    .addComponent(jScrollPane7))
+                .addGap(18, 18, 18)
+                .addComponent(updateDriverInfoButton)
+                .addGap(45, 45, 45))
         );
 
         layeredPane.add(myAccount, "card2");
@@ -503,7 +604,7 @@ public class AdminGUI extends javax.swing.JFrame {
                         .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(390, Short.MAX_VALUE))
+                .addContainerGap(417, Short.MAX_VALUE))
         );
 
         layeredPane.add(catalog, "card4");
@@ -538,7 +639,7 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
-        reportingLayeredPane.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        reportingLayeredPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         reportingLayeredPane.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout salesBySponsorPanelLayout = new javax.swing.GroupLayout(salesBySponsorPanel);
@@ -549,7 +650,7 @@ public class AdminGUI extends javax.swing.JFrame {
         );
         salesBySponsorPanelLayout.setVerticalGroup(
             salesBySponsorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 548, Short.MAX_VALUE)
+            .addGap(0, 567, Short.MAX_VALUE)
         );
 
         reportingLayeredPane.add(salesBySponsorPanel, "card2");
@@ -562,7 +663,7 @@ public class AdminGUI extends javax.swing.JFrame {
         );
         salesByDriverPanelLayout.setVerticalGroup(
             salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 548, Short.MAX_VALUE)
+            .addGap(0, 567, Short.MAX_VALUE)
         );
 
         reportingLayeredPane.add(salesByDriverPanel, "card3");
@@ -663,7 +764,7 @@ public class AdminGUI extends javax.swing.JFrame {
                     .addComponent(invoiceGenerateButton)
                     .addComponent(invoiceCreatePDFButton))
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -697,7 +798,7 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
-        auditLogLayeredPanel.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        auditLogLayeredPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         auditLogLayeredPanel.setLayout(new java.awt.CardLayout());
 
         driverApplicationsReportTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -776,7 +877,7 @@ public class AdminGUI extends javax.swing.JFrame {
         driverApplicationsReportPanelLayout.setVerticalGroup(
             driverApplicationsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, driverApplicationsReportPanelLayout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addGroup(driverApplicationsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(jLabel22))
@@ -873,7 +974,7 @@ public class AdminGUI extends javax.swing.JFrame {
         pointChangesReportPanelLayout.setVerticalGroup(
             pointChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pointChangesReportPanelLayout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addGroup(pointChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(jLabel24))
@@ -966,7 +1067,7 @@ public class AdminGUI extends javax.swing.JFrame {
         passwordChangesReportPanelLayout.setVerticalGroup(
             passwordChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, passwordChangesReportPanelLayout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addGroup(passwordChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
                     .addComponent(jLabel26))
@@ -1059,7 +1160,7 @@ public class AdminGUI extends javax.swing.JFrame {
         loginAttemptsReportPanelLayout.setVerticalGroup(
             loginAttemptsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginAttemptsReportPanelLayout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addGroup(loginAttemptsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
                     .addComponent(jLabel28))
@@ -1200,12 +1301,12 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ViewSponsorPage)
                     .addComponent(ViewDriverPage))
-                .addContainerGap(392, Short.MAX_VALUE))
+                .addContainerGap(402, Short.MAX_VALUE))
         );
 
         layeredPane.add(sponsorView, "card5");
 
-        jButton23.setText("My Account");
+        jButton23.setText("Accounts");
         jButton23.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton23ActionPerformed(evt);
@@ -2481,6 +2582,101 @@ public class AdminGUI extends javax.swing.JFrame {
         createAccountFrame.setVisible(true);
     }//GEN-LAST:event_CreateDriverButtonActionPerformed
 
+    private void updateDriverInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDriverInfoButtonActionPerformed
+        try {
+            //Get selected driver information
+            String selectedUser = userAccountList.getSelectedValue();
+            String[] tokens = selectedUser.split(":");
+            int selectedUserID = Integer.parseInt(tokens[0]);
+            //Check username for requirements
+            String newUsername = userUsernameField.getText();
+            //Check for valid username using regex (email)
+            //https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
+            String usernameRegex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+            Pattern usernamePattern = Pattern.compile(usernameRegex);
+            Matcher usernameMatcher = usernamePattern.matcher(newUsername);
+            if(!usernameMatcher.matches()) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid username for user.", "Username Invalid", 2);
+            }
+            //Check password for requirements
+            Boolean passCheck = true;
+            String newPassword = userPasswordField.getText();
+            
+            PreparedStatement passwordSelectPS;
+            ResultSet passwordSelectRS;
+            String passwordSelectQuery = "SELECT UserPassword FROM Users WHERE UserID=?";
+            passwordSelectPS = MyConnection.getConnection().prepareStatement(passwordSelectQuery);
+            passwordSelectPS.setInt(1, selectedUserID);
+            passwordSelectRS = passwordSelectPS.executeQuery();
+            if(passwordSelectRS.next()) {
+                String oldPassword = passwordSelectRS.getString("UserPassword");
+                //If new password is same as old, don't update database
+                if(newPassword == "password") {
+                    passCheck = false;
+                    //Check for valid password using regex
+                    //https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-java/
+                    String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$";
+                    Pattern passwordPattern = Pattern.compile(passwordRegex);
+                    Matcher passwordMatcher = passwordPattern.matcher(newPassword);
+                    if(!passwordMatcher.matches()) {
+                        JOptionPane.showMessageDialog(null, "Password for user must be 8-20 characters, have one uppercase, one lowercase, one digit, one special character, and no white space.");
+                    } else {
+                        passCheck = true;
+                    }
+                }
+            }
+            
+            //If both checks pass
+            if(passCheck) {
+                PreparedStatement updateUserInfoPS = MyConnection.getConnection().prepareStatement("UPDATE Users SET FirstName=?, LastName=?, PreferredName=?, Username=?, UserPassword=? WHERE UserID=?");
+                updateUserInfoPS.setString(1, userFirstNameField.getText());
+                updateUserInfoPS.setString(2, userLastNameField.getText());
+                updateUserInfoPS.setString(3, userPreferredNameField.getText());
+                updateUserInfoPS.setString(4, userUsernameField.getText());
+                String pw_hash = BCrypt.hashpw(userPasswordField.getText(), BCrypt.gensalt());
+                updateUserInfoPS.setString(5, pw_hash);
+                updateUserInfoPS.setInt(6, selectedUserID);
+                updateUserInfoPS.executeUpdate();
+                //Record password change for audit loging
+                PreparedStatement passwordChangePS = MyConnection.getConnection().prepareStatement("INSERT INTO PasswordChange (PasswordChangeDate, PasswordChangeType, UserChangedID, UserChangingID) VALUES (CURRENT_TIMESTAMP, ?, ?, ?)");
+                passwordChangePS.setString(1, "change from admin");
+                passwordChangePS.setInt(2, selectedUserID);
+                passwordChangePS.setInt(3, this.getUserID());
+                passwordChangePS.executeUpdate();
+            }
+        } catch(Exception e) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_updateDriverInfoButtonActionPerformed
+
+    private void userAccountListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_userAccountListValueChanged
+        // TODO add your handling code here:
+        try {
+            String selectedUser = userAccountList.getSelectedValue();
+            if(selectedUser != null) {
+                String[] tokens = selectedUser.split(":");
+                int selectedUserID = Integer.parseInt(tokens[0]);
+                PreparedStatement adminPS = MyConnection.getConnection().prepareStatement("SELECT Username, FirstName, LastName, PreferredName, UserPassword FROM Users where userID=?");
+                adminPS.setInt(1, selectedUserID);
+                ResultSet adminRS = adminPS.executeQuery();  
+                adminRS.next();
+                userFirstNameField.setText(adminRS.getString("FirstName"));
+                userLastNameField.setText(adminRS.getString("LastName"));
+                userPreferredNameField.setText(adminRS.getString("PreferredName"));
+                userUsernameField.setText(adminRS.getString("Username"));
+                userPasswordField.setText("password");
+            } else {
+                userFirstNameField.setText("");
+                userLastNameField.setText("");
+                userPreferredNameField.setText("");
+                userUsernameField.setText("");
+                userPasswordField.setText("");
+            }
+        } catch(Exception e) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_userAccountListValueChanged
+
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
         jTextField1.setText(name);
@@ -2522,6 +2718,29 @@ public class AdminGUI extends javax.swing.JFrame {
 
         resultSet.close();
         statement.close();
+    }
+    
+        public void setAdminUserList(int userID) {
+        ArrayList<String> listDataArrayList = new ArrayList<String>();
+        int driverCounter = 0;
+        try {
+            PreparedStatement usersForAdminPS = MyConnection.getConnection().prepareStatement("SELECT userID, Username, FirstName, LastName, PreferredName FROM Users WHERE userID!=?");
+            usersForAdminPS.setInt(1, userID);
+            ResultSet usersForAdminRS = usersForAdminPS.executeQuery();
+            while(usersForAdminRS.next()) {
+                listDataArrayList.add(usersForAdminRS.getInt("userID") + ": " + usersForAdminRS.getString("FirstName") + " " + usersForAdminRS.getString("LastName") + " (" + usersForAdminRS.getString("Username") + ")");
+                driverCounter++;
+            }
+            if(driverCounter == 0) {
+                String[] listData = {"No drivers available"};
+                userAccountList.setListData(listData);
+            } else {
+                String[] listData = listDataArrayList.toArray(new String[listDataArrayList.size()]);
+                userAccountList.setListData(listData);
+            }
+        } catch(Exception e) {
+            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
     /**
@@ -2645,7 +2864,13 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2664,6 +2889,7 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -2696,5 +2922,12 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextField toDateTextLA;
     private javax.swing.JTextField toDateTextPC;
     private javax.swing.JTextField toDateTextPass;
+    private javax.swing.JButton updateDriverInfoButton;
+    private javax.swing.JList<String> userAccountList;
+    private javax.swing.JTextField userFirstNameField;
+    private javax.swing.JTextField userLastNameField;
+    private javax.swing.JPasswordField userPasswordField;
+    private javax.swing.JTextField userPreferredNameField;
+    private javax.swing.JTextField userUsernameField;
     // End of variables declaration//GEN-END:variables
 }

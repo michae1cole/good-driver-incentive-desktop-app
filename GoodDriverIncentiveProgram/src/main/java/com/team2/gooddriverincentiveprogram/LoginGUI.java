@@ -340,6 +340,7 @@ public class LoginGUI extends javax.swing.JFrame {
                                 adminGUI.setAdminPreferredName(preferredName);
                                 adminGUI.setAdminPassword(pass);
                                 adminGUI.setSponsorViewList();
+                                adminGUI.setAdminUserList(loginRS.getInt("UserID"));
                                 adminGUI.setVisible(true);
                             }
                             this.dispose();
