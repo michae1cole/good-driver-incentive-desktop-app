@@ -187,6 +187,7 @@ public class AdminGUI extends javax.swing.JFrame {
         CreateSponsorButton = new javax.swing.JButton();
         CreateAdminButton = new javax.swing.JButton();
         CreateDriverButton = new javax.swing.JButton();
+        RemoveUser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1373,6 +1374,13 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
+        RemoveUser.setText("Remove User");
+        RemoveUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveUserActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1401,10 +1409,13 @@ public class AdminGUI extends javax.swing.JFrame {
                                 .addComponent(CreateCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(CreateDriverButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton30, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(RemoveUser, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -1416,7 +1427,8 @@ public class AdminGUI extends javax.swing.JFrame {
                     .addComponent(jButton29)
                     .addComponent(CreateSponsorButton)
                     .addComponent(CreateAdminButton)
-                    .addComponent(CreateDriverButton))
+                    .addComponent(CreateDriverButton)
+                    .addComponent(RemoveUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton23)
@@ -2679,6 +2691,18 @@ public class AdminGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_userAccountListValueChanged
 
+    private void RemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveUserActionPerformed
+        RemoveUserGUI remove = new RemoveUserGUI();
+        remove.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        remove.setTitle("Good Driver Incentive Program - Remove Driver");
+        try {
+            remove.setDriverList();
+        } catch (SQLException ex) {
+            Logger.getLogger(RemoveUserGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        remove.setVisible(true);
+    }//GEN-LAST:event_RemoveUserActionPerformed
+
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
         jTextField1.setText(name);
@@ -2809,6 +2833,7 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JButton CreateDriverButton;
     private javax.swing.JButton CreateDriverButton1;
     private javax.swing.JButton CreateSponsorButton;
+    private javax.swing.JButton RemoveUser;
     private javax.swing.JList<String> SponsorList;
     private javax.swing.JButton SwitchToViews;
     private javax.swing.JButton ViewDriverPage;
