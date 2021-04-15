@@ -1959,7 +1959,8 @@ public class AdminGUI extends javax.swing.JFrame {
                     String preferredName = companyDriverRS.getString("PreferredName");
                     sponsorGUI.setSponsorPreferredName(preferredName);
                     sponsorGUI.setSponsorPassword("password");
-
+                    sponsorGUI.formatApplicationTable();
+                    sponsorGUI.setDriverApplicationTable();
                     int pointToDollarRatio = 100;
                     //Query database for company's point to dollar conversion ratio
                     PreparedStatement sponsorPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Sponsor WHERE UserID=?");

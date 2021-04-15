@@ -1463,6 +1463,16 @@ public class SponsorGUI extends javax.swing.JFrame {
         ArrayList<String> nameList2 = new ArrayList<>();    //sponsor names
         ArrayList<Integer> driverPointList = new ArrayList<>();
         
+        //Clear previous data
+        if(driverReportTable.getModel().getRowCount() > 0) {
+            DefaultTableModel dtm = (DefaultTableModel) driverReportTable.getModel();
+            for(int i = driverReportTable.getModel().getRowCount()-1; i >= 0; i--) {
+                dtm.removeRow(i);
+            }
+        }
+        if(driverFilterDD.getModel().getSize() > 0) {
+            driverFilterDD.removeAllItems();
+        }
         
         //Querying db here to gather table information
         try{
