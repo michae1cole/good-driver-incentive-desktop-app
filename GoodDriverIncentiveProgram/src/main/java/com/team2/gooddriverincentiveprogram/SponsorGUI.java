@@ -2865,7 +2865,11 @@ public class SponsorGUI extends javax.swing.JFrame {
                 usernameCheckRS = usernameCheckPS.executeQuery();
                 //If new username is already being used by another account, don't update database
                 if(usernameCheckRS.next()) {
-                    JOptionPane.showMessageDialog(null, "Username already in use by another account.");
+                    if(usernameCheckRS.getInt("UserID") != selectedDriverID) {
+                        JOptionPane.showMessageDialog(null, "Username already in use by another account.");
+                    } else {
+                        unameCheck = true;
+                    }
                 } else {
                     unameCheck = true;
                 }

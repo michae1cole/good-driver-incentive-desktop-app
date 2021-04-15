@@ -48,13 +48,11 @@ public class CreateAdminAccount extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
         jPasswordField2 = new javax.swing.JPasswordField();
 
@@ -65,7 +63,7 @@ public class CreateAdminAccount extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(191, 192, 192));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Create Account");
+        jLabel1.setText("Create Admin Account");
 
         jLabel2.setText("Username *");
 
@@ -88,17 +86,6 @@ public class CreateAdminAccount extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("Street Address *");
-        jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-
-        jTextField8.setToolTipText("");
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -109,23 +96,18 @@ public class CreateAdminAccount extends javax.swing.JFrame {
                         .addGap(0, 277, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(135, 135, 135)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel7)
                             .addComponent(jLabel6)
                             .addComponent(jLabel5)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -133,6 +115,10 @@ public class CreateAdminAccount extends javax.swing.JFrame {
                             .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(107, 107, 107))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,11 +153,7 @@ public class CreateAdminAccount extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -213,10 +195,6 @@ public class CreateAdminAccount extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
-
     //Create Account button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //Get username
@@ -239,8 +217,6 @@ public class CreateAdminAccount extends javax.swing.JFrame {
         String middleName = jTextField5.getText();
         String lastName = jTextField6.getText();
         String preferredName = jTextField7.getText();
-        //Get address for driver
-        String address = jTextField8.getText();
         //Check criteria for each field
         if(!usernameMatcher.matches()) {
             JOptionPane.showMessageDialog(null, "Username must be a valid email address.");
@@ -254,32 +230,25 @@ public class CreateAdminAccount extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "You must enter a middle name.");
         } else if(lastName.replaceAll(" ", "").equals("")) {
             JOptionPane.showMessageDialog(null, "You must enter a last name.");
-        } else if(address.replaceAll(" ", "").equals("")) {
-            JOptionPane.showMessageDialog(null, "You must enter an address.");
         } else {
             //Create new account in database
             try {
                 //Update User table
-                PreparedStatement driverUserCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword, ActiveAccount) VALUES ('A', ?, ?, ?, ?, ?, ?, ?)");
-                driverUserCreationPS.setString(1, uname);
-                driverUserCreationPS.setString(2, firstName);
-                driverUserCreationPS.setString(3, middleName);
-                driverUserCreationPS.setString(4, lastName);
-                driverUserCreationPS.setString(5, preferredName);
+                PreparedStatement adminUserCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword, ActiveAccount) VALUES ('A', ?, ?, ?, ?, ?, ?, ?)");
+                adminUserCreationPS.setString(1, uname);
+                adminUserCreationPS.setString(2, firstName);
+                adminUserCreationPS.setString(3, middleName);
+                adminUserCreationPS.setString(4, lastName);
+                adminUserCreationPS.setString(5, preferredName);
                 //Encrypt password
                 String pw_hash = BCrypt.hashpw(firstPassword, BCrypt.gensalt());
-                driverUserCreationPS.setString(6, pw_hash);
-                driverUserCreationPS.setBoolean(7, true);
-                driverUserCreationPS.executeUpdate();
+                adminUserCreationPS.setString(6, pw_hash);
+                adminUserCreationPS.setBoolean(7, true);
+                adminUserCreationPS.executeUpdate();
+                this.dispose();
             } catch(Exception e) {
                 Logger.getLogger(CreateAdminAccount.class.getName()).log(Level.SEVERE, null, e);
             }
-            //Redirect to login frame
-            LoginGUI loginFrame = new LoginGUI();
-            loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            loginFrame.setTitle("Good Driver Incentive Program - Login");
-            loginFrame.setVisible(true);
-            this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -328,7 +297,6 @@ public class CreateAdminAccount extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
@@ -338,6 +306,5 @@ public class CreateAdminAccount extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables
 }

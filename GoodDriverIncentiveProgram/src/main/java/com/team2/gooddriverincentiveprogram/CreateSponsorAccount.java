@@ -67,7 +67,7 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(191, 192, 192));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Create Account");
+        jLabel1.setText("Create Sponsor Account");
 
         jLabel2.setText("Username *");
 
@@ -100,9 +100,6 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
                         .addGap(0, 277, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(135, 135, 135)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel8)
@@ -122,6 +119,10 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
                             .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(98, 98, 98))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,18 +240,18 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
             //Create new account in database
             try {
                 //Update User table
-                PreparedStatement driverUserCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword, ActiveAccount) VALUES ('S', ?, ?, ?, ?, ?, ?, ?)");
-                driverUserCreationPS.setString(1, uname);
-                driverUserCreationPS.setString(2, firstName);
-                driverUserCreationPS.setString(3, middleName);
-                driverUserCreationPS.setString(4, lastName);
-                driverUserCreationPS.setString(5, preferredName);
+                PreparedStatement sponsorUserCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword, ActiveAccount) VALUES ('S', ?, ?, ?, ?, ?, ?, ?)");
+                sponsorUserCreationPS.setString(1, uname);
+                sponsorUserCreationPS.setString(2, firstName);
+                sponsorUserCreationPS.setString(3, middleName);
+                sponsorUserCreationPS.setString(4, lastName);
+                sponsorUserCreationPS.setString(5, preferredName);
                 //Encrypt password
                 String pw_hash = BCrypt.hashpw(firstPassword, BCrypt.gensalt());
-                driverUserCreationPS.setString(6, pw_hash);
-                driverUserCreationPS.setBoolean(7, true);
-                driverUserCreationPS.executeUpdate();
-                //Update Driver table
+                sponsorUserCreationPS.setString(6, pw_hash);
+                sponsorUserCreationPS.setBoolean(7, true);
+                sponsorUserCreationPS.executeUpdate();
+                //Update Sponsor table
                 PreparedStatement identificationPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Users WHERE Username=?");
                 identificationPS.setString(1, uname);
                 ResultSet identificationRS = identificationPS.executeQuery();
@@ -261,22 +262,17 @@ public class CreateSponsorAccount extends javax.swing.JFrame {
                     ResultSet companyRS = companyPS.executeQuery();
                     if(companyRS.next()) {
                         int companyID = companyRS.getInt("CompanyID");
-                        PreparedStatement driverCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Sponsor (CompanyID, UserID) VALUES (?, ?)");
-                        driverCreationPS.setInt(1, companyID);
-                        driverCreationPS.setInt(2, UID);
-                        driverCreationPS.executeUpdate();
+                        PreparedStatement sponsorCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Sponsor (CompanyID, UserID) VALUES (?, ?)");
+                        sponsorCreationPS.setInt(1, companyID);
+                        sponsorCreationPS.setInt(2, UID);
+                        sponsorCreationPS.executeUpdate();
+                        this.dispose();
                     }
                     
                 }
             } catch(Exception e) {
                 Logger.getLogger(CreateSponsorAccount.class.getName()).log(Level.SEVERE, null, e);
             }
-            //Redirect to login frame
-            LoginGUI loginFrame = new LoginGUI();
-            loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            loginFrame.setTitle("Good Driver Incentive Program - Login");
-            loginFrame.setVisible(true);
-            this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

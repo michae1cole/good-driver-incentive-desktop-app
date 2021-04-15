@@ -81,7 +81,7 @@ public class AdminGUI extends javax.swing.JFrame {
         jLabel29 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         userAccountList = new javax.swing.JList<>();
-        updateDriverInfoButton = new javax.swing.JButton();
+        updateUserInfoButton = new javax.swing.JButton();
         jLabel30 = new javax.swing.JLabel();
         userPasswordField = new javax.swing.JPasswordField();
         jLabel31 = new javax.swing.JLabel();
@@ -272,11 +272,7 @@ public class AdminGUI extends javax.swing.JFrame {
         jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel29.setText("All User Accounts");
 
-        userAccountList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        userAccountList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         userAccountList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 userAccountListValueChanged(evt);
@@ -284,10 +280,10 @@ public class AdminGUI extends javax.swing.JFrame {
         });
         jScrollPane7.setViewportView(userAccountList);
 
-        updateDriverInfoButton.setText("Update");
-        updateDriverInfoButton.addActionListener(new java.awt.event.ActionListener() {
+        updateUserInfoButton.setText("Update");
+        updateUserInfoButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateDriverInfoButtonActionPerformed(evt);
+                updateUserInfoButtonActionPerformed(evt);
             }
         });
 
@@ -336,28 +332,29 @@ public class AdminGUI extends javax.swing.JFrame {
                                         .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(jButton9)))
                             .addGroup(myAccountLayout.createSequentialGroup()
-                                .addGap(65, 65, 65)
-                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(65, 65, 65)
+                                .addGap(37, 37, 37)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel33)
-                                    .addComponent(jLabel32)
-                                    .addComponent(jLabel31)
-                                    .addComponent(jLabel34)
-                                    .addComponent(jLabel30))
-                                .addGap(18, 18, 18)
-                                .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(userFirstNameField)
-                                    .addComponent(userLastNameField)
-                                    .addComponent(userPreferredNameField)
-                                    .addComponent(userUsernameField)
-                                    .addComponent(userPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 351, Short.MAX_VALUE)))
+                                    .addGroup(myAccountLayout.createSequentialGroup()
+                                        .addGap(38, 38, 38)
+                                        .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel33)
+                                            .addComponent(jLabel34)
+                                            .addComponent(jLabel32)
+                                            .addComponent(jLabel31)
+                                            .addComponent(jLabel30))
+                                        .addGap(36, 36, 36)
+                                        .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(userLastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(userFirstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(userPreferredNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(userUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(userPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(myAccountLayout.createSequentialGroup()
+                                        .addGap(217, 217, 217)
+                                        .addComponent(updateUserInfoButton)))))
+                        .addGap(0, 370, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(myAccountLayout.createSequentialGroup()
-                .addGap(478, 478, 478)
-                .addComponent(updateDriverInfoButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         myAccountLayout.setVerticalGroup(
             myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,10 +408,10 @@ public class AdminGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(myAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(userPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel30)))
+                            .addComponent(jLabel30))
+                        .addGap(18, 18, 18)
+                        .addComponent(updateUserInfoButton))
                     .addComponent(jScrollPane7))
-                .addGap(18, 18, 18)
-                .addComponent(updateDriverInfoButton)
                 .addGap(45, 45, 45))
         );
 
@@ -2582,13 +2579,14 @@ public class AdminGUI extends javax.swing.JFrame {
         createAccountFrame.setVisible(true);
     }//GEN-LAST:event_CreateDriverButtonActionPerformed
 
-    private void updateDriverInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDriverInfoButtonActionPerformed
+    private void updateUserInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateUserInfoButtonActionPerformed
         try {
             //Get selected driver information
             String selectedUser = userAccountList.getSelectedValue();
             String[] tokens = selectedUser.split(":");
             int selectedUserID = Integer.parseInt(tokens[0]);
             //Check username for requirements
+            Boolean unameCheck = false;
             String newUsername = userUsernameField.getText();
             //Check for valid username using regex (email)
             //https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
@@ -2597,37 +2595,40 @@ public class AdminGUI extends javax.swing.JFrame {
             Matcher usernameMatcher = usernamePattern.matcher(newUsername);
             if(!usernameMatcher.matches()) {
                 JOptionPane.showMessageDialog(null, "Please enter a valid username for user.", "Username Invalid", 2);
-            }
-            //Check password for requirements
-            Boolean passCheck = true;
-            String newPassword = userPasswordField.getText();
-            
-            PreparedStatement passwordSelectPS;
-            ResultSet passwordSelectRS;
-            String passwordSelectQuery = "SELECT UserPassword FROM Users WHERE UserID=?";
-            passwordSelectPS = MyConnection.getConnection().prepareStatement(passwordSelectQuery);
-            passwordSelectPS.setInt(1, selectedUserID);
-            passwordSelectRS = passwordSelectPS.executeQuery();
-            if(passwordSelectRS.next()) {
-                String oldPassword = passwordSelectRS.getString("UserPassword");
-                //If new password is same as old, don't update database
-                if(newPassword == "password") {
-                    passCheck = false;
-                    //Check for valid password using regex
-                    //https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-java/
-                    String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$";
-                    Pattern passwordPattern = Pattern.compile(passwordRegex);
-                    Matcher passwordMatcher = passwordPattern.matcher(newPassword);
-                    if(!passwordMatcher.matches()) {
-                        JOptionPane.showMessageDialog(null, "Password for user must be 8-20 characters, have one uppercase, one lowercase, one digit, one special character, and no white space.");
+            } else {
+                //See if username is already in-use
+                PreparedStatement usernameCheckPS;
+                ResultSet usernameCheckRS;
+                String usernameCheckQuery = "SELECT * FROM Users WHERE Username=?";
+                usernameCheckPS = MyConnection.getConnection().prepareStatement(usernameCheckQuery);
+                usernameCheckPS.setString(1, newUsername);
+                usernameCheckRS = usernameCheckPS.executeQuery();
+                //If new username is already being used by another account, don't update database
+                if(usernameCheckRS.next()) {
+                    if(usernameCheckRS.getInt("UserID") != selectedUserID) {
+                        JOptionPane.showMessageDialog(null, "Username already in use by another account.");
                     } else {
-                        passCheck = true;
+                        unameCheck = true;
                     }
+                } else {
+                    unameCheck = true;
                 }
             }
-            
+            //Check password for requirements
+            Boolean passCheck = false;
+            String newPassword = userPasswordField.getText();
+            //Check for valid password using regex
+            //https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-java/
+            String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$"; 
+            Pattern passwordPattern = Pattern.compile(passwordRegex);
+            Matcher passwordMatcher = passwordPattern.matcher(newPassword);
+            if(!passwordMatcher.matches()) {
+                JOptionPane.showMessageDialog(null, "Password for driver must be 8-20 characters, have one uppercase, one lowercase, one digit, one special character, and no white space.");
+            } else {
+                passCheck = true;
+            }
             //If both checks pass
-            if(passCheck) {
+            if(unameCheck && passCheck) {
                 PreparedStatement updateUserInfoPS = MyConnection.getConnection().prepareStatement("UPDATE Users SET FirstName=?, LastName=?, PreferredName=?, Username=?, UserPassword=? WHERE UserID=?");
                 updateUserInfoPS.setString(1, userFirstNameField.getText());
                 updateUserInfoPS.setString(2, userLastNameField.getText());
@@ -2643,11 +2644,12 @@ public class AdminGUI extends javax.swing.JFrame {
                 passwordChangePS.setInt(2, selectedUserID);
                 passwordChangePS.setInt(3, this.getUserID());
                 passwordChangePS.executeUpdate();
+                setAdminUserList(userID);
             }
         } catch(Exception e) {
             Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
         }
-    }//GEN-LAST:event_updateDriverInfoButtonActionPerformed
+    }//GEN-LAST:event_updateUserInfoButtonActionPerformed
 
     private void userAccountListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_userAccountListValueChanged
         // TODO add your handling code here:
@@ -2922,7 +2924,7 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextField toDateTextLA;
     private javax.swing.JTextField toDateTextPC;
     private javax.swing.JTextField toDateTextPass;
-    private javax.swing.JButton updateDriverInfoButton;
+    private javax.swing.JButton updateUserInfoButton;
     private javax.swing.JList<String> userAccountList;
     private javax.swing.JTextField userFirstNameField;
     private javax.swing.JTextField userLastNameField;

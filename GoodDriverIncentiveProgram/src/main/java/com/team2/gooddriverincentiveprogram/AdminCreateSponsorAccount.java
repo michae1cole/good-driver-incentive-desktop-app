@@ -65,7 +65,7 @@ public class AdminCreateSponsorAccount extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(191, 192, 192));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Create Account");
+        jLabel1.setText("Create Sponsor Account");
 
         jLabel2.setText("Username *");
 
@@ -89,7 +89,7 @@ public class AdminCreateSponsorAccount extends javax.swing.JFrame {
         });
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("Company Name");
+        jLabel9.setText("Company Name *");
         jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         jTextField8.setToolTipText("");
@@ -108,9 +108,6 @@ public class AdminCreateSponsorAccount extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 277, Short.MAX_VALUE)
                         .addComponent(jButton1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(135, 135, 135)
-                        .addComponent(jLabel1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -133,6 +130,10 @@ public class AdminCreateSponsorAccount extends javax.swing.JFrame {
                             .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(96, 96, 96))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,59 +220,68 @@ public class AdminCreateSponsorAccount extends javax.swing.JFrame {
 
     //Create Account button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //Get username
-        String uname = jTextField1.getText();
-        //Check for valid username using regex (email)
-        //https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
-        String usernameRegex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        Pattern usernamePattern = Pattern.compile(usernameRegex);
-        Matcher usernameMatcher = usernamePattern.matcher(uname);
-        //Get passwords
-        String firstPassword = jPasswordField1.getText();
-        String secondPassword = jPasswordField2.getText();
-        //Check for valid password using regex
-        //https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-java/
-        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$"; 
-        Pattern passwordPattern = Pattern.compile(passwordRegex);
-        Matcher passwordMatcher = passwordPattern.matcher(firstPassword);
-        //Get name information
-        String firstName = jTextField4.getText();
-        String middleName = jTextField5.getText();
-        String lastName = jTextField6.getText();
-        String preferredName = jTextField7.getText();
-        //Get address for driver
-        String companyName = jTextField8.getText();
-        //Check criteria for each field
-        if(!usernameMatcher.matches()) {
-            JOptionPane.showMessageDialog(null, "Username must be a valid email address.");
-        } else if(!passwordMatcher.matches()) {
-            JOptionPane.showMessageDialog(null, "Password must be 8-20 characters, have one uppercase, one lowercase, one digit, one special character, and no white space.");
-        } else if(!firstPassword.equals(secondPassword)) {
-            JOptionPane.showMessageDialog(null, "Password and confirm password fields must match.");
-        } else if(firstName.replaceAll(" ", "").equals("")) {
-            JOptionPane.showMessageDialog(null, "You must enter a first name");
-        } else if(middleName.replaceAll(" ", "").equals("")) {
-            JOptionPane.showMessageDialog(null, "You must enter a middle name.");
-        } else if(lastName.replaceAll(" ", "").equals("")) {
-            JOptionPane.showMessageDialog(null, "You must enter a last name.");
-        } else if(companyName.replaceAll(" ", "").equals("")) {
-            JOptionPane.showMessageDialog(null, "You must enter a company name.");
-        } else {
-            //Create new account in database
-            try {
+        try {
+            //Get username
+            String uname = jTextField1.getText();
+            //Check for valid username using regex (email)
+            //https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
+            String usernameRegex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+            Pattern usernamePattern = Pattern.compile(usernameRegex);
+            Matcher usernameMatcher = usernamePattern.matcher(uname);
+            //Get passwords
+            String firstPassword = jPasswordField1.getText();
+            String secondPassword = jPasswordField2.getText();
+            //Check for valid password using regex
+            //https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-java/
+            String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$"; 
+            Pattern passwordPattern = Pattern.compile(passwordRegex);
+            Matcher passwordMatcher = passwordPattern.matcher(firstPassword);
+            //Get name information
+            String firstName = jTextField4.getText();
+            String middleName = jTextField5.getText();
+            String lastName = jTextField6.getText();
+            String preferredName = jTextField7.getText();
+            //Get company name for sponsor
+            String companyName = jTextField8.getText();
+            PreparedStatement companyNamePS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company WHERE CompanyName=?");
+            companyNamePS.setString(1, companyName);
+            ResultSet companyNameRS = companyNamePS.executeQuery();
+            boolean validCompany = false;
+            if(companyNameRS.next()) {
+               validCompany = true; 
+            }
+            //Check criteria for each field
+            if(!usernameMatcher.matches()) {
+                JOptionPane.showMessageDialog(null, "Username must be a valid email address.");
+            } else if(!passwordMatcher.matches()) {
+                JOptionPane.showMessageDialog(null, "Password must be 8-20 characters, have one uppercase, one lowercase, one digit, one special character, and no white space.");
+            } else if(!firstPassword.equals(secondPassword)) {
+                JOptionPane.showMessageDialog(null, "Password and confirm password fields must match.");
+            } else if(firstName.replaceAll(" ", "").equals("")) {
+                JOptionPane.showMessageDialog(null, "You must enter a first name");
+            } else if(middleName.replaceAll(" ", "").equals("")) {
+                JOptionPane.showMessageDialog(null, "You must enter a middle name.");
+            } else if(lastName.replaceAll(" ", "").equals("")) {
+                JOptionPane.showMessageDialog(null, "You must enter a last name.");
+            } else if(companyName.replaceAll(" ", "").equals("")) {
+                JOptionPane.showMessageDialog(null, "You must enter a company name.");
+            } else if(!validCompany) {
+                JOptionPane.showMessageDialog(null, "Company name not found, please check that the company exists.");
+            } else {
+                //Create new account in database
                 //Update User table
-                PreparedStatement driverUserCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword,ActiveAccount) VALUES ('S', ?, ?, ?, ?, ?, ?, ?)");
-                driverUserCreationPS.setString(1, uname);
-                driverUserCreationPS.setString(2, firstName);
-                driverUserCreationPS.setString(3, middleName);
-                driverUserCreationPS.setString(4, lastName);
-                driverUserCreationPS.setString(5, preferredName);
+                PreparedStatement sponsorUserCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword, ActiveAccount) VALUES ('S', ?, ?, ?, ?, ?, ?, ?)");
+                sponsorUserCreationPS.setString(1, uname);
+                sponsorUserCreationPS.setString(2, firstName);
+                sponsorUserCreationPS.setString(3, middleName);
+                sponsorUserCreationPS.setString(4, lastName);
+                sponsorUserCreationPS.setString(5, preferredName);
                 //Encrypt password
                 String pw_hash = BCrypt.hashpw(firstPassword, BCrypt.gensalt());
-                driverUserCreationPS.setString(6, pw_hash);
-                driverUserCreationPS.setBoolean(7,true);
-                driverUserCreationPS.executeUpdate();
-                //Update Driver table
+                sponsorUserCreationPS.setString(6, pw_hash);
+                sponsorUserCreationPS.setBoolean(7, true);
+                sponsorUserCreationPS.executeUpdate();
+                //Update Sponsor table
                 PreparedStatement identificationPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Users WHERE Username=?");
                 identificationPS.setString(1, uname);
                 ResultSet identificationRS = identificationPS.executeQuery();
@@ -282,22 +292,16 @@ public class AdminCreateSponsorAccount extends javax.swing.JFrame {
                     ResultSet companyRS = companyPS.executeQuery();
                     if(companyRS.next()) {
                         int companyID = companyRS.getInt("CompanyID");
-                        PreparedStatement driverCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Sponsor (CompanyID, UserID) VALUES (?, ?)");
-                        driverCreationPS.setInt(1, companyID);
-                        driverCreationPS.setInt(2, userID);
-                        driverCreationPS.executeUpdate();
+                        PreparedStatement sponsorCreationPS = MyConnection.getConnection().prepareStatement("INSERT INTO Sponsor (CompanyID, UserID) VALUES (?, ?)");
+                        sponsorCreationPS.setInt(1, companyID);
+                        sponsorCreationPS.setInt(2, userID);
+                        sponsorCreationPS.executeUpdate();
+                        this.dispose();
                     }
-                    
                 }
-            } catch(Exception e) {
-                Logger.getLogger(AdminCreateSponsorAccount.class.getName()).log(Level.SEVERE, null, e);
             }
-            //Redirect to login frame
-            LoginGUI loginFrame = new LoginGUI();
-            loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            loginFrame.setTitle("Good Driver Incentive Program - Login");
-            loginFrame.setVisible(true);
-            this.dispose();
+        } catch(Exception e) {
+            Logger.getLogger(AdminCreateSponsorAccount.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
