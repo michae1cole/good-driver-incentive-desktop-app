@@ -117,7 +117,33 @@ public class AdminGUI extends javax.swing.JFrame {
         auditLogButton = new javax.swing.JButton();
         reportingLayeredPane = new javax.swing.JLayeredPane();
         salesBySponsorPanel = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        salesBySponsorTable = new javax.swing.JTable();
+        jLabel35 = new javax.swing.JLabel();
+        salesBySponsorDD = new javax.swing.JComboBox<>();
+        fromDateTextSBS = new javax.swing.JTextField();
+        jLabel36 = new javax.swing.JLabel();
+        toDateTextSBS = new javax.swing.JTextField();
+        jLabel37 = new javax.swing.JLabel();
+        salesBySponsorGenerateButton = new javax.swing.JButton();
+        salesBySponsorCreatePDFButton = new javax.swing.JButton();
+        jLabel38 = new javax.swing.JLabel();
+        salesBySponsorSD = new javax.swing.JComboBox<>();
         salesByDriverPanel = new javax.swing.JPanel();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        salesByDriverTable = new javax.swing.JTable();
+        salesByDriverSD = new javax.swing.JComboBox<>();
+        salesByDriverCDD = new javax.swing.JComboBox<>();
+        jLabel41 = new javax.swing.JLabel();
+        fromDateTextSBD = new javax.swing.JTextField();
+        jLabel42 = new javax.swing.JLabel();
+        toDateTextSBD = new javax.swing.JTextField();
+        salesByDriverGenerateButton = new javax.swing.JButton();
+        salesByDriverCreatePDFButton = new javax.swing.JButton();
+        jLabel43 = new javax.swing.JLabel();
+        salesByDriverDDD = new javax.swing.JComboBox<>();
         invoicePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         invoiceTable = new javax.swing.JTable();
@@ -602,7 +628,7 @@ public class AdminGUI extends javax.swing.JFrame {
                         .addGroup(catalogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(417, Short.MAX_VALUE))
+                .addContainerGap(420, Short.MAX_VALUE))
         );
 
         layeredPane.add(catalog, "card4");
@@ -640,28 +666,253 @@ public class AdminGUI extends javax.swing.JFrame {
         reportingLayeredPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         reportingLayeredPane.setLayout(new java.awt.CardLayout());
 
+        salesBySponsorTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Company Name", "Total From Drivers ($)"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane8.setViewportView(salesBySponsorTable);
+
+        jLabel35.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel35.setText("Select a Company");
+
+        jLabel36.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel36.setText("From (YYYY-MM-DD)");
+
+        jLabel37.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel37.setText("To (YYYY-MM-DD)");
+
+        salesBySponsorGenerateButton.setText("Generate");
+        salesBySponsorGenerateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salesBySponsorGenerateButtonActionPerformed(evt);
+            }
+        });
+
+        salesBySponsorCreatePDFButton.setText("Create PDF from Table");
+        salesBySponsorCreatePDFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salesBySponsorCreatePDFButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel38.setText("Summary/Detail Report");
+
+        salesBySponsorSD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Summary", "Detailed" }));
+
         javax.swing.GroupLayout salesBySponsorPanelLayout = new javax.swing.GroupLayout(salesBySponsorPanel);
         salesBySponsorPanel.setLayout(salesBySponsorPanelLayout);
         salesBySponsorPanelLayout.setHorizontalGroup(
             salesBySponsorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1030, Short.MAX_VALUE)
+            .addGroup(salesBySponsorPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(salesBySponsorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane8)
+                    .addGroup(salesBySponsorPanelLayout.createSequentialGroup()
+                        .addGroup(salesBySponsorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(salesBySponsorPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(16, 16, 16))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, salesBySponsorPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel38)
+                                .addGap(18, 18, 18)))
+                        .addGroup(salesBySponsorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(salesBySponsorDD, 0, 170, Short.MAX_VALUE)
+                            .addComponent(salesBySponsorSD, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(salesBySponsorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(salesBySponsorPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(salesBySponsorPanelLayout.createSequentialGroup()
+                                .addComponent(fromDateTextSBS, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(toDateTextSBS, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(salesBySponsorGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(salesBySponsorCreatePDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 14, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         salesBySponsorPanelLayout.setVerticalGroup(
             salesBySponsorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 567, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, salesBySponsorPanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(salesBySponsorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel36)
+                    .addComponent(jLabel37)
+                    .addComponent(jLabel35)
+                    .addComponent(salesBySponsorDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(salesBySponsorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fromDateTextSBS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toDateTextSBS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(salesBySponsorGenerateButton)
+                    .addComponent(salesBySponsorCreatePDFButton)
+                    .addComponent(jLabel38)
+                    .addComponent(salesBySponsorSD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         reportingLayeredPane.add(salesBySponsorPanel, "card2");
+
+        jLabel39.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel39.setText("Select a Company");
+
+        jLabel40.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel40.setText("Summary/Detail Report");
+
+        salesByDriverTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Company Name", "Total Spent at Company ($)"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane9.setViewportView(salesByDriverTable);
+
+        salesByDriverSD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Summary", "Detailed" }));
+
+        jLabel41.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel41.setText("From (YYYY-MM-DD)");
+
+        jLabel42.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel42.setText("To (YYYY-MM-DD)");
+
+        salesByDriverGenerateButton.setText("Generate");
+        salesByDriverGenerateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salesByDriverGenerateButtonActionPerformed(evt);
+            }
+        });
+
+        salesByDriverCreatePDFButton.setText("Create PDF from Table");
+        salesByDriverCreatePDFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salesByDriverCreatePDFButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel43.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel43.setText("Select a Driver");
+
+        salesByDriverDDD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salesByDriverDDDActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout salesByDriverPanelLayout = new javax.swing.GroupLayout(salesByDriverPanel);
         salesByDriverPanel.setLayout(salesByDriverPanelLayout);
         salesByDriverPanelLayout.setHorizontalGroup(
             salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1030, Short.MAX_VALUE)
+            .addGroup(salesByDriverPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane9)
+                    .addGroup(salesByDriverPanelLayout.createSequentialGroup()
+                        .addGroup(salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(salesByDriverPanelLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(salesByDriverSD, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(salesByDriverPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(salesByDriverCDD, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(134, 134, 134)
+                        .addGroup(salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(salesByDriverGenerateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel41, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(fromDateTextSBD, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(toDateTextSBD, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(jLabel42, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(salesByDriverCreatePDFButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(salesByDriverPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel43, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(salesByDriverDDD, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(661, 661, 661)))
+                .addContainerGap())
         );
         salesByDriverPanelLayout.setVerticalGroup(
             salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 567, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, salesByDriverPanelLayout.createSequentialGroup()
+                .addGroup(salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(salesByDriverPanelLayout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addGroup(salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel42)
+                            .addComponent(jLabel41))
+                        .addGap(0, 66, Short.MAX_VALUE))
+                    .addGroup(salesByDriverPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(salesByDriverDDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel43))
+                        .addGap(18, 18, 18)
+                        .addGroup(salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel39)
+                            .addComponent(fromDateTextSBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(toDateTextSBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(salesByDriverCDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel40)
+                            .addComponent(salesByDriverSD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(salesByDriverGenerateButton)
+                            .addComponent(salesByDriverCreatePDFButton))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         reportingLayeredPane.add(salesByDriverPanel, "card3");
@@ -693,6 +944,9 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(invoiceTable);
+        if (invoiceTable.getColumnModel().getColumnCount() > 0) {
+            invoiceTable.getColumnModel().getColumn(2).setHeaderValue("Admin Fee Due ($)");
+        }
 
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel18.setText("Select a Company");
@@ -743,7 +997,7 @@ public class AdminGUI extends javax.swing.JFrame {
                                 .addComponent(invoiceGenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(invoiceCreatePDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 2, Short.MAX_VALUE)))
+                        .addGap(0, 26, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         invoicePanelLayout.setVerticalGroup(
@@ -762,7 +1016,7 @@ public class AdminGUI extends javax.swing.JFrame {
                     .addComponent(invoiceGenerateButton)
                     .addComponent(invoiceCreatePDFButton))
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -875,7 +1129,7 @@ public class AdminGUI extends javax.swing.JFrame {
         driverApplicationsReportPanelLayout.setVerticalGroup(
             driverApplicationsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, driverApplicationsReportPanelLayout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
+                .addContainerGap(66, Short.MAX_VALUE)
                 .addGroup(driverApplicationsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(jLabel22))
@@ -972,7 +1226,7 @@ public class AdminGUI extends javax.swing.JFrame {
         pointChangesReportPanelLayout.setVerticalGroup(
             pointChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pointChangesReportPanelLayout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
+                .addContainerGap(66, Short.MAX_VALUE)
                 .addGroup(pointChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(jLabel24))
@@ -1065,7 +1319,7 @@ public class AdminGUI extends javax.swing.JFrame {
         passwordChangesReportPanelLayout.setVerticalGroup(
             passwordChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, passwordChangesReportPanelLayout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
+                .addContainerGap(66, Short.MAX_VALUE)
                 .addGroup(passwordChangesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
                     .addComponent(jLabel26))
@@ -1158,7 +1412,7 @@ public class AdminGUI extends javax.swing.JFrame {
         loginAttemptsReportPanelLayout.setVerticalGroup(
             loginAttemptsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginAttemptsReportPanelLayout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
+                .addContainerGap(66, Short.MAX_VALUE)
                 .addGroup(loginAttemptsReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
                     .addComponent(jLabel28))
@@ -1193,7 +1447,7 @@ public class AdminGUI extends javax.swing.JFrame {
                     .addGroup(auditLogPanelLayout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addComponent(auditLogLayeredPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 974, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         auditLogPanelLayout.setVerticalGroup(
             auditLogPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1299,7 +1553,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 .addGroup(sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ViewSponsorPage)
                     .addComponent(ViewDriverPage))
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addContainerGap(369, Short.MAX_VALUE))
         );
 
         layeredPane.add(sponsorView, "card5");
@@ -1400,17 +1654,17 @@ public class AdminGUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(CreateSponsorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(14, 14, 14)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(CreateAdminButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(CreateDriverButton, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(activeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(activeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(CreateCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(toggleCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(toggleCompanyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton30, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1545,6 +1799,18 @@ public class AdminGUI extends javax.swing.JFrame {
     private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
         // TODO add your handling code here:
         switchPanels(reporting);
+        switchReportPanels(salesBySponsorPanel);
+        try {
+            salesBySponsorDD.addItem("0: All Companies");
+            PreparedStatement companiesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company");
+            ResultSet companiesRS = companiesPS.executeQuery();
+            while(companiesRS.next()) {
+                String company = companiesRS.getInt("CompanyID") + ": " + companiesRS.getString("CompanyName");
+                salesBySponsorDD.addItem(company);
+            }
+        } catch(Exception e) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
     }//GEN-LAST:event_jButton29ActionPerformed
 
     //Logout button
@@ -1792,15 +2058,37 @@ public class AdminGUI extends javax.swing.JFrame {
 
     private void salesBySponsorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesBySponsorButtonActionPerformed
         switchReportPanels(salesBySponsorPanel);
+        try {
+            salesBySponsorDD.addItem("0: All Companies");
+            PreparedStatement companiesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company");
+            ResultSet companiesRS = companiesPS.executeQuery();
+            while(companiesRS.next()) {
+                String company = companiesRS.getInt("CompanyID") + ": " + companiesRS.getString("CompanyName");
+                salesBySponsorDD.addItem(company);
+            }
+         } catch(Exception e) {
+             Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+         }
     }//GEN-LAST:event_salesBySponsorButtonActionPerformed
 
     private void salesByDriverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesByDriverButtonActionPerformed
         switchReportPanels(salesByDriverPanel);
+        try {
+            PreparedStatement driversPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Users WHERE UserType=?");
+            driversPS.setString(1, "D");
+            ResultSet driversRS = driversPS.executeQuery();
+            while(driversRS.next()) {
+                String driver = driversRS.getInt("UserID") + ": " + driversRS.getString("FirstName") + " " + driversRS.getString("LastName");
+                salesByDriverDDD.addItem(driver);
+            }
+         } catch(Exception e) {
+             Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+         }
     }//GEN-LAST:event_salesByDriverButtonActionPerformed
 
     private void invoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceButtonActionPerformed
         switchReportPanels(invoicePanel);
-         try {
+        try {
             companyDD.addItem("0: All Companies");
             PreparedStatement companiesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company");
             ResultSet companiesRS = companiesPS.executeQuery();
@@ -1978,7 +2266,7 @@ public class AdminGUI extends javax.swing.JFrame {
                     model.addRow(rowData);
                 }
             } catch(Exception e) {
-                Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }//GEN-LAST:event_invoiceGenerateButtonActionPerformed
@@ -2036,7 +2324,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 }
             }
         } catch(Exception e) {
-            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_driverApplicationsGenerateButtonActionPerformed
 
@@ -2101,7 +2389,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 }
             }
         } catch(Exception e) {
-            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_pointChangesGenerateButtonActionPerformed
 
@@ -2162,7 +2450,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 }
             }
         } catch(Exception e) {
-            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_passwordChangesGenerateButtonActionPerformed
 
@@ -2235,7 +2523,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 }
             }
         } catch(Exception e) {
-            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_loginAttemptsGenerateButtonActionPerformed
 
@@ -2658,7 +2946,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 setAdminUserList(userID);
             }
         } catch(Exception e) {
-            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_updateUserInfoButtonActionPerformed
 
@@ -2686,7 +2974,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 userPasswordField.setText("");
             }
         } catch(Exception e) {
-            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_userAccountListValueChanged
 
@@ -2701,6 +2989,922 @@ public class AdminGUI extends javax.swing.JFrame {
         }
         remove.setVisible(true);
     }//GEN-LAST:event_activeToggleButtonActionPerformed
+
+    private void salesBySponsorGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesBySponsorGenerateButtonActionPerformed
+        //Make sure a company is selected
+        if(salesBySponsorDD.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(null, "Please make a company selection.");
+        } else {
+            DefaultTableModel model = (DefaultTableModel) salesBySponsorTable.getModel();
+            //Remove existing rows
+            if(model.getRowCount() > 0) {
+                for(int i = model.getRowCount()-1; i >= 0; i--) {
+                    model.removeRow(i);
+                }
+            }
+            try{
+                String selectedCompany = salesBySponsorDD.getSelectedItem().toString();
+                String[] tokens = selectedCompany.split(": ");
+                //Get information for all companies
+                if(tokens[0].equals("0")) {
+                    ArrayList<String> companyNameList = new ArrayList<>();
+                    ArrayList<Double> totalDriverCostList = new ArrayList<>();
+                    //Get information from all companies
+                    PreparedStatement companiesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company");
+                    ResultSet companiesRS = companiesPS.executeQuery();
+                    while(companiesRS.next()) {
+                        companyNameList.add(companiesRS.getString("CompanyName"));
+                        int companyID = companiesRS.getInt("CompanyID");
+                        String fromDate = fromDateTextSBS.getText();
+                        String toDate = toDateTextSBS.getText();
+                        //If no dates were specified
+                        if(fromDate.equals("") && toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=?");
+                            purchasesPS.setInt(1, companyID);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                totalDriverCostList.add(totalDriverCost);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                            }
+                        //If a from date was specified but no to date
+                        } else if(!fromDate.equals("") && toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate >= ?");
+                            purchasesPS.setInt(1, companyID);
+                            purchasesPS.setString(2, fromDate);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                totalDriverCostList.add(totalDriverCost);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                            }
+                        //If a to date was specified but no from date
+                        } else if(fromDate.equals("") && !toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate <= ?");
+                            purchasesPS.setInt(1, companyID);
+                            purchasesPS.setString(2, toDate);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                totalDriverCostList.add(totalDriverCost);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                            }
+                        //If both dates were specified
+                        } else if(!fromDate.equals("") && !toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate <= ? AND PurchaseDate >= ?");
+                            purchasesPS.setInt(1, companyID);
+                            purchasesPS.setString(2, toDate);
+                            purchasesPS.setString(3, fromDate);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                totalDriverCostList.add(totalDriverCost);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                            }
+                        }
+                    }
+                    //Add all company data to table
+                    for(int i = 0; i < companyNameList.size(); i++) {
+                        Object[] rowData = {companyNameList.get(i), totalDriverCostList.get(i)};
+                        model.addRow(rowData);
+                    }
+                //Get information for specific company selected
+                } else {
+                    int companyID = Integer.parseInt(tokens[0]);
+                    String companyName = tokens[1];
+                    double totalDriverCost = 0.0;
+                    String fromDate = fromDateTextSBS.getText();
+                    String toDate = toDateTextSBS.getText();
+                    //If no dates were specified
+                    if(fromDate.equals("") && toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=?");
+                        purchasesPS.setInt(1, companyID);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                        }
+                    //If a from date was specified but no to date
+                    } else if(!fromDate.equals("") && toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate >= ?");
+                        purchasesPS.setInt(1, companyID);
+                        purchasesPS.setString(2, fromDate);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                        }
+                    //If a to date was specified but no from date
+                    } else if(fromDate.equals("") && !toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate <= ?");
+                        purchasesPS.setInt(1, companyID);
+                        purchasesPS.setString(2, toDate);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                        }
+                    //If both dates were specified
+                    } else if(!fromDate.equals("") && !toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND PurchaseDate <= ? AND PurchaseDate >= ?");
+                        purchasesPS.setInt(1, companyID);
+                        purchasesPS.setString(2, toDate);
+                        purchasesPS.setString(3, fromDate);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                        }
+                    }
+                    Object[] rowData = {companyName, totalDriverCost};
+                    model.addRow(rowData);
+                }
+            } catch(Exception e) {
+                Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+    }//GEN-LAST:event_salesBySponsorGenerateButtonActionPerformed
+
+    private void salesBySponsorCreatePDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesBySponsorCreatePDFButtonActionPerformed
+        try {
+            String companySelected = salesBySponsorDD.getSelectedItem().toString();
+            Document report = new Document();
+            PdfWriter writer = PdfWriter.getInstance(report, new FileOutputStream("SalesBySponsorReport.pdf"));
+            report.open();
+            Paragraph title = new Paragraph();
+            title.add(new Paragraph("Sales by Sponsor Report"));
+            title.add(new Paragraph(" "));
+            String constraints = "";
+            if(!fromDateTextSBS.getText().equals("")) {
+                constraints += "From: ";
+                constraints += fromDateTextSBS.getText();
+                constraints += " ";
+            }
+            if(!toDateTextSBS.getText().equals("")) {
+                constraints += "To: ";
+                constraints += toDateTextSBS.getText();
+                constraints += " ";
+            }
+            if(!constraints.equals("")) {
+                title.add(new Paragraph(constraints));
+                title.add(new Paragraph(" "));
+            }
+            if(salesBySponsorSD.getSelectedItem().toString().equals("Summary")) {
+                title.add(new Paragraph("Type of Report: Summary"));
+                title.add(new Paragraph(" "));
+            } else if(salesBySponsorSD.getSelectedItem().toString().equals("Detailed")) {
+                title.add(new Paragraph("Type of Report: Detailed"));
+                title.add(new Paragraph(" "));
+            }
+            if(companySelected.split(": ")[0].equals("0")) {
+                for(int i = 0; i < salesBySponsorTable.getRowCount(); i++) {
+                    title.add(new Paragraph(salesBySponsorTable.getModel().getValueAt(i, 0).toString() + " Total Amount Spent by Drivers: $" + String.format("%.2f", salesBySponsorTable.getModel().getValueAt(i, 1))));
+                }
+            } else {
+                title.add(new Paragraph(salesBySponsorTable.getModel().getValueAt(0, 0).toString() + " Total Amount Spent by Drivers: $" + String.format("%.2f", salesBySponsorTable.getModel().getValueAt(0, 1))));
+            }
+            title.add(new Paragraph(" "));
+            title.add(new Paragraph("Itemized"));
+            title.add(new Paragraph(" "));
+            report.add(title);
+            if(salesBySponsorSD.getSelectedItem().toString().equals("Summary")) {
+                PdfPTable reportTable = new PdfPTable(4);
+                PdfPCell cell = new PdfPCell(new Phrase("Company Name"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Date"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Driver"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Purchase Amount"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                if(fromDateTextSBS.getText().equals("") && toDateTextSBS.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID");
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.CompanyID=?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(!fromDateTextSBS.getText().equals("") && toDateTextSBS.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE PurchaseDate >= ?");
+                        purchaseInfoPS.setString(1, fromDateTextSBS.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.CompanyID=? AND PurchaseDate >= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setString(2, fromDateTextSBS.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(fromDateTextSBS.getText().equals("") && !toDateTextSBS.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE PurchaseDate <= ?");
+                        purchaseInfoPS.setString(1, toDateTextSBS.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.CompanyID=? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setString(2, toDateTextSBS.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(!fromDateTextSBS.getText().equals("") && !toDateTextSBS.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE PurchaseDate >= ? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setString(1, fromDateTextSBS.getText());
+                        purchaseInfoPS.setString(2, toDateTextSBS.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.CompanyID=? AND PurchaseDate >= ? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setString(2, fromDateTextSBS.getText());
+                        purchaseInfoPS.setString(3, toDateTextSBS.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                }
+                report.add(reportTable);
+            } else if(salesBySponsorSD.getSelectedItem().toString().equals("Detailed")) {
+                PdfPTable reportTable = new PdfPTable(5);
+                PdfPCell cell = new PdfPCell(new Phrase("Company Name"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Date"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Driver"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Item Purchased"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Purchase Amount"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                if(fromDateTextSBS.getText().equals("") && toDateTextSBS.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID");
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.CompanyID=?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("ItemDescription")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(!fromDateTextSBS.getText().equals("") && toDateTextSBS.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE PurchaseDate >= ?");
+                        purchaseInfoPS.setString(1, fromDateTextSBS.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.CompanyID=? AND PurchaseDate >= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setString(2, fromDateTextSBS.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("ItemDescription")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(fromDateTextSBS.getText().equals("") && !toDateTextSBS.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE PurchaseDate <= ?");
+                        purchaseInfoPS.setString(1, toDateTextSBS.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.CompanyID=? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setString(2, toDateTextSBS.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("ItemDescription")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(!fromDateTextSBS.getText().equals("") && !toDateTextSBS.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE PurchaseDate >= ? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setString(1, fromDateTextSBS.getText());
+                        purchaseInfoPS.setString(2, toDateTextSBS.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Driver ON Driver.DriverID=CatalogPurchases.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.CompanyID=? AND PurchaseDate >= ? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setString(2, fromDateTextSBS.getText());
+                        purchaseInfoPS.setString(3, toDateTextSBS.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("FirstName") + " " + purchaseInfoRS.getString("LastName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("ItemDescription")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                }
+                report.add(reportTable);
+            }
+            report.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_salesBySponsorCreatePDFButtonActionPerformed
+
+    private void salesByDriverGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesByDriverGenerateButtonActionPerformed
+        //Make sure a driver and company is selected
+        if(salesByDriverDDD.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(null, "Please make a driver selection.");
+        } else if(salesByDriverCDD.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(null, "Please make a company selection.");
+        } else {
+            DefaultTableModel model = (DefaultTableModel) salesByDriverTable.getModel();
+            //Remove existing rows
+            if(model.getRowCount() > 0) {
+                for(int i = model.getRowCount()-1; i >= 0; i--) {
+                    model.removeRow(i);
+                }
+            }
+            try{
+                String selectedDriver = salesByDriverDDD.getSelectedItem().toString();
+                int driverID = -1;
+                PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT DriverID FROM Driver WHERE UserID=?");
+                driverPS.setInt(1, Integer.parseInt(selectedDriver.split(": ")[0]));
+                ResultSet driverRS = driverPS.executeQuery();
+                if(driverRS.next()) {
+                    driverID = driverRS.getInt("DriverID");
+                }
+                String selectedCompany = salesByDriverCDD.getSelectedItem().toString();
+                String[] tokens = selectedCompany.split(": ");
+                //Get information for all companies
+                if(tokens[0].equals("0")) {
+                    ArrayList<String> companyNameList = new ArrayList<>();
+                    ArrayList<Double> totalDriverCostList = new ArrayList<>();
+                    //Get information from all companies
+                    PreparedStatement companiesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverPoints JOIN Company ON Company.CompanyID=DriverPoints.CompanyID WHERE DriverID=?");
+                    companiesPS.setInt(1, driverID);
+                    ResultSet companiesRS = companiesPS.executeQuery();
+                    while(companiesRS.next()) {
+                        companyNameList.add(companiesRS.getString("CompanyName"));
+                        int companyID = companiesRS.getInt("CompanyID");
+                        String fromDate = fromDateTextSBD.getText();
+                        String toDate = toDateTextSBD.getText();
+                        //If no dates were specified
+                        if(fromDate.equals("") && toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND DriverID=?");
+                            purchasesPS.setInt(1, companyID);
+                            purchasesPS.setInt(2, driverID);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                totalDriverCostList.add(totalDriverCost);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                            }
+                        //If a from date was specified but no to date
+                        } else if(!fromDate.equals("") && toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND DriverID=? AND PurchaseDate >= ?");
+                            purchasesPS.setInt(1, companyID);
+                            purchasesPS.setInt(2, driverID);
+                            purchasesPS.setString(3, fromDate);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                totalDriverCostList.add(totalDriverCost);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                            }
+                        //If a to date was specified but no from date
+                        } else if(fromDate.equals("") && !toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND DriverID=? AND PurchaseDate <= ?");
+                            purchasesPS.setInt(1, companyID);
+                            purchasesPS.setInt(2, driverID);
+                            purchasesPS.setString(3, toDate);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                totalDriverCostList.add(totalDriverCost);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                            }
+                        //If both dates were specified
+                        } else if(!fromDate.equals("") && !toDate.equals("")) {
+                            PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=?  AND DriverID=? AND PurchaseDate <= ? AND PurchaseDate >= ?");
+                            purchasesPS.setInt(1, companyID);
+                            purchasesPS.setInt(2, driverID);
+                            purchasesPS.setString(3, toDate);
+                            purchasesPS.setString(4, fromDate);
+                            ResultSet purchasesRS = purchasesPS.executeQuery();
+                            //If purchases were made in the timeframe
+                            if(purchasesRS.next()) {
+                                double totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                                totalDriverCostList.add(totalDriverCost);
+                            //If no purchases were made in the timeframe
+                            } else {
+                                totalDriverCostList.add(0.0);
+                            }
+                        }
+                    }
+                    //Add all company data to table
+                    for(int i = 0; i < companyNameList.size(); i++) {
+                        Object[] rowData = {companyNameList.get(i), totalDriverCostList.get(i)};
+                        model.addRow(rowData);
+                    }
+                //Get information for specific company selected
+                } else {
+                    int companyID = Integer.parseInt(tokens[0]);
+                    String companyName = tokens[1];
+                    double totalDriverCost = 0.0;
+                    String fromDate = fromDateTextSBD.getText();
+                    String toDate = toDateTextSBD.getText();
+                    //If no dates were specified
+                    if(fromDate.equals("") && toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND DriverID=?");
+                        purchasesPS.setInt(1, companyID);
+                        purchasesPS.setInt(2, driverID);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                        }
+                    //If a from date was specified but no to date
+                    } else if(!fromDate.equals("") && toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND DriverID=? AND PurchaseDate >= ?");
+                        purchasesPS.setInt(1, companyID);
+                        purchasesPS.setInt(2, driverID);
+                        purchasesPS.setString(3, fromDate);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                        }
+                    //If a to date was specified but no from date
+                    } else if(fromDate.equals("") && !toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND DriverID=? AND PurchaseDate <= ?");
+                        purchasesPS.setInt(1, companyID);
+                        purchasesPS.setInt(2, driverID);
+                        purchasesPS.setString(3, toDate);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                        }
+                    //If both dates were specified
+                    } else if(!fromDate.equals("") && !toDate.equals("")) {
+                        PreparedStatement purchasesPS = MyConnection.getConnection().prepareStatement("SELECT SUM(MonetaryCost) FROM CatalogPurchases WHERE CompanyID=? AND DriverID=? AND PurchaseDate <= ? AND PurchaseDate >= ?");
+                        purchasesPS.setInt(1, companyID);
+                        purchasesPS.setInt(2, driverID);
+                        purchasesPS.setString(3, toDate);
+                        purchasesPS.setString(4, fromDate);
+                        ResultSet purchasesRS = purchasesPS.executeQuery();
+                        //If purchases were made in the timeframe
+                        if(purchasesRS.next()) {
+                            totalDriverCost = purchasesRS.getDouble("SUM(MonetaryCost)");
+                        }
+                    }
+                    Object[] rowData = {companyName, totalDriverCost};
+                    model.addRow(rowData);
+                }
+            } catch(Exception e) {
+                Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+    }//GEN-LAST:event_salesByDriverGenerateButtonActionPerformed
+
+    private void salesByDriverCreatePDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesByDriverCreatePDFButtonActionPerformed
+        try {
+            String driverSelected = salesByDriverDDD.getSelectedItem().toString();
+            int driverID = Integer.parseInt(driverSelected.split(": ")[0]);
+            String companySelected = salesByDriverCDD.getSelectedItem().toString();
+            Document report = new Document();
+            PdfWriter writer = PdfWriter.getInstance(report, new FileOutputStream("SalesByDriverReport.pdf"));
+            report.open();
+            Paragraph title = new Paragraph();
+            title.add(new Paragraph("Sales by Driver Report"));
+            title.add(new Paragraph(" "));
+            title.add(new Paragraph("For Driver: " + driverSelected.split(": ")[1]));
+            title.add(new Paragraph(" "));
+            String constraints = "";
+            if(!fromDateTextSBD.getText().equals("")) {
+                constraints += "From: ";
+                constraints += fromDateTextSBD.getText();
+                constraints += " ";
+            }
+            if(!toDateTextSBD.getText().equals("")) {
+                constraints += "To: ";
+                constraints += toDateTextSBD.getText();
+                constraints += " ";
+            }
+            if(!constraints.equals("")) {
+                title.add(new Paragraph(constraints));
+                title.add(new Paragraph(" "));
+            }
+            if(salesByDriverSD.getSelectedItem().toString().equals("Summary")) {
+                title.add(new Paragraph("Type of Report: Summary"));
+                title.add(new Paragraph(" "));
+            } else if(salesByDriverSD.getSelectedItem().toString().equals("Detailed")) {
+                title.add(new Paragraph("Type of Report: Detailed"));
+                title.add(new Paragraph(" "));
+            }
+            if(companySelected.split(": ")[0].equals("0")) {
+                for(int i = 0; i < salesByDriverTable.getRowCount(); i++) {
+                    title.add(new Paragraph("Total Amount Spent at " + salesByDriverTable.getModel().getValueAt(i, 0).toString() + ": $" + String.format("%.2f", salesByDriverTable.getModel().getValueAt(i, 1))));
+                }
+            } else {
+                title.add(new Paragraph("Total Amount Spent at " + salesByDriverTable.getModel().getValueAt(0, 0).toString() + ": $" + String.format("%.2f", salesByDriverTable.getModel().getValueAt(0, 1))));
+            }
+            title.add(new Paragraph(" "));
+            title.add(new Paragraph("Itemized"));
+            title.add(new Paragraph(" "));
+            report.add(title);
+            if(salesByDriverSD.getSelectedItem().toString().equals("Summary")) {
+                PdfPTable reportTable = new PdfPTable(3);
+                PdfPCell cell = new PdfPCell(new Phrase("Company Name"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Date"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Purchase Amount"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                if(fromDateTextSBD.getText().equals("") && toDateTextSBD.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.DriverID=?");
+                        purchaseInfoPS.setInt(1, driverID);
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.CompanyID=? AND CatalogPurchases.DriverID=?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setInt(2, driverID);
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(!fromDateTextSBD.getText().equals("") && toDateTextSBD.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.DriverID=? AND PurchaseDate >= ?");
+                        purchaseInfoPS.setInt(1, driverID);
+                        purchaseInfoPS.setString(2, fromDateTextSBD.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.CompanyID=? AND CatalogPurchases.DriverID=? AND PurchaseDate >= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setInt(2, driverID);
+                        purchaseInfoPS.setString(3, fromDateTextSBD.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(fromDateTextSBD.getText().equals("") && !toDateTextSBD.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.DriverID=? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, driverID);
+                        purchaseInfoPS.setString(2, toDateTextSBD.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.CompanyID=? AND CatalogPurchases.DriverID=? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setInt(2, driverID);
+                        purchaseInfoPS.setString(3, toDateTextSBD.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(!fromDateTextSBD.getText().equals("") && !toDateTextSBD.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.DriverID=? AND PurchaseDate >= ? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, driverID);
+                        purchaseInfoPS.setString(2, fromDateTextSBD.getText());
+                        purchaseInfoPS.setString(3, toDateTextSBD.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID WHERE CatalogPurchases.CompanyID=? AND CatalogPurchases.DriverID=? AND PurchaseDate >= ? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setInt(2, driverID);
+                        purchaseInfoPS.setString(3, fromDateTextSBD.getText());
+                        purchaseInfoPS.setString(4, toDateTextSBD.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                }
+                report.add(reportTable);
+            } else if(salesByDriverSD.getSelectedItem().toString().equals("Detailed")) {
+                PdfPTable reportTable = new PdfPTable(4);
+                PdfPCell cell = new PdfPCell(new Phrase("Company Name"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Date"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Item Purchased"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                cell = new PdfPCell(new Phrase("Purchase Amount"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                reportTable.addCell(cell);
+                if(fromDateTextSBD.getText().equals("") && toDateTextSBD.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.DriverID=?");
+                        purchaseInfoPS.setInt(1, driverID);
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.CompanyID=? AND CatalogPurchases.DriverID=?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setInt(2, driverID);
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("ItemDescription")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(!fromDateTextSBD.getText().equals("") && toDateTextSBD.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.DriverID=? AND PurchaseDate >= ?");
+                        purchaseInfoPS.setInt(1, driverID);
+                        purchaseInfoPS.setString(2, fromDateTextSBD.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.CompanyID=? AND CatalogPurchases.DriverID=? AND PurchaseDate >= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setInt(2, driverID);
+                        purchaseInfoPS.setString(3, fromDateTextSBD.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("ItemDescription")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(fromDateTextSBD.getText().equals("") && !toDateTextSBD.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.DriverID=? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, driverID);
+                        purchaseInfoPS.setString(2, toDateTextSBD.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.CompanyID=? AND CatalogPurchases.DriverID=? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setInt(2, driverID);
+                        purchaseInfoPS.setString(3, toDateTextSBD.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("ItemDescription")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                } else if(!fromDateTextSBD.getText().equals("") && !toDateTextSBD.getText().equals("")) {
+                    PreparedStatement purchaseInfoPS;
+                    if(companySelected.split(": ")[0].equals("0")) {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.DriverID=? AND PurchaseDate >= ? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, driverID);
+                        purchaseInfoPS.setString(2, fromDateTextSBD.getText());
+                        purchaseInfoPS.setString(3, toDateTextSBD.getText());
+                    } else {
+                        purchaseInfoPS = MyConnection.getConnection().prepareStatement("SELECT * FROM CatalogPurchases JOIN Company ON Company.CompanyID=CatalogPurchases.CompanyID JOIN CatalogItems ON CatalogItems.ItemID=CatalogPurchases.ItemID WHERE CatalogPurchases.CompanyID=? AND CatalogPurchases.DriverID=? AND PurchaseDate >= ? AND PurchaseDate <= ?");
+                        purchaseInfoPS.setInt(1, Integer.parseInt(companySelected.split(": ")[0]));
+                        purchaseInfoPS.setInt(2, driverID);
+                        purchaseInfoPS.setString(3, fromDateTextSBD.getText());
+                        purchaseInfoPS.setString(4, toDateTextSBD.getText());
+                    }
+                    ResultSet purchaseInfoRS = purchaseInfoPS.executeQuery();
+                    while(purchaseInfoRS.next()) {
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("CompanyName")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("PurchaseDate").split(" ")[0]));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase(purchaseInfoRS.getString("ItemDescription")));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                        cell = new PdfPCell(new Phrase("$" + String.format("%.2f", purchaseInfoRS.getDouble("MonetaryCost"))));
+                        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        reportTable.addCell(cell);
+                    }
+                }
+                report.add(reportTable);
+            }
+            report.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_salesByDriverCreatePDFButtonActionPerformed
+
+    private void salesByDriverDDDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesByDriverDDDActionPerformed
+        int driverSelected = Integer.parseInt(salesByDriverDDD.getSelectedItem().toString().split(": ")[0]);
+        if(salesByDriverCDD.getItemCount() > 0) {
+            salesByDriverCDD.removeAllItems();
+        }
+        try {
+            PreparedStatement driverCompaniesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverPoints JOIN Driver ON Driver.DriverID=DriverPoints.DriverID JOIN Users ON Users.UserID=Driver.UserID JOIN Company ON DriverPoints.CompanyID=Company.CompanyID WHERE Users.UserID=?");
+            driverCompaniesPS.setInt(1, driverSelected);
+            ResultSet driverCompaniesRS = driverCompaniesPS.executeQuery();
+            while(driverCompaniesRS.next()) {
+                String company = driverCompaniesRS.getInt("CompanyID") + ": " + driverCompaniesRS.getString("CompanyName");
+                salesByDriverCDD.addItem(company);
+            }
+            if(salesByDriverCDD.getItemCount() > 0) {
+                salesByDriverCDD.addItem("0: All Companies");
+            }
+        } catch(Exception e) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_salesByDriverDDDActionPerformed
 
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
@@ -2764,7 +3968,7 @@ public class AdminGUI extends javax.swing.JFrame {
                 userAccountList.setListData(listData);
             }
         } catch(Exception e) {
-            Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -2851,6 +4055,8 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextField fromDateTextLA;
     private javax.swing.JTextField fromDateTextPC;
     private javax.swing.JTextField fromDateTextPass;
+    private javax.swing.JTextField fromDateTextSBD;
+    private javax.swing.JTextField fromDateTextSBS;
     private javax.swing.JButton invoiceButton;
     private javax.swing.JButton invoiceCreatePDFButton;
     private javax.swing.JButton invoiceGenerateButton;
@@ -2896,7 +4102,16 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2915,6 +4130,8 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -2938,15 +4155,28 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JPanel reporting;
     private javax.swing.JLayeredPane reportingLayeredPane;
     private javax.swing.JButton salesByDriverButton;
+    private javax.swing.JComboBox<String> salesByDriverCDD;
+    private javax.swing.JButton salesByDriverCreatePDFButton;
+    private javax.swing.JComboBox<String> salesByDriverDDD;
+    private javax.swing.JButton salesByDriverGenerateButton;
     private javax.swing.JPanel salesByDriverPanel;
+    private javax.swing.JComboBox<String> salesByDriverSD;
+    private javax.swing.JTable salesByDriverTable;
     private javax.swing.JButton salesBySponsorButton;
+    private javax.swing.JButton salesBySponsorCreatePDFButton;
+    private javax.swing.JComboBox<String> salesBySponsorDD;
+    private javax.swing.JButton salesBySponsorGenerateButton;
     private javax.swing.JPanel salesBySponsorPanel;
+    private javax.swing.JComboBox<String> salesBySponsorSD;
+    private javax.swing.JTable salesBySponsorTable;
     private javax.swing.JPanel sponsorView;
     private javax.swing.JTextField toDateText;
     private javax.swing.JTextField toDateTextDA;
     private javax.swing.JTextField toDateTextLA;
     private javax.swing.JTextField toDateTextPC;
     private javax.swing.JTextField toDateTextPass;
+    private javax.swing.JTextField toDateTextSBD;
+    private javax.swing.JTextField toDateTextSBS;
     private javax.swing.JButton toggleCompanyButton;
     private javax.swing.JButton updateUserInfoButton;
     private javax.swing.JList<String> userAccountList;
