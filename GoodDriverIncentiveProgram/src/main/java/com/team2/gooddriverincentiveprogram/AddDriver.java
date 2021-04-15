@@ -47,7 +47,8 @@ public class AddDriver extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         CompanyList = new javax.swing.JList<>();
         jLabel3 = new javax.swing.JLabel();
-        CreateDriverForCompany = new javax.swing.JButton();
+        addDriverToCompanyButton = new javax.swing.JButton();
+        removeDriverFromCompanyButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,10 +79,18 @@ public class AddDriver extends javax.swing.JFrame {
 
         jLabel3.setText("Select a Company");
 
-        CreateDriverForCompany.setText("Add Driver");
-        CreateDriverForCompany.addActionListener(new java.awt.event.ActionListener() {
+        addDriverToCompanyButton.setText("Add Driver");
+        addDriverToCompanyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CreateDriverForCompanyActionPerformed(evt);
+                addDriverToCompanyButtonActionPerformed(evt);
+            }
+        });
+
+        removeDriverFromCompanyButton.setText("Remove Driver");
+        removeDriverFromCompanyButton.setToolTipText("");
+        removeDriverFromCompanyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeDriverFromCompanyButtonActionPerformed(evt);
             }
         });
 
@@ -89,26 +98,27 @@ public class AddDriver extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(CreateDriverForCompany))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(59, 59, 59))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(194, 194, 194)
-                .addComponent(jLabel1)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(194, 194, 194)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(addDriverToCompanyButton)
+                            .addGap(18, 18, 18)
+                            .addComponent(removeDriverFromCompanyButton))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addGap(44, 44, 44)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2))
+                            .addGap(35, 35, 35)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +134,9 @@ public class AddDriver extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CreateDriverForCompany)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addDriverToCompanyButton)
+                    .addComponent(removeDriverFromCompanyButton))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -132,7 +144,7 @@ public class AddDriver extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 612, Short.MAX_VALUE)
+            .addGap(0, 642, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -153,11 +165,11 @@ public class AddDriver extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -208,7 +220,7 @@ public class AddDriver extends javax.swing.JFrame {
         selectedCompID = Integer.parseInt(tokens[0]);
     }//GEN-LAST:event_CompanyListValueChanged
 
-    private void CreateDriverForCompanyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateDriverForCompanyActionPerformed
+    private void addDriverToCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDriverToCompanyButtonActionPerformed
         try {
             if(selectedCompID != -1 && selectedDriverID != -1) {
 
@@ -254,7 +266,54 @@ public class AddDriver extends javax.swing.JFrame {
         } catch(Exception e) {
             Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, e);
         }
-    }//GEN-LAST:event_CreateDriverForCompanyActionPerformed
+    }//GEN-LAST:event_addDriverToCompanyButtonActionPerformed
+
+    private void removeDriverFromCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDriverFromCompanyButtonActionPerformed
+        try {
+            if(selectedCompID != -1 && selectedDriverID != -1) {
+
+                int DID = getDriverID();
+
+                //query for driver info from driver points
+                PreparedStatement companyDriverPS = MyConnection.getConnection().prepareStatement("Select * From DriverPoints Where DriverID=? AND CompanyID=?");
+                companyDriverPS.setInt(1, DID);
+                companyDriverPS.setInt(2, selectedCompID);
+                ResultSet companyDriverRS = companyDriverPS.executeQuery();
+
+                //Check to see if this driver already works for the company
+                if(!companyDriverRS.next()) {
+                    JOptionPane.showMessageDialog(null, "Selected driver doesn't work for selected company.", "Please try again", 2);
+                }else{
+                    //Delete the driver into the DriverPoints table
+                    PreparedStatement DriverDeletionPS = MyConnection.getConnection().prepareStatement("DELETE FROM DriverPoints WHERE DriverID=? AND CompanyID=?");
+                    DriverDeletionPS.setInt(1, DID);
+                    DriverDeletionPS.setInt(2, selectedCompID);
+                    DriverDeletionPS.executeUpdate();
+                    //Check to see if they have an accepted application with the company they were just added to
+                    PreparedStatement applicationCheckPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverApplications WHERE DriverID=? AND CompanyID=?");
+                    applicationCheckPS.setInt(1, DID);
+                    applicationCheckPS.setInt(2, selectedCompID);
+                    ResultSet applicationCheckRS = applicationCheckPS.executeQuery();
+                    while(applicationCheckRS.next()) {
+                        String status = applicationCheckRS.getString("ApplicationStatus");
+                        if(status.equals("Approved")) {
+                            PreparedStatement applicationUpdatePS = MyConnection.getConnection().prepareStatement("UPDATE DriverApplications SET ApplicationStatus=?, Reason=? WHERE DriverApplicationID=?");
+                            applicationUpdatePS.setString(1, "Revoked");
+                            applicationUpdatePS.setString(2, "Revoked by Admin");
+                            applicationUpdatePS.setInt(3, applicationCheckRS.getInt("DriverApplicationID"));
+                            applicationUpdatePS.executeUpdate();
+                        }
+                    }
+                    this.dispose();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please make a company and driver selection.");
+            }
+        } catch(Exception e) {
+            Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_removeDriverFromCompanyButtonActionPerformed
+    
     private int getDriverID() throws SQLException{
                 // Get the driverID
                 int ID = 0;
@@ -304,8 +363,8 @@ public class AddDriver extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> CompanyList;
-    private javax.swing.JButton CreateDriverForCompany;
     private javax.swing.JList<String> DriverList;
+    private javax.swing.JButton addDriverToCompanyButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -313,5 +372,6 @@ public class AddDriver extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton removeDriverFromCompanyButton;
     // End of variables declaration//GEN-END:variables
 }

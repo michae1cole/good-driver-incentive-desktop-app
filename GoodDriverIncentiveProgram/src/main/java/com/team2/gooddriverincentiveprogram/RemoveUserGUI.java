@@ -42,7 +42,8 @@ public class RemoveUserGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         DriverList = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
-        SubmitChange = new javax.swing.JButton();
+        setInactiveButton = new javax.swing.JButton();
+        setActiveButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,7 +52,7 @@ public class RemoveUserGUI extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(191, 192, 192));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Add Driver to a Company");
+        jLabel1.setText("Set Account to Active/Inactive");
 
         DriverList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         DriverList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -63,10 +64,17 @@ public class RemoveUserGUI extends javax.swing.JFrame {
 
         jLabel2.setText("Select a Driver");
 
-        SubmitChange.setText("Submit");
-        SubmitChange.addActionListener(new java.awt.event.ActionListener() {
+        setInactiveButton.setText("Set Inactive");
+        setInactiveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SubmitChangeActionPerformed(evt);
+                setInactiveButtonActionPerformed(evt);
+            }
+        });
+
+        setActiveButton.setText("Set Active");
+        setActiveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setActiveButtonActionPerformed(evt);
             }
         });
 
@@ -74,42 +82,44 @@ public class RemoveUserGUI extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SubmitChange))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(87, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 43, Short.MAX_VALUE)))
-                .addGap(59, 59, 59))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(194, 194, 194)
-                .addComponent(jLabel1)
-                .addContainerGap(198, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(setActiveButton)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(setInactiveButton))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(80, 80, 80))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(183, 183, 183))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(42, 42, 42)
                 .addComponent(jLabel1)
-                .addGap(47, 47, 47)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(SubmitChange)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(setInactiveButton)
+                    .addComponent(setActiveButton))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 612, Short.MAX_VALUE)
+            .addGap(0, 643, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
@@ -157,7 +167,7 @@ public class RemoveUserGUI extends javax.swing.JFrame {
         selectedDriverID = Integer.parseInt(tokens[0]);
     }//GEN-LAST:event_DriverListValueChanged
 
-    private void SubmitChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitChangeActionPerformed
+    private void setInactiveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setInactiveButtonActionPerformed
         try {
             if(selectedDriverID != -1) {
 
@@ -167,7 +177,8 @@ public class RemoveUserGUI extends javax.swing.JFrame {
                 //Check to see if this driver is in the points table 
                 if(status == 0) {
                     JOptionPane.showMessageDialog(null, "Selected driver is already inactive.");
-                }else{//remove the driver from the DriverPoints table and Update User Table 
+                }else{
+                    //Remove the driver from the DriverPoints table and Update User Table 
                     PreparedStatement DriverRemovalPS = MyConnection.getConnection().prepareStatement("DELETE FROM DriverPoints WHERE DriverID = ?");
                     DriverRemovalPS.setInt(1, DID);
                     DriverRemovalPS.executeUpdate();
@@ -185,7 +196,33 @@ public class RemoveUserGUI extends javax.swing.JFrame {
         } catch(Exception e) {
             Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, e);
         }
-    }//GEN-LAST:event_SubmitChangeActionPerformed
+    }//GEN-LAST:event_setInactiveButtonActionPerformed
+
+    private void setActiveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setActiveButtonActionPerformed
+        try {
+            if(selectedDriverID != -1) {
+
+                int status = getDriverStatus();
+
+                
+                if(status == 1) {
+                    JOptionPane.showMessageDialog(null, "Selected driver is already active.");
+                }else{
+                    //Update User Table 
+                    PreparedStatement DriverUpdatePS = MyConnection.getConnection().prepareStatement("UPDATE Users SET ActiveAccount = ? WHERE UserID = ?");
+                    DriverUpdatePS.setInt(1, 1);
+                    DriverUpdatePS.setInt(2, selectedDriverID);
+                    DriverUpdatePS.executeUpdate();
+                    this.dispose();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please make a driver selection.");
+            }
+        } catch(Exception e) {
+            Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_setActiveButtonActionPerformed
+    
     private int getDriverID() throws SQLException{
                 // Get the driverID
                 int ID = 0;
@@ -264,12 +301,13 @@ public class RemoveUserGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> DriverList;
-    private javax.swing.JButton SubmitChange;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton setActiveButton;
+    private javax.swing.JButton setInactiveButton;
     // End of variables declaration//GEN-END:variables
 }

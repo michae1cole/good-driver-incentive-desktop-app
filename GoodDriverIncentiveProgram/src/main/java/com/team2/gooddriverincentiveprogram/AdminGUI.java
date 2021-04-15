@@ -183,11 +183,11 @@ public class AdminGUI extends javax.swing.JFrame {
         jButton30 = new javax.swing.JButton();
         SwitchToViews = new javax.swing.JButton();
         CreateCompanyButton = new javax.swing.JButton();
-        CreateDriverButton1 = new javax.swing.JButton();
+        toggleCompanyButton = new javax.swing.JButton();
         CreateSponsorButton = new javax.swing.JButton();
         CreateAdminButton = new javax.swing.JButton();
         CreateDriverButton = new javax.swing.JButton();
-        RemoveUser = new javax.swing.JButton();
+        activeToggleButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1275,31 +1275,31 @@ public class AdminGUI extends javax.swing.JFrame {
         sponsorView.setLayout(sponsorViewLayout);
         sponsorViewLayout.setHorizontalGroup(
             sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sponsorViewLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17))
-                .addContainerGap(411, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sponsorViewLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ViewDriverPage)
-                .addGap(18, 18, 18)
-                .addComponent(ViewSponsorPage)
-                .addGap(77, 77, 77))
+                .addContainerGap(218, Short.MAX_VALUE)
+                .addGroup(sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(sponsorViewLayout.createSequentialGroup()
+                        .addComponent(ViewDriverPage)
+                        .addGap(18, 18, 18)
+                        .addComponent(ViewSponsorPage))
+                    .addGroup(sponsorViewLayout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addGap(492, 492, 492)))
+                .addGap(244, 244, 244))
         );
         sponsorViewLayout.setVerticalGroup(
             sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sponsorViewLayout.createSequentialGroup()
-                .addGap(57, 57, 57)
+                .addGap(86, 86, 86)
                 .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(sponsorViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ViewSponsorPage)
                     .addComponent(ViewDriverPage))
-                .addContainerGap(402, Short.MAX_VALUE))
+                .addContainerGap(366, Short.MAX_VALUE))
         );
 
         layeredPane.add(sponsorView, "card5");
@@ -1346,10 +1346,10 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
-        CreateDriverButton1.setText("Add Driver To Company");
-        CreateDriverButton1.addActionListener(new java.awt.event.ActionListener() {
+        toggleCompanyButton.setText("Add/Remove Driver From Company");
+        toggleCompanyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CreateDriverButton1ActionPerformed(evt);
+                toggleCompanyButtonActionPerformed(evt);
             }
         });
 
@@ -1374,10 +1374,10 @@ public class AdminGUI extends javax.swing.JFrame {
             }
         });
 
-        RemoveUser.setText("Remove User");
-        RemoveUser.addActionListener(new java.awt.event.ActionListener() {
+        activeToggleButton.setText("Change Driver Active");
+        activeToggleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RemoveUserActionPerformed(evt);
+                activeToggleButtonActionPerformed(evt);
             }
         });
 
@@ -1400,22 +1400,21 @@ public class AdminGUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(CreateSponsorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(14, 14, 14)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(CreateAdminButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CreateDriverButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(CreateDriverButton, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(activeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(CreateCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CreateDriverButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(toggleCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton30, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(RemoveUser, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jButton13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -1428,14 +1427,14 @@ public class AdminGUI extends javax.swing.JFrame {
                     .addComponent(CreateSponsorButton)
                     .addComponent(CreateAdminButton)
                     .addComponent(CreateDriverButton)
-                    .addComponent(RemoveUser))
+                    .addComponent(activeToggleButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton23)
                     .addComponent(jButton30)
                     .addComponent(SwitchToViews)
                     .addComponent(CreateCompanyButton)
-                    .addComponent(CreateDriverButton1))
+                    .addComponent(toggleCompanyButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(layeredPane)
                 .addContainerGap())
@@ -1774,7 +1773,7 @@ public class AdminGUI extends javax.swing.JFrame {
         createCompanyFrame.setVisible(true);
     }//GEN-LAST:event_CreateCompanyButtonActionPerformed
 
-    private void CreateDriverButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateDriverButton1ActionPerformed
+    private void toggleCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleCompanyButtonActionPerformed
         AddDriver addDriverFrame = new AddDriver();
         addDriverFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addDriverFrame.setTitle("Good Driver Incentive Program - Add Driver");
@@ -1789,7 +1788,7 @@ public class AdminGUI extends javax.swing.JFrame {
             Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         addDriverFrame.setVisible(true);
-    }//GEN-LAST:event_CreateDriverButton1ActionPerformed
+    }//GEN-LAST:event_toggleCompanyButtonActionPerformed
 
     private void salesBySponsorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesBySponsorButtonActionPerformed
         switchReportPanels(salesBySponsorPanel);
@@ -2691,7 +2690,7 @@ public class AdminGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_userAccountListValueChanged
 
-    private void RemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveUserActionPerformed
+    private void activeToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activeToggleButtonActionPerformed
         RemoveUserGUI remove = new RemoveUserGUI();
         remove.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         remove.setTitle("Good Driver Incentive Program - Remove Driver");
@@ -2701,7 +2700,7 @@ public class AdminGUI extends javax.swing.JFrame {
             Logger.getLogger(RemoveUserGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         remove.setVisible(true);
-    }//GEN-LAST:event_RemoveUserActionPerformed
+    }//GEN-LAST:event_activeToggleButtonActionPerformed
 
      //Helper Methods for getting and setting user information in the profile
     public void setAdminName(String name) {
@@ -2831,13 +2830,12 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JButton CreateAdminButton;
     private javax.swing.JButton CreateCompanyButton;
     private javax.swing.JButton CreateDriverButton;
-    private javax.swing.JButton CreateDriverButton1;
     private javax.swing.JButton CreateSponsorButton;
-    private javax.swing.JButton RemoveUser;
     private javax.swing.JList<String> SponsorList;
     private javax.swing.JButton SwitchToViews;
     private javax.swing.JButton ViewDriverPage;
     private javax.swing.JButton ViewSponsorPage;
+    private javax.swing.JButton activeToggleButton;
     private javax.swing.JButton auditLogButton;
     private javax.swing.JLayeredPane auditLogLayeredPanel;
     private javax.swing.JPanel auditLogPanel;
@@ -2949,6 +2947,7 @@ public class AdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextField toDateTextLA;
     private javax.swing.JTextField toDateTextPC;
     private javax.swing.JTextField toDateTextPass;
+    private javax.swing.JButton toggleCompanyButton;
     private javax.swing.JButton updateUserInfoButton;
     private javax.swing.JList<String> userAccountList;
     private javax.swing.JTextField userFirstNameField;
