@@ -30,7 +30,7 @@ public class MyConnection {
         }
 
         try {
-            con = DriverManager.getConnection("jdbc:mysql://team-2-database-4910.cd0dbvuyb2fe.us-east-1.rds.amazonaws.com:3306/application_db?user=admin&password=Team2rules");
+            con = DriverManager.getConnection("jdbc:mysql://team-2-database-4910.cd0dbvuyb2fe.us-east-1.rds.amazonaws.com:3306/final_application_db?user=admin&password=Team2rules");
         } catch (Exception e) {
             Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, e);
         }

@@ -2916,35 +2916,52 @@ public class AdminGUI extends javax.swing.JFrame {
             }
             //Check password for requirements
             Boolean passCheck = false;
+            Boolean passChanged = true;
             String newPassword = userPasswordField.getText();
-            //Check for valid password using regex
-            //https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-java/
-            String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$"; 
-            Pattern passwordPattern = Pattern.compile(passwordRegex);
-            Matcher passwordMatcher = passwordPattern.matcher(newPassword);
-            if(!passwordMatcher.matches()) {
-                JOptionPane.showMessageDialog(null, "Password for driver must be 8-20 characters, have one uppercase, one lowercase, one digit, one special character, and no white space.");
+            if(!newPassword.equals("password")) {
+                //Check for valid password using regex
+                //https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-java/
+                String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$"; 
+                Pattern passwordPattern = Pattern.compile(passwordRegex);
+                Matcher passwordMatcher = passwordPattern.matcher(newPassword);
+                if(!passwordMatcher.matches()) {
+                    JOptionPane.showMessageDialog(null, "Password for driver must be 8-20 characters, have one uppercase, one lowercase, one digit, one special character, and no white space.");
+                } else {
+                    passCheck = true;
+                }
             } else {
                 passCheck = true;
+                passChanged = false;
             }
             //If both checks pass
             if(unameCheck && passCheck) {
-                PreparedStatement updateUserInfoPS = MyConnection.getConnection().prepareStatement("UPDATE Users SET FirstName=?, LastName=?, PreferredName=?, Username=?, UserPassword=? WHERE UserID=?");
-                updateUserInfoPS.setString(1, userFirstNameField.getText());
-                updateUserInfoPS.setString(2, userLastNameField.getText());
-                updateUserInfoPS.setString(3, userPreferredNameField.getText());
-                updateUserInfoPS.setString(4, userUsernameField.getText());
-                String pw_hash = BCrypt.hashpw(userPasswordField.getText(), BCrypt.gensalt());
-                updateUserInfoPS.setString(5, pw_hash);
-                updateUserInfoPS.setInt(6, selectedUserID);
-                updateUserInfoPS.executeUpdate();
-                //Record password change for audit loging
-                PreparedStatement passwordChangePS = MyConnection.getConnection().prepareStatement("INSERT INTO PasswordChange (PasswordChangeDate, PasswordChangeType, UserChangedID, UserChangingID) VALUES (CURRENT_TIMESTAMP, ?, ?, ?)");
-                passwordChangePS.setString(1, "change from admin");
-                passwordChangePS.setInt(2, selectedUserID);
-                passwordChangePS.setInt(3, this.getUserID());
-                passwordChangePS.executeUpdate();
-                setAdminUserList(userID);
+                if(passChanged == true) {
+                    PreparedStatement updateUserInfoPS = MyConnection.getConnection().prepareStatement("UPDATE Users SET FirstName=?, LastName=?, PreferredName=?, Username=?, UserPassword=? WHERE UserID=?");
+                    updateUserInfoPS.setString(1, userFirstNameField.getText());
+                    updateUserInfoPS.setString(2, userLastNameField.getText());
+                    updateUserInfoPS.setString(3, userPreferredNameField.getText());
+                    updateUserInfoPS.setString(4, userUsernameField.getText());
+                    String pw_hash = BCrypt.hashpw(userPasswordField.getText(), BCrypt.gensalt());
+                    updateUserInfoPS.setString(5, pw_hash);
+                    updateUserInfoPS.setInt(6, selectedUserID);
+                    updateUserInfoPS.executeUpdate();
+                    //Record password change for audit loging
+                    PreparedStatement passwordChangePS = MyConnection.getConnection().prepareStatement("INSERT INTO PasswordChange (PasswordChangeDate, PasswordChangeType, UserChangedID, UserChangingID) VALUES (CURRENT_TIMESTAMP, ?, ?, ?)");
+                    passwordChangePS.setString(1, "change from admin");
+                    passwordChangePS.setInt(2, selectedUserID);
+                    passwordChangePS.setInt(3, this.getUserID());
+                    passwordChangePS.executeUpdate();
+                    setAdminUserList(userID);
+                } else {
+                    PreparedStatement updateUserInfoPS = MyConnection.getConnection().prepareStatement("UPDATE Users SET FirstName=?, LastName=?, PreferredName=?, Username=? WHERE UserID=?");
+                    updateUserInfoPS.setString(1, userFirstNameField.getText());
+                    updateUserInfoPS.setString(2, userLastNameField.getText());
+                    updateUserInfoPS.setString(3, userPreferredNameField.getText());
+                    updateUserInfoPS.setString(4, userUsernameField.getText());
+                    updateUserInfoPS.setInt(5, selectedUserID);
+                    updateUserInfoPS.executeUpdate();
+                    setAdminUserList(userID);
+                }
             }
         } catch(Exception e) {
             Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);

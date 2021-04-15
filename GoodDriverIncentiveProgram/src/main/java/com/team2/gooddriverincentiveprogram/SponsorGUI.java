@@ -2886,16 +2886,22 @@ public class SponsorGUI extends javax.swing.JFrame {
             }
             //Check password for requirements
             Boolean passCheck = false;
+            Boolean passChanged = true;
             String newPassword = driverPasswordField.getText();
-            //Check for valid password using regex
-            //https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-java/
-            String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$"; 
-            Pattern passwordPattern = Pattern.compile(passwordRegex);
-            Matcher passwordMatcher = passwordPattern.matcher(newPassword);
-            if(!passwordMatcher.matches()) {
-                JOptionPane.showMessageDialog(null, "Password for driver must be 8-20 characters, have one uppercase, one lowercase, one digit, one special character, and no white space.");
+            if(!newPassword.equals("password")) {
+                //Check for valid password using regex
+                //https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-java/
+                String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$"; 
+                Pattern passwordPattern = Pattern.compile(passwordRegex);
+                Matcher passwordMatcher = passwordPattern.matcher(newPassword);
+                if(!passwordMatcher.matches()) {
+                    JOptionPane.showMessageDialog(null, "Password for driver must be 8-20 characters, have one uppercase, one lowercase, one digit, one special character, and no white space.");
+                } else {
+                    passCheck = true;
+                }
             } else {
                 passCheck = true;
+                passChanged = false;
             }
             //If both checks pass
             if(unameCheck && passCheck) {
@@ -2904,21 +2910,33 @@ public class SponsorGUI extends javax.swing.JFrame {
                 ResultSet driverRS = driverPS.executeQuery();  
                 driverRS.next();
                 int driverUserID = driverRS.getInt("UserID");
-                PreparedStatement updateDriverInfoPS = MyConnection.getConnection().prepareStatement("UPDATE Users SET FirstName=?, LastName=?, PreferredName=?, Username=?, UserPassword=? WHERE UserID=?");
-                updateDriverInfoPS.setString(1, driverFirstNameField.getText());
-                updateDriverInfoPS.setString(2, driverLastNameField.getText());
-                updateDriverInfoPS.setString(3, driverPreferredNameField.getText());
-                updateDriverInfoPS.setString(4, driverUsernameField.getText());
-                String pw_hash = BCrypt.hashpw(driverPasswordField.getText(), BCrypt.gensalt());
-                updateDriverInfoPS.setString(5, pw_hash);
-                updateDriverInfoPS.setInt(6, driverUserID);
-                updateDriverInfoPS.executeUpdate();
-                //Record password change for audit loging
-                PreparedStatement passwordChangePS = MyConnection.getConnection().prepareStatement("INSERT INTO PasswordChange (PasswordChangeDate, PasswordChangeType, UserChangedID, UserChangingID) VALUES (CURRENT_TIMESTAMP, ?, ?, ?)");
-                passwordChangePS.setString(1, "change from sponsor");
-                passwordChangePS.setInt(2, driverUserID);
-                passwordChangePS.setInt(3, this.getUserID());
-                passwordChangePS.executeUpdate();
+                if(passChanged == true) {
+                    PreparedStatement updateDriverInfoPS = MyConnection.getConnection().prepareStatement("UPDATE Users SET FirstName=?, LastName=?, PreferredName=?, Username=?, UserPassword=? WHERE UserID=?");
+                    updateDriverInfoPS.setString(1, driverFirstNameField.getText());
+                    updateDriverInfoPS.setString(2, driverLastNameField.getText());
+                    updateDriverInfoPS.setString(3, driverPreferredNameField.getText());
+                    updateDriverInfoPS.setString(4, driverUsernameField.getText());
+                    String pw_hash = BCrypt.hashpw(driverPasswordField.getText(), BCrypt.gensalt());
+                    updateDriverInfoPS.setString(5, pw_hash);
+                    updateDriverInfoPS.setInt(6, driverUserID);
+                    updateDriverInfoPS.executeUpdate();
+                    //Record password change for audit loging
+                    PreparedStatement passwordChangePS = MyConnection.getConnection().prepareStatement("INSERT INTO PasswordChange (PasswordChangeDate, PasswordChangeType, UserChangedID, UserChangingID) VALUES (CURRENT_TIMESTAMP, ?, ?, ?)");
+                    passwordChangePS.setString(1, "change from sponsor");
+                    passwordChangePS.setInt(2, driverUserID);
+                    passwordChangePS.setInt(3, this.getUserID());
+                    passwordChangePS.executeUpdate();
+                    populateDriverList();
+                } else {
+                    PreparedStatement updateDriverInfoPS = MyConnection.getConnection().prepareStatement("UPDATE Users SET FirstName=?, LastName=?, PreferredName=?, Username=? WHERE UserID=?");
+                    updateDriverInfoPS.setString(1, driverFirstNameField.getText());
+                    updateDriverInfoPS.setString(2, driverLastNameField.getText());
+                    updateDriverInfoPS.setString(3, driverPreferredNameField.getText());
+                    updateDriverInfoPS.setString(4, driverUsernameField.getText());
+                    updateDriverInfoPS.setInt(5, driverUserID);
+                    updateDriverInfoPS.executeUpdate();
+                    populateDriverList();
+                }
             }
         } catch(Exception e) {
             Logger.getLogger(SponsorGUI.class.getName()).log(Level.SEVERE, null, e);
