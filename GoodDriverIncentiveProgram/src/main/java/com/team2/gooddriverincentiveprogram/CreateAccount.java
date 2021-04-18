@@ -285,7 +285,7 @@ public class CreateAccount extends javax.swing.JFrame {
             }
             //Redirect to login frame
             LoginGUI loginFrame = new LoginGUI();
-            loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             loginFrame.setTitle("Good Driver Incentive Program - Login");
             loginFrame.setVisible(true);
             this.dispose();
