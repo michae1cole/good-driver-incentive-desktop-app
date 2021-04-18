@@ -1585,11 +1585,11 @@ public class SponsorGUI extends javax.swing.JFrame {
             int numOfColumns = 6;
             int numOfRows = pointIDList.size();
             Object[] columnsName = new Object[numOfColumns];
-            columnsName[0] = "DriverName";
-            columnsName[1] = "TotalPoints";
-            columnsName[2] = "PointChange";
-            columnsName[3] = "DatePointChange";
-            columnsName[4] = "SponsorName";
+            columnsName[0] = "Driver Name";
+            columnsName[1] = "Total Points";
+            columnsName[2] = "Point Change";
+            columnsName[3] = "Date Point Change";
+            columnsName[4] = "Sponsor Name";
             columnsName[5] = "Reason";
             
             model.setColumnIdentifiers(columnsName);
@@ -1616,57 +1616,17 @@ public class SponsorGUI extends javax.swing.JFrame {
     //Populate the driver list on driver points panel
     private void populateDriverList(){
         ArrayList<String> listDataArrayList = new ArrayList<>();
-        ArrayList<Integer> driverIDList = new ArrayList<>();
-        Set<Integer> userIDList = new HashSet<>();
-        ArrayList<Integer> driverPointList = new ArrayList<>();
         try{
-            int compID = -1;
-            int driverID = -1;
-            int i = 0;
-            //Get current sponsor's company ID
-            PreparedStatement getUserPS = MyConnection.getConnection().prepareStatement("SELECT CompanyID FROM Sponsor WHERE UserID=?");
-            getUserPS.setInt(1, userID);
-            ResultSet sponsorRS = getUserPS.executeQuery();
-            while(sponsorRS.next()){
-                compID = sponsorRS.getInt("CompanyID");
-            }
-            
-            //Use company ID to query for driver IDs and driver points
-            PreparedStatement driversPS = MyConnection.getConnection().prepareStatement("SELECT DriverID, Points FROM DriverPoints WHERE CompanyID=?");
-            driversPS.setInt(1, compID);
-            ResultSet driversRS = driversPS.executeQuery();
-            while(driversRS.next()){
-                driverID = driversRS.getInt("DriverID");
-                driverIDList.add(driverID);
-                int driverPt = driversRS.getInt("Points");
-                driverPointList.add(driverPt);
-            }
-            
-            //Use driver IDs to fetch user IDs
-            PreparedStatement driversUserPS = MyConnection.getConnection().prepareStatement("SELECT UserID FROM Driver WHERE DriverID=?");
-            for(int ID : driverIDList){
-                driversUserPS.setInt(1, ID);
-                ResultSet driverUserbyID = driversUserPS.executeQuery();
-                while(driverUserbyID.next()){
-                   int usrID = driverUserbyID.getInt("UserID");
-                   userIDList.add(usrID);
-                }
-            }
-            
-            //User user IDS to fetch driver names and populate list
-            PreparedStatement driversNamesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Users WHERE UserID=?");
-            for(int ID : userIDList){
-                driversNamesPS.setInt(1, ID);
-                ResultSet driverNamebyID = driversNamesPS.executeQuery();
-                while(driverNamebyID.next()){
-                   String fName = driverNamebyID.getString("FirstName");
-                   String lName = driverNamebyID.getString("LastName");
-                   String username = driverNamebyID.getString("Username");
-                   String fullName = fName + " " + lName + " (" + username + ")";
-                   String listItems = driverIDList.get(i) + ": " + fullName + ": " + driverPointList.get(i);
-                   listDataArrayList.add(listItems);
-                }
-                ++i;
+            PreparedStatement driverInformationPS = MyConnection.getConnection().prepareStatement("SELECT * FROM DriverPoints JOIN Sponsor ON Sponsor.CompanyID=DriverPoints.CompanyID JOIN Driver ON Driver.DriverID=DriverPoints.DriverID JOIN Users on Users.UserID = Driver.UserID WHERE Sponsor.UserID=?");
+            driverInformationPS.setInt(1, userID);
+            ResultSet driverInformationRS = driverInformationPS.executeQuery();
+            while(driverInformationRS.next()){
+               String fName = driverInformationRS.getString("FirstName");
+               String lName = driverInformationRS.getString("LastName");
+               String username = driverInformationRS.getString("Username");
+               String fullName = fName + " " + lName + " (" + username + ")";
+               String listItems = driverInformationRS.getString("DriverID") + ": " + fullName + ": " + driverInformationRS.getString("Points");
+               listDataArrayList.add(listItems);
             }
             String[] listData = listDataArrayList.toArray(new String[listDataArrayList.size()]);
             driverList.setListData(listData);
