@@ -3626,7 +3626,14 @@ public class AdminGUI extends javax.swing.JFrame {
     private void salesByDriverCreatePDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesByDriverCreatePDFButtonActionPerformed
         try {
             String driverSelected = salesByDriverDDD.getSelectedItem().toString();
-            int driverID = Integer.parseInt(driverSelected.split(": ")[0]);
+            int userID = Integer.parseInt(driverSelected.split(": ")[0]);
+            int driverID = -1;
+            PreparedStatement driverPS = MyConnection.getConnection().prepareStatement("SELECT DriverID FROM Driver WHERE UserID=?");
+            driverPS.setInt(1, userID);
+            ResultSet driverRS = driverPS.executeQuery();
+            if(driverRS.next()) {
+                driverID = driverRS.getInt("DriverID");
+            }
             String companySelected = salesByDriverCDD.getSelectedItem().toString();
             Document report = new Document();
             PdfWriter writer = PdfWriter.getInstance(report, new FileOutputStream("SalesByDriverReport.pdf"));
