@@ -894,7 +894,7 @@ public class AdminGUI extends javax.swing.JFrame {
                             .addComponent(jLabel41))
                         .addGap(0, 66, Short.MAX_VALUE))
                     .addGroup(salesByDriverPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 37, Short.MAX_VALUE)
                         .addGroup(salesByDriverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(salesByDriverDDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel43))
@@ -910,8 +910,8 @@ public class AdminGUI extends javax.swing.JFrame {
                             .addComponent(salesByDriverSD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(salesByDriverGenerateButton)
                             .addComponent(salesByDriverCreatePDFButton))))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -2060,6 +2060,9 @@ public class AdminGUI extends javax.swing.JFrame {
     private void salesBySponsorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesBySponsorButtonActionPerformed
         switchReportPanels(salesBySponsorPanel);
         try {
+            if(salesBySponsorDD.getItemCount() > 0) {
+                salesBySponsorDD.removeAllItems();
+            }
             salesBySponsorDD.addItem("0: All Companies");
             PreparedStatement companiesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company");
             ResultSet companiesRS = companiesPS.executeQuery();
@@ -2067,9 +2070,9 @@ public class AdminGUI extends javax.swing.JFrame {
                 String company = companiesRS.getInt("CompanyID") + ": " + companiesRS.getString("CompanyName");
                 salesBySponsorDD.addItem(company);
             }
-         } catch(Exception e) {
-             Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
-         }
+        } catch(Exception e) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
     }//GEN-LAST:event_salesBySponsorButtonActionPerformed
 
     private void salesByDriverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesByDriverButtonActionPerformed
@@ -2082,13 +2085,16 @@ public class AdminGUI extends javax.swing.JFrame {
                 String driver = driversRS.getInt("UserID") + ": " + driversRS.getString("FirstName") + " " + driversRS.getString("LastName");
                 salesByDriverDDD.addItem(driver);
             }
-         } catch(Exception e) {
-             Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
-         }
+        } catch(Exception e) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
     }//GEN-LAST:event_salesByDriverButtonActionPerformed
 
     private void invoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceButtonActionPerformed
         switchReportPanels(invoicePanel);
+        if(companyDD.getItemCount() > 0) {
+            companyDD.removeAllItems();
+        }
         try {
             companyDD.addItem("0: All Companies");
             PreparedStatement companiesPS = MyConnection.getConnection().prepareStatement("SELECT * FROM Company");
@@ -2097,9 +2103,9 @@ public class AdminGUI extends javax.swing.JFrame {
                 String company = companiesRS.getInt("CompanyID") + ": " + companiesRS.getString("CompanyName");
                 companyDD.addItem(company);
             }
-         } catch(Exception e) {
-             Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
-         }
+        } catch(Exception e) {
+            Logger.getLogger(AdminGUI.class.getName()).log(Level.SEVERE, null, e);
+        }
     }//GEN-LAST:event_invoiceButtonActionPerformed
 
     private void auditLogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_auditLogButtonActionPerformed
