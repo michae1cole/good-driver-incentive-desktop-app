@@ -27,3 +27,9 @@ VALUES ('A', 'mfgresk@g.clemson.edu', 'Michael', 'N/A', 'N/A', 'Michael', 'Passw
 
 -- INSERT INTO Company (CompanyName, PointToDollar, Email, OfficePhone)
 -- VALUES ('Dummy Company 7', 100, 'company6@gmail.com', '(123) 456-8887');
+
+/*
+INSERT INTO PointChanges (PointChange, DriverID, SponsorID, CompanyID, Reason, PointChangeDate) VALUES (100, 1, 1, 1, 'Good driving!', CURRENT_TIMESTAMP);
+INSERT INTO PointChanges (PointChange, DriverID, SponsorID, CompanyID, Reason, PointChangeDate) VALUES (300, 1, 1, 1, 'Good driving!', CURRENT_TIMESTAMP);
+INSERT INTO PointChanges (PointChange, DriverID, SponsorID, CompanyID, Reason, PointChangeDate) VALUES (-100, 1, 1, 1, 'Good driving!', CURRENT_TIMESTAMP);
+*/

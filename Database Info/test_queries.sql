@@ -1,8 +1,4 @@
-USE application_db;
-
--- SELECT * 
--- FROM Users
--- WHERE UserType='D';
+USE final_application_db;
 
 SELECT * FROM Users;
 
@@ -10,18 +6,20 @@ SELECT * FROM Driver;
 
 SELECT * FROM Sponsor;
 
--- SELECT * FROM LoginAttempts;
+SELECT * FROM LoginAttempts;
 
--- SELECT * FROM PasswordChange;
+SELECT * FROM PasswordChange;
 
 SELECT * FROM Company;
 
--- SELECT * FROM CatalogItems;
+SELECT * FROM CatalogItems;
 
--- SELECT * FROM CatalogCart;
+SELECT * FROM CatalogCart;
 
 SELECT * FROM DriverPoints;
 
--- SELECT * FROM DriverApplications;
+SELECT * FROM DriverApplications;
 
 SELECT * FROM CatalogPurchases;
+
+SELECT * FROM PointChanges;

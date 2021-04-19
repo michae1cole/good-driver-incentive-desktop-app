@@ -1,20 +1,17 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Introduction
+Good Driver Incentive Program for CPSC 4910
+Team 2 - Spring 2021
+Java Desktop Application
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+All files related to the MySQL Database are in folder labeled "Database Info"
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+The script for creating our final database is labeled "final_database_creation_script"
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+All code related to the project can be found in the folder labeled "GoodDriverIncentiveProgram" and was developed in NetBeans
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+The executable jar for the project is located in the folder "GoodDriverIncentiveProgram/target" and is labeled "GoodDriverIncentiveProgram-Final"
+
+Dependencies should be built into this jar, so it can be run from anywhere
+
+However, *Java 15* is required to run the jar

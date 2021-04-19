@@ -163,10 +163,10 @@ BEGIN
     DECLARE sponsor_user_id int;
     SET driver_username := CONCAT(NEW.CompanyName, 'driveraccount@switchview.com');
     SET sponsor_username := CONCAT(NEW.CompanyName, 'sponsoraccount@switchview.com');
-    INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword) VALUES ('D', driver_username, 'Dummy', 'Company', 'Driver', 'DCD', (SELECT SHA2('Password1@', 224)));
+    INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword, ActiveAccount) VALUES ('D', driver_username, 'Dummy', 'Company', 'Driver', 'DCD', (SELECT SHA2('Password1@', 224)), true);
     SET driver_user_id := (SELECT UserID FROM Users WHERE Username=driver_username);
     INSERT INTO Driver (Address, UserID) VALUES ('111 Theoretical Road, Fakeville, CA 91292', driver_user_id);
-    INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword) VALUES ('S', sponsor_username, 'Dummy', 'Company', 'Sponsor', 'DCS', (SELECT SHA2('Password1@', 224)));
+    INSERT INTO Users (UserType, Username, FirstName, MiddleName, LastName, PreferredName, UserPassword, ActiveAccount) VALUES ('S', sponsor_username, 'Dummy', 'Company', 'Sponsor', 'DCS', (SELECT SHA2('Password1@', 224)), true);
     SET sponsor_user_id := (SELECT UserID FROM Users WHERE Username=sponsor_username);
     SET NEW.CompanyTestDriverID := driver_user_id;
     SET NEW.CompanyTestSponsorID := sponsor_user_id;

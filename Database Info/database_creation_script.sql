@@ -13,8 +13,7 @@ CREATE TABLE Users (
     LastName varchar(255) NOT NULL,
     PreferredName varchar(255),
     UserPassword varchar(255) NOT NULL,
-    LastLogon DATETIME,
-    TwoFactorAuth bool,
+    ActiveAccount bool NOT NULL,
     PRIMARY KEY (UserID)
 );
 
@@ -43,7 +42,11 @@ CREATE TABLE Company (
     PointToDollar int,
     Email varchar(255),
     OfficePhone varchar(14),
-    PRIMARY KEY (CompanyID)
+    CompanyTestDriverID int,
+    CompanyTestSponsorID int,
+    PRIMARY KEY (CompanyID),
+    FOREIGN KEY (CompanyTestDriverID) REFERENCES Users(UserID),
+    FOREIGN KEY (CompanyTestSponsorID) REFERENCES Users(UserID)
 );
     
 CREATE TABLE Sponsor (
@@ -88,6 +91,7 @@ CREATE TABLE DriverApplications (
 CREATE TABLE PointChanges (
 	PointChangeID int NOT NULL AUTO_INCREMENT,
     PointChange int,
+    PointTotal int,
     DriverID int,
     SponsorID int,
     CompanyID int,
