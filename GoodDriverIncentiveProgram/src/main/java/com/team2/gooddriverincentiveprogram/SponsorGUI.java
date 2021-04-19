@@ -2815,6 +2815,13 @@ public class SponsorGUI extends javax.swing.JFrame {
             String selectedDriver = driverList.getSelectedValue();
             String[] tokens = selectedDriver.split(":");
             int selectedDriverID = Integer.parseInt(tokens[0]);
+            int selectedUserID = -1;
+            PreparedStatement userPS = MyConnection.getConnection().prepareStatement("SELECT UserID FROM Driver WHERE DriverID=?");
+            userPS.setInt(1, selectedDriverID);
+            ResultSet userRS = userPS.executeQuery();
+            if(userRS.next()) {
+                selectedUserID = userRS.getInt("UserID");
+            }
             //Check username for requirements
             Boolean unameCheck = false;
             String newUsername = driverUsernameField.getText();
@@ -2835,7 +2842,7 @@ public class SponsorGUI extends javax.swing.JFrame {
                 usernameCheckRS = usernameCheckPS.executeQuery();
                 //If new username is already being used by another account, don't update database
                 if(usernameCheckRS.next()) {
-                    if(usernameCheckRS.getInt("UserID") != selectedDriverID) {
+                    if(usernameCheckRS.getInt("UserID") != selectedUserID) {
                         JOptionPane.showMessageDialog(null, "Username already in use by another account.");
                     } else {
                         unameCheck = true;
